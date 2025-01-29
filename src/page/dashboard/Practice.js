@@ -70,6 +70,41 @@ const Practice = () => {
     }
   };
 
+  const getNewQuestions = async (params) => {
+    try {
+      setLoading({
+        status: true,
+        text: "Fetching Questions ...",
+      });
+      setExam_id(state.exam_id);
+      console.log(state.set_name)
+      const response = (
+        await apiCall.get(
+          `get_questions11/${state.set_name}`
+        )
+      ).data;
+      console.log(response)
+      const questionsList = Array.from(response.listening.sections[0].questions)
+      // const audioUrl = Array.from(response.listening.seconds[0].metadata.audioUrl)
+      // console.log("All questions: ", questionsList);
+
+      for (let i = 0; i < questionsList.length; i++) {
+        questionsList[i] = {
+          ...questionsList[i],
+          answer: "",
+        };
+      }
+      // console.log("All questions(10): ", questionsList);
+      setAllQuestions(questionsList);
+      setLoading({
+        status: false,
+        text: "",
+      });
+    } catch (error) {
+      console.log("error fetching question: ", error);
+    }
+  }
+
   const uploadFile = async (file) => {
     if (!file) return;
     try {
@@ -203,7 +238,9 @@ const Practice = () => {
 
   useEffect(() => {
     if (!isOpen) {
-      if (state) {
+      if (state.set_name.includes("exam_set")) {
+        getNewQuestions();
+      } else if (state) {
         getQuestions();
       } else {
         navigate("/dashboard/tests");

@@ -29,7 +29,7 @@ export default function ExploreTests() {
     const getData = async () => {
       try {
         const response = (
-          await apiCall.get(`get_exam_sets?user_id=${userID.userid}`)
+          await apiCall.get(`get_exam_sets11?user_id=${userID.userid}`)
         ).data;
         const users = Array.from({ length: response.length }, (_, index) => ({
           name: `Exam ${index + 1}`,
