@@ -1,0 +1,46 @@
+# Node modules
+node_modules/
+
+# Build output
+/build/
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+jspm_packages/
+
+# dotenv environment variables file
+.env
+.env.*.local
+
+# Next.js build output (if using Next.js)
+.next/
+
+# Vercel
+.vercel/
+
+# macOS system files
+.DS_Store
+
+# IDE or editor files
+.vscode/
+.idea/
+
+# npm package lock files (optional)
+yarn.lock
+
+# Coverage reports
+coverage/
+
+# TypeScript
+*.tsbuildinfo
+
+# React Native
+.expo/
+
+# Miscellaneous
+*.bak
+*.swp

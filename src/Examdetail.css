@@ -1,0 +1,241 @@
+.inner-page-header {
+  background: url("./images/inner-header.jpg") no-repeat;
+  background-size: cover;
+  padding: 50px 0;
+  position: relative;
+}
+.inner-page-header:before {
+  position: absolute;
+  content: "";
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  top: 0;
+}
+.page-header-image {
+  width: 250px;
+  height: 250px;
+  background: #fff;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.page-header-image img {
+  width: 220px;
+}
+.inner-page-title {
+  text-align: center;
+  position: relative;
+  color: #fff;
+  font-size: 30px;
+  max-width: 580px;
+  margin: 30px auto 0;
+}
+.option-list {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+.option-list li {
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+.option-list li span img {
+  width: 26px;
+}
+.option-list span {
+  display: flex;
+  width: 34px;
+  padding: 2px;
+  border: 1px solid #fff;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+.detail-content-wrapper {
+  background: #f8f8f8;
+  padding: 50px 0;
+}
+.exam-detail {
+  padding: 15px;
+  background: #fff;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+.block-title {
+  margin-top: 0;
+  color: #003060;
+}
+.exam-detail p {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #444;
+}
+.exam-test {
+  padding: 15px;
+  background: #fff;
+  border-radius: 10px;
+}
+
+.block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.block-header-left {
+  display: flex;
+  gap: 10px;
+}
+.green,
+.moderate {
+  background: #28cd71;
+  padding: 3px 15px;
+  border-radius: 5px;
+  color: #fff;
+}
+.moderate {
+  background: #003060;
+}
+.charge {
+  display: flex;
+  align-items: center;
+}
+.charge img {
+  width: 24px;
+}
+.check-block {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  opacity: 0.5;
+}
+.check-block img {
+  width: 24px;
+}
+.check-block li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.check-block li span {
+  display: flex;
+}
+.country img {
+  width: 32px;
+}
+.country li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.country li span {
+  display: flex;
+  align-items: center;
+}
+.country {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.block-sub-title {
+  color: #003060;
+  font-size: 20px;
+}
+.start-btn {
+  width: 100%;
+  text-align: center;
+}
+.start-btn a {
+  display: block;
+  text-decoration: none;
+  border: 1px solid #f39035;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 20px;
+  display: block;
+  color: #f39035;
+  transition: 0.3s all ease-in-out;
+}
+.start-btn a:hover {
+  background: #ff9900;
+  color: #fff;
+}
+.test-block {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 5px;
+  width: 46%;
+}
+
+.test-block-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 35px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1365px) {
+  .test-block {
+    width: 44%;
+  }
+}
+
+@media (max-width: 991px) {
+  .test-block {
+    width: 100%;
+  }
+}
+
+@media(max-width:767px){
+    .inner-page-title {
+            font-size: 24px;
+            
+        }
+}
+
+@media (max-width: 480px) {
+  .check-block img {
+    width: 16px;
+  }
+  .check-block li {
+    gap: 5px;
+    font-size: 14px;
+  }
+  .check-block {
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 20px;
+    opacity: 0.5;
+    flex-direction: column;
+  }
+  .block-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-direction: column;
+      gap: 20px;
+  }
+  .option-list {
+      gap: 15px;
+      flex-direction: column;
+      padding-left: 15px;
+  }
+  .option-list span {
+    margin-right: 10px;
+      width: 24px;
+      padding: 2px;
+      height: 24px;
+  }
+  .option-list li span img {
+      width: 18px;
+  }
+}

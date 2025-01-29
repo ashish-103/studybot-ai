@@ -1,0 +1,37 @@
+#courses-nav {
+  position: absolute;
+  bottom: 226px;
+  display: flex;
+  width: 97.5%;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  list-style-type: none;
+}
+@media (max-width: 480px) {
+  #courses-nav {
+    width: 90%;
+  }
+}
+#coursesDots li {
+  margin: 0 0.25rem;
+}
+#coursesDots li button {
+  display: block;
+  width: 0.75rem;
+  height: 0.75rem;
+  margin: auto;
+  border: none;
+  border-radius: 100%;
+  background-color: #999999;
+
+  text-indent: -9999px;
+}
+
+#coursesDots li.slick-active button {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  background-color: theme("colors.primary-orange");
+}
