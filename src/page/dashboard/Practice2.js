@@ -13,16 +13,22 @@ import Guidelines from "./Guidelines";
 import Modal from "../../components/Gmodal";
 import ReadingQuestions from "../../components/ReadingQuestions";
 import { useModal } from "../../context/ModalProvider";
+import { ExitModel2 } from "../../components/exitModel/ExitModa2";
 
-export default function Practice() {
+export default function Practice2() {
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
 
   const { user } = useContext(UserContext);
+  const { activeModal } = useModal()
+  console.log("activeModal", !activeModal)
+
+  const [readingData, setReadingData] = useState();
 
   const [allQuestions, setAllQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentSection, setCurrentSection] = useState('');
   const [type, setType] = useState("hard");
   const [exam_id, setExam_id] = useState("");
   const [barProgress, setBarProgress] = useState(0);
@@ -41,25 +47,19 @@ export default function Practice() {
   const closeModal = () => {
     setIsOpen(false)
   }
-  const getQuestions = async () => {
+
+  const getNewQuestions = async (params) => {
     try {
       setLoading({
         status: true,
         text: "Fetching Questions ...",
       });
       setExam_id(state.exam_id);
-      const response = (await apiCall.get(`get_questions?exam_id=${state.exam_id}&exam_name=${state.task_type}`)).data;
-      const questionsList = Array.from(response.questionData);
-      console.log("All questions: ", questionsList);
-
-      for (let i = 0; i < questionsList.length; i++) {
-        questionsList[i] = {
-          ...questionsList[i],
-          answer: "",
-        };
-      }
-      // console.log("All questions(10): ", questionsList);
-      setAllQuestions(questionsList);
+      // console.log(state.set_name)
+      const response = (await apiCall.get(`get_questions11/${state.set_name}`)).data;
+      setReadingData(response.reading.passages[0])
+      setListeningData(response.listening.sections)
+      setWritingData(response.writing.data)
       setLoading({
         status: false,
         text: "",
@@ -67,60 +67,59 @@ export default function Practice() {
     } catch (error) {
       console.log("error fetching question: ", error);
     }
-  };
+  }
 
+  // const uploadFile = async (file) => {
+  //   if (!file) return;
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("file", file);
+  //     // formData.forEach((value, key) => {
+  //     //   console.log(`${key}:`, value);
+  //     // });
+  //     const response = await fetch(`https://studybot.zapto.org/upload`, {
+  //       method: "POST",
+  //       body: formData,
+  //     }).then((data) => data.json());
 
-  const uploadFile = async (file) => {
-    if (!file) return;
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      // formData.forEach((value, key) => {
-      //   console.log(`${key}:`, value);
-      // });
-      const response = await fetch(`https://studybot.zapto.org/upload`, {
-        method: "POST",
-        body: formData,
-      }).then((data) => data.json());
+  //     // console.log("Uploaded file text: ", response.text);
+  //     const questions = Array.from(allQuestions);
+  //     questions[currentQuestion].answer = response.text;
+  //     setAllQuestions(questions);
+  //   } catch (error) {
+  //     console.log("error fetching question: ", error);
+  //   }
+  // };
 
-      // console.log("Uploaded file text: ", response.text);
-      const questions = Array.from(allQuestions);
-      questions[currentQuestion].answer = response.text;
-      setAllQuestions(questions);
-    } catch (error) {
-      console.log("error fetching question: ", error);
-    }
-  };
+  // const transcribeAudio = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `https://studybot.zapto.org/get_questions?type=${type}`,
+  //       {
+  //         method: "GET",
+  //       }
+  //     ).then((data) => data.json());
+  //     // console.log("All questions: ", response.questionData);
+  //     const questionsList = Array.from(response.questionData);
+  //     for (let i = 0; i < questionsList.length; i++) {
+  //       questionsList[i] = {
+  //         ...questionsList[i],
+  //         answer: "",
+  //       };
+  //     }
+  //     // console.log("All questions(10): ", questionsList);
+  //     setAllQuestions(questionsList);
+  //   } catch (error) {
+  //     console.log("error fetching question: ", error);
+  //   }
+  // };
 
-  const transcribeAudio = async () => {
-    try {
-      const response = await fetch(
-        `https://studybot.zapto.org/get_questions?type=${type}`,
-        {
-          method: "GET",
-        }
-      ).then((data) => data.json());
-      // console.log("All questions: ", response.questionData);
-      const questionsList = Array.from(response.questionData);
-      for (let i = 0; i < questionsList.length; i++) {
-        questionsList[i] = {
-          ...questionsList[i],
-          answer: "",
-        };
-      }
-      console.log("All questions(10): ", questionsList);
-      setAllQuestions(questionsList);
-    } catch (error) {
-      console.log("error fetching question: ", error);
-    }
-  };
-
-  const handleInputChange = (event) => {
-    // setAllAnswers
-    const answers = Array.from(allQuestions);
-    answers[currentQuestion].answer = event.target.value;
-    setAllQuestions(answers);
-  };
+  // const handleInputChange = (event) => {
+  //   // setAllAnswers
+  //   const answers = Array.from(allQuestions);
+  //   answers[currentQuestion].answer = event.target.value;
+  //   setAllQuestions(answers);
+  // };
 
   const handleNextQuestion = () => {
     if (currentQuestion < allQuestions.length - 1) {
@@ -204,7 +203,7 @@ export default function Practice() {
   useEffect(() => {
     if (!isOpen) {
       if (state) {
-        getQuestions();
+        getNewQuestions();
       } else {
         navigate("/dashboard/tests");
       }
@@ -302,7 +301,7 @@ export default function Practice() {
         )}
       </div>
       <div
-        className='bg-white rounded-lg mx-4 md:mx-auto max-w-[900px] border-2 border-[#E4F9FF] my-8'
+        className={`bg-white rounded-lg mx-4 ${state.set_name.includes('exam_set') ? 'md:w-[90%]' : 'md:mx-auto max-w-[900px]'}  border-2 border-[#E4F9FF] my-8 `}
         style={{ boxShadow: "0.2px 0px 4px 4px rgb(122 219 249)" }}
       >
         {loading.status ? (
@@ -341,104 +340,7 @@ export default function Practice() {
                 />
               )}
 
-
-              <div>
-                {/* Questions Section starts */}
-                <div className=" ">
-                  <div className="flex justify-between py-5 items-center">
-                    <h2>Question: {currentQuestion + 1}</h2>
-                  </div>
-                  {allQuestions && allQuestions.length > currentQuestion && (
-                    <div>
-                      <p>{allQuestions[currentQuestion].question}</p>
-                      {"attachments" in allQuestions[currentQuestion] && (
-                        <div className="flex flex-wrap">
-                          {allQuestions[currentQuestion].attachments.map(
-                            (item, index) => (
-                              <img
-                                src={`${item}`}
-                                alt={`attachment${index}`}
-                                className={`${allQuestions[currentQuestion].attachments
-                                  .length > 1
-                                  ? "lg:w-1/2"
-                                  : "w-2/3"
-                                  } pt-5 mx-auto`}
-                              />
-                            )
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-                {/* Questions Sections ends */}
-
-                {/* Answers Section  starts */}
-                {allQuestions[currentQuestion] && (
-                  <div className="flex flex-wrap nter items-center sm:justify-start gap-5">
-                    {user.plan_name === "Free Plan" ? (
-                      <textarea
-                        className="w-[900px] mt-10 appearance-none lg:h-[170px] text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
-                        type="search"
-                        spellCheck={false}
-                        name="q"
-                        placeholder="Answer :"
-                        value={allQuestions[currentQuestion].answer || ""}
-                        onChange={handleInputChange}
-                      />
-                    ) : (
-                      <textarea
-                        className="w-[900px] mt-10 appearance-none lg:h-[170px] text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
-                        type="search"
-                        spellCheck={false}
-                        name="q"
-                        placeholder="Answer :"
-                        value={allQuestions[currentQuestion].answer || ""}
-                        onChange={handleInputChange}
-                        onPaste={(event) => {
-                          event.preventDefault();
-                          const pastedText =
-                            event.clipboardData.getData("text/plain");
-                          pastedText.replace(/[^a-zA-Z0-9 ]/g, "");
-                        }}
-                      />
-                    )}
-                    <div className="hidden">
-                      <svg
-                        onClick={() => {
-                          const item = document.getElementById("addFile");
-                          item.click();
-                        }}
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="size-6 cursor-pointer"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15"
-                        />
-                      </svg>
-                      <input
-                        id="addFile"
-                        type="file"
-                        required
-                        className="hidden"
-                        onChange={(e) => {
-                          uploadFile(e.target.files[0]);
-                        }}
-                      />
-                    </div>
-                    <div className="my-4">Words: {allQuestions[currentQuestion].answer.trim().split(/\s+/).filter((word) => word.length > 0).length}</div>
-
-                  </div>
-                )}
-                {/* Answers Section ends */}
-              </div>
-
+              <ReadingQuestions passages={readingData} />
 
               {/* Next and Prev Buttons starts*/}
               <div className="flex justify-between items-center">
@@ -487,20 +389,20 @@ export default function Practice() {
           </>
         )}
       </div>
-      {isModalOpen &&
+      {activeModal &&
         (currentQuestion !== 1 ? (
-          <ExitModel
+          <ExitModel2
             heading="Exam"
             paragraph="Are you sure you want to exit"
-            isModalOpen={isModalOpen}
-            handleCloseModal={handleCloseModal}
+            activeModal={activeModal}
+            closeModal={closeModal}
           />
         ) : (
-          <ExitModel
+          <ExitModel2
             heading={currentQuestion + 1}
             paragraph="Are you sure you want to exit"
-            isModalOpen={isModalOpen}
-            handleCloseModal={handleCloseModal}
+            activeModal={activeModal}
+            closeModal={closeModal}
             handlePrevQuestion={handlePrevQuestion}
           />
         ))}

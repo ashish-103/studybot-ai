@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom"
-const Modal = ({ isOpen, closeModal, children }) => {
+export default function Gmodal({ isOpen, closeModal, children }) {
   if (!isOpen) return null;
 
   return (
@@ -63,5 +63,3 @@ const Modal = ({ isOpen, closeModal, children }) => {
     </div>
   );
 };
-
-export default Modal;

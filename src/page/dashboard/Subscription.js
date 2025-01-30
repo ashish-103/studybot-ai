@@ -112,7 +112,7 @@ const Subscription = () => {
     fetch("https://studybot.zapto.org/initiate_payment", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        window.location.href = result.paymentUrl;
+        window.open(result.paymentUrl, '__blank');
       })
       .catch((error) => console.error(error));
   };
