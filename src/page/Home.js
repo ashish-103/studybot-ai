@@ -66,8 +66,6 @@ function Home() {
         handleLogout={handleLogout}
       />
       <HeroSection
-        toggleSubmitModal={toggleSubmitModal}
-        closeMenu={closeMenu}
       />
       <Features />
       <Counter />

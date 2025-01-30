@@ -243,7 +243,7 @@ export default function Header({ user, toggleModal, closeMenu, handleLogout, }) 
           </ul>
         </div>
 
-        <div className="relative">
+        <div className="relative hidden md:block">
           {profileName?.name || user ? (
             <>
               <span

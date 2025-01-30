@@ -6,7 +6,7 @@ import { UserContext } from "../../context/userContext";
 import { Element } from "react-scroll";
 import { useModal } from "../../context/ModalProvider";
 
-export default function HeroSection({ toggleSubmitModal, closeMenu }) {
+export default function HeroSection() {
   const { user } = useContext(UserContext);
   const { openModal } = useModal();
   return (
@@ -28,8 +28,6 @@ export default function HeroSection({ toggleSubmitModal, closeMenu }) {
                     text="Get Started"
                     onClick={() => {
                       if (!user) {
-                        // toggleSubmitModal();
-                        // closeMenu();
                         openModal('signup')
                       }
                     }}

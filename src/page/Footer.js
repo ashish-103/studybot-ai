@@ -31,8 +31,8 @@ function Footer() {
           </div>
           <div className="gap-[30px] md:gap-0 md:w-[55%] flex items-start justify-around">
             <div className="text-white">
-              <h3 className="pb-4 text-2xl font-semibold">Company</h3>
-              <ul className="flex flex-col gap-2 text-lg">
+              <h3 className="pb-4 text-lg md:text-2xl font-semibold">Company</h3>
+              <ul className="flex flex-col gap-2 md:text-lg">
                 <li>
                   <RouteLink
                     to="section1"
@@ -103,8 +103,8 @@ function Footer() {
               </ul>
             </div>
             <div className="text-white">
-              <h3 className="pb-4 text-2xl font-semibold">Terms and Services</h3>
-              <ul className="flex flex-col gap-2 text-lg">
+              <h3 className="pb-4 text-lg md:text-2xl font-semibold">Terms and Services</h3>
+              <ul className="flex flex-col gap-2 md:text-lg">
                 {/* <li>
                   <RouteLink
                     to="section1"
@@ -160,7 +160,7 @@ function Footer() {
               </ul>
             </div>
             <div className="text-white ">
-              <h3 className="pb-4 text-2xl font-semibold">Social media</h3>
+              <h3 className="pb-4 text-lg md:text-2xl font-semibold">Social media</h3>
               <ul className="flex gap-4 justify-center items-center">
                 {/* <li className=" cursor-pointer">
                   <Link to="#">
@@ -170,7 +170,7 @@ function Footer() {
                 <li className=" cursor-pointer">
                   <Link to={'https://www.instagram.com/studybotai?igsh=MWtpaHlsenZ2Z2p0eA=='}>
                     <img src={instagram}
-                      className="w-[1.5rem]"
+                      className=" w-[1.2rem] md:w-[1.5rem]"
                       alt="insta" />
                   </Link>
                 </li>
@@ -184,7 +184,7 @@ function Footer() {
                     <img
                       src={linkdin}
                       alt="linkdin"
-                      className="w-[1.8rem] cursor-pointer"
+                      className=" w-[1.4rem] md:w-[1.8rem] cursor-pointer"
                     />
                   </Link>
                 </li>

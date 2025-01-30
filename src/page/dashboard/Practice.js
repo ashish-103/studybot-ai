@@ -11,13 +11,17 @@ import { toast } from "react-toastify";
 import { ExitModel } from "../../components/exitModel/ExitModel";
 import Guidelines from "./Guidelines";
 import Modal from "../../components/Gmodal";
+import ReadingQuestions from "../../components/ReadingQuestions";
 
-const Practice = () => {
+export default function Practice() {
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
 
   const { user } = useContext(UserContext);
+
+  const [passages, setPassages] = useState();
+
   const [allQuestions, setAllQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [type, setType] = useState("hard");
@@ -45,13 +49,9 @@ const Practice = () => {
         text: "Fetching Questions ...",
       });
       setExam_id(state.exam_id);
-      const response = (
-        await apiCall.get(
-          `get_questions?exam_id=${state.exam_id}&exam_name=${state.task_type}`
-        )
-      ).data;
+      const response = (await apiCall.get(`get_questions?exam_id=${state.exam_id}&exam_name=${state.task_type}`)).data;
       const questionsList = Array.from(response.questionData);
-      // console.log("All questions: ", questionsList);
+      console.log("All questions: ", questionsList);
 
       for (let i = 0; i < questionsList.length; i++) {
         questionsList[i] = {
@@ -77,25 +77,24 @@ const Practice = () => {
         text: "Fetching Questions ...",
       });
       setExam_id(state.exam_id);
-      console.log(state.set_name)
-      const response = (
-        await apiCall.get(
-          `get_questions11/${state.set_name}`
-        )
-      ).data;
-      console.log(response)
-      const questionsList = Array.from(response.listening.sections[0].questions)
+      // console.log(state.set_name)
+      const response = (await apiCall.get(`get_questions11/${state.set_name}`)).data;
+      // console.log(response)
+      console.log(Object.entries(response).length)
+      // const reading = response.reading;
       // const audioUrl = Array.from(response.listening.seconds[0].metadata.audioUrl)
       // console.log("All questions: ", questionsList);
 
-      for (let i = 0; i < questionsList.length; i++) {
-        questionsList[i] = {
-          ...questionsList[i],
-          answer: "",
-        };
-      }
+      // for (let i = 0; i < questionsList.length; i++) {
+      //   questionsList[i] = {
+      //     ...questionsList[i],
+      //     answer: "",
+      //   };
+      // }
       // console.log("All questions(10): ", questionsList);
-      setAllQuestions(questionsList);
+      // setAllQuestions(questionsList);
+      // console.log('reading', response.reading.passages[0])
+      setPassages(response.reading.passages[0])
       setLoading({
         status: false,
         text: "",
@@ -330,7 +329,7 @@ const Practice = () => {
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                stroke-width="2"
+                strokeWidth="2"
                 d="M7 16l-4-4m0 0l4-4m-4 4h18"
               ></path>
             </svg>
@@ -339,7 +338,7 @@ const Practice = () => {
         )}
       </div>
       <div
-        className="bg-white rounded-lg mx-4 md:mx-auto max-w-[900px] border-2 border-[#E4F9FF] my-8 "
+        className={`bg-white rounded-lg mx-4 ${state.set_name.includes('exam_set') ? 'md:w-[90%]' : 'md:mx-auto max-w-[900px]'}  border-2 border-[#E4F9FF] my-8 `}
         style={{ boxShadow: "0.2px 0px 4px 4px rgb(122 219 249)" }}
       >
         {loading.status ? (
@@ -351,7 +350,7 @@ const Practice = () => {
           </div>
         ) : (
           <>
-            <div className="w-full mx-auto">
+            <div className="w-full mx-auto mt-4">
               {exam_id && (
                 <Timer
                   handleSubmit={handleSubmit}
@@ -366,7 +365,7 @@ const Practice = () => {
                 Total Questions : {allQuestions.length}
               </div>
             )}
-            <div className="px-8 py-6 md:px-10">
+            <div className="px-8 py-6 md:px-10 overflow-y-auto">
               {allQuestions && (
                 <ProgressBar
                   completed={barProgress}
@@ -377,95 +376,109 @@ const Practice = () => {
                   labelSize="10px"
                 />
               )}
-              <div className=" ">
-                <div className="flex justify-between py-5 items-center">
-                  <h2>Question: {currentQuestion + 1}</h2>
-                </div>
-                {allQuestions && allQuestions.length > currentQuestion && (
+
+              {state.set_name.includes('exam_set') ?
+                (<ReadingQuestions passages={passages} />)
+                : (
                   <div>
-                    <p>{allQuestions[currentQuestion].question}</p>
-                    {"attachments" in allQuestions[currentQuestion] && (
-                      <div className="flex flex-wrap">
-                        {allQuestions[currentQuestion].attachments.map(
-                          (item, index) => (
-                            <img
-                              src={`${item}`}
-                              alt={`attachment${index}`}
-                              className={`${allQuestions[currentQuestion].attachments
-                                .length > 1
-                                ? "lg:w-1/2"
-                                : "w-2/3"
-                                } pt-5 mx-auto`}
-                            />
-                          )
+                    {/* Questions Section starts */}
+                    <div className=" ">
+                      <div className="flex justify-between py-5 items-center">
+                        <h2>Question: {currentQuestion + 1}</h2>
+                      </div>
+                      {allQuestions && allQuestions.length > currentQuestion && (
+                        <div>
+                          <p>{allQuestions[currentQuestion].question}</p>
+                          {"attachments" in allQuestions[currentQuestion] && (
+                            <div className="flex flex-wrap">
+                              {allQuestions[currentQuestion].attachments.map(
+                                (item, index) => (
+                                  <img
+                                    src={`${item}`}
+                                    alt={`attachment${index}`}
+                                    className={`${allQuestions[currentQuestion].attachments
+                                      .length > 1
+                                      ? "lg:w-1/2"
+                                      : "w-2/3"
+                                      } pt-5 mx-auto`}
+                                  />
+                                )
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    {/* Questions Sections ends */}
+
+                    {/* Answers Section  starts */}
+                    {allQuestions[currentQuestion] && (
+                      <div className="flex flex-wrap nter items-center sm:justify-start gap-5">
+                        {user.plan_name === "Free Plan" ? (
+                          <textarea
+                            className="w-[900px] mt-10 appearance-none lg:h-[170px] text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
+                            type="search"
+                            spellCheck={false}
+                            name="q"
+                            placeholder="Answer :"
+                            value={allQuestions[currentQuestion].answer || ""}
+                            onChange={handleInputChange}
+                          />
+                        ) : (
+                          <textarea
+                            className="w-[900px] mt-10 appearance-none lg:h-[170px] text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
+                            type="search"
+                            spellCheck={false}
+                            name="q"
+                            placeholder="Answer :"
+                            value={allQuestions[currentQuestion].answer || ""}
+                            onChange={handleInputChange}
+                            onPaste={(event) => {
+                              event.preventDefault();
+                              const pastedText =
+                                event.clipboardData.getData("text/plain");
+                              pastedText.replace(/[^a-zA-Z0-9 ]/g, "");
+                            }}
+                          />
                         )}
+                        <div className="hidden">
+                          <svg
+                            onClick={() => {
+                              const item = document.getElementById("addFile");
+                              item.click();
+                            }}
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="size-6 cursor-pointer"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15"
+                            />
+                          </svg>
+                          <input
+                            id="addFile"
+                            type="file"
+                            required
+                            className="hidden"
+                            onChange={(e) => {
+                              uploadFile(e.target.files[0]);
+                            }}
+                          />
+                        </div>
+                        <div className="my-4">Words: {allQuestions[currentQuestion].answer.trim().split(/\s+/).filter((word) => word.length > 0).length}</div>
+
                       </div>
                     )}
+                    {/* Answers Section ends */}
                   </div>
                 )}
-              </div>
 
-              {allQuestions[currentQuestion] && (
-                <div className="flex flex-wrap nter items-center sm:justify-start gap-5">
-                  {user.plan_name === "Free Plan" ? (
-                    <textarea
-                      className="w-[900px] mt-10 appearance-none lg:h-[170px] text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
-                      type="search"
-                      name="q"
-                      placeholder="Answer :"
-                      value={allQuestions[currentQuestion].answer || ""}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    <textarea
-                      className="w-[900px] mt-10 appearance-none lg:h-[170px] text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
-                      type="search"
-                      name="q"
-                      placeholder="Answer :"
-                      value={allQuestions[currentQuestion].answer || ""}
-                      onChange={handleInputChange}
-                      onPaste={(event) => {
-                        event.preventDefault();
-                        const pastedText =
-                          event.clipboardData.getData("text/plain");
-                        pastedText.replace(/[^a-zA-Z0-9 ]/g, "");
-                      }}
-                    />
-                  )}
-                  <div className="hidden">
-                    <svg
-                      onClick={() => {
-                        const item = document.getElementById("addFile");
-                        item.click();
-                      }}
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="size-6 cursor-pointer"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15"
-                      />
-                    </svg>
-                    <input
-                      id="addFile"
-                      type="file"
-                      required
-                      className="hidden"
-                      onChange={(e) => {
-                        uploadFile(e.target.files[0]);
-                      }}
-                    />
-                  </div>
-                  <div className="my-4">Words: {allQuestions[currentQuestion].answer.trim().split(/\s+/).filter((word) => word.length > 0).length}</div>
-
-                </div>
-              )}
-
+              {/* Next and Prev Buttons starts*/}
               <div className="flex justify-between items-center">
                 <div className="relative">
                   <div
@@ -506,6 +519,8 @@ const Practice = () => {
                   </div>
                 )}
               </div>
+              {/* Next and Prev Buttons ends*/}
+
             </div>
           </>
         )}
@@ -534,6 +549,4 @@ const Practice = () => {
       }
     </div>
   );
-};
-
-export default Practice;
+}
