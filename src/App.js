@@ -28,7 +28,7 @@ import UserPolicy from "./page/UserPolicy";
 import Guidelines from "./page/dashboard/Guidelines";
 import NewPassword from "./page/NewPassword";
 import { ModalProvider } from "./context/ModalProvider";
-import Practice2 from "./page/dashboard/Practice2";
+import PerformanceAnalytics2 from "./page/dashboard/Perfomace_analytics2";
 
 const clientId =
   "483619648597-giknf43p085748h88hjebe5f7vm3be42.apps.googleusercontent.com";
@@ -61,10 +61,12 @@ export default function App() {
                 <Route path="home" index element={<DashboardHome />} />
                 <Route path="tests" element={<ExploreTests />} />
                 <Route path="practice" element={<Practice />} />
-                <Route path="practice2" element={<Practice2 />} />
+                {/* <Route path="practice2" element={<Practice2 />} /> */}
                 <Route path="guidelines" element={<Guidelines />} />
                 <Route path="reports" element={<Reports />} />
                 <Route path="attempted-tests" element={<AttemptedTests />} />
+                <Route path="performanceAnalytics2" element={<PerformanceAnalytics2 />} />
+
                 <Route
                   path="performanceAnalytics"
                   element={

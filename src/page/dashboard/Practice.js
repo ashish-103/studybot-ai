@@ -13,6 +13,8 @@ import Guidelines from "./Guidelines";
 import Modal from "../../components/Gmodal";
 import ReadingQuestions from "../../components/ReadingQuestions";
 import { useModal } from "../../context/ModalProvider";
+import ListeningQuestions from "../../components/ListeningQuestions";
+import WritingQuestions from "../../components/WritingQuestions";
 
 export default function Practice() {
   const navigate = useNavigate();
@@ -21,6 +23,7 @@ export default function Practice() {
 
   const { user } = useContext(UserContext);
 
+  const [examType, setExamType] = useState(null);
   const [allQuestions, setAllQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [type, setType] = useState("hard");
@@ -37,6 +40,21 @@ export default function Practice() {
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
+  const [answers, setAnswers] = useState({
+    exam_set: state?.set_name,
+    reading: {
+      mcq: {},
+      shortAnswer: {},
+      trueFalse: {},
+    },
+    writing: {
+      // Writing answers
+    },
+    listening: {
+      // Listening answers
+    },
+  });
+
   const fetchCalled = useRef(false);
   const closeModal = () => {
     setIsOpen(false)
@@ -48,18 +66,29 @@ export default function Practice() {
         text: "Fetching Questions ...",
       });
       setExam_id(state.exam_id);
-      const response = (await apiCall.get(`get_questions?exam_id=${state.exam_id}&exam_name=${state.task_type}`)).data;
-      const questionsList = Array.from(response.questionData);
-      console.log("All questions: ", questionsList);
+      if (state.set_name.includes('exam_set')) {
+        // console.log(examType)
+        setExamType(state.set_name)
+        // console.log(state.set_name)
+        const response = (await apiCall.get(`get_questions11/${state.set_name}`)).data;
+        const sections = [response.reading, response.listening, response.writing]
+        // console.log("sections", sections);
+        setAllQuestions(sections)
+        setCurrentQuestion(0)
+      } else {
+        const response = (await apiCall.get(`get_questions?exam_id=${state.exam_id}&exam_name=${state.task_type}`)).data;
+        const questionsList = Array.from(response.questionData);
+        // console.log("All questions: ", questionsList);
 
-      for (let i = 0; i < questionsList.length; i++) {
-        questionsList[i] = {
-          ...questionsList[i],
-          answer: "",
-        };
+        for (let i = 0; i < questionsList.length; i++) {
+          questionsList[i] = {
+            ...questionsList[i],
+            answer: "",
+          };
+        }
+        // console.log("All questions(10): ", questionsList);
+        setAllQuestions(questionsList);
       }
-      // console.log("All questions(10): ", questionsList);
-      setAllQuestions(questionsList);
       setLoading({
         status: false,
         text: "",
@@ -142,19 +171,6 @@ export default function Practice() {
         status: true,
         text: "Evaluating your test responses ...",
       });
-      let data;
-      if (state.task_type === "task1") {
-        data = allQuestions.map(({ question, answer, attachments }) => ({
-          question,
-          answer,
-          image_url: attachments[0],
-        }));
-      } else {
-        data = allQuestions.map(({ question, answer }) => ({
-          question,
-          answer,
-        }));
-      }
 
       const formatTime = (time) => {
         const minutes = Math.floor((time / 1000 / 60) % 60);
@@ -177,22 +193,49 @@ export default function Practice() {
         total_time = formatTime(time_elapsed);
         // console.log("total time: ", total_time);
       }
-      const evaluateBody = {
-        questions_answers: data,
-        task_type: state.task_type,
-        timer: total_time,
-        exam_id: state.exam_id,
-        user_id: user.userid,
-      };
-      console.log("evaluate body: ", evaluateBody);
-      const response = (
-        await apiCall.post("evaluate", JSON.stringify(evaluateBody))
-      ).data;
-      const redirectedRoute = response.evaluation_id
-        ? `/dashboard/performanceAnalytics?evaluationid=${response.evaluation_id}`
-        : "/dashboard/tests/";
-      navigate(redirectedRoute);
-      console.log(response, "response");
+      if (state.set_name.includes('exam_set')) {
+        console.log(answers);
+
+        const response = (
+          await apiCall.post(`evaluate_exam1111`, JSON.stringify(answers))
+        ).data;
+        console.log(response);
+
+        // response && navigate("/dashboard/performanceAnalytics2")
+
+      } else {
+
+        let data;
+        if (state.task_type === "task1") {
+          data = allQuestions.map(({ question, answer, attachments }) => ({
+            question,
+            answer,
+            image_url: attachments[0],
+          }));
+        } else {
+          data = allQuestions.map(({ question, answer }) => ({
+            question,
+            answer,
+          }));
+        }
+        const evaluateBody = {
+          questions_answers: data,
+          task_type: state.task_type,
+          timer: total_time,
+          exam_id: state.exam_id,
+          user_id: user.userid,
+        };
+        // console.log("evaluate body: ", evaluateBody);
+        const response = (
+          await apiCall.post("evaluate", JSON.stringify(evaluateBody))
+        ).data;
+        const redirectedRoute = response.evaluation_id
+          ? `/dashboard/performanceAnalytics?evaluationid=${response.evaluation_id}`
+          : "/dashboard/tests/";
+        navigate(redirectedRoute);
+        // console.log(response, "response");
+
+      }
     } catch (error) {
       toast.error(error?.response?.data?.error);
       console.log("error fetching evaluation: ", error);
@@ -274,6 +317,17 @@ export default function Practice() {
     }
   }, [isOpen]);
 
+  const handleAnswerupdate = (section, sectionAnswers) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [section]: sectionAnswers,
+    }));
+  }
+  // const handleSubmit = () => {
+  //   console.log(answers);
+  // }
+
+
   return (
     <div>
       <div>
@@ -291,8 +345,8 @@ export default function Practice() {
               className="h-6 w-6"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 strokeWidth="2"
                 d="M7 16l-4-4m0 0l4-4m-4 4h18"
               ></path>
@@ -326,9 +380,11 @@ export default function Practice() {
             </div>
             {allQuestions && (
               <div className="flex justify-end px-8 pt-2">
-                Total Questions : {allQuestions.length}
+                {state?.set_name.includes('exam_set') ? "Total Sections" : `Total Questions ${allQuestions.length}`}
               </div>
             )}
+
+            {/* Progressbar */}
             <div className="px-8 py-6 md:px-10 overflow-y-auto">
               {allQuestions && (
                 <ProgressBar
@@ -340,104 +396,120 @@ export default function Practice() {
                   labelSize="10px"
                 />
               )}
+              {/* Progressbar */}
 
-
-              <div>
-                {/* Questions Section starts */}
-                <div className=" ">
-                  <div className="flex justify-between py-5 items-center">
-                    <h2>Question: {currentQuestion + 1}</h2>
+              {examType ? <>
+                {currentQuestion === 0 && <ReadingQuestions
+                  answers={answers.reading}
+                  onAnswerChange={(answers) => handleAnswerupdate('reading', answers)}
+                  passages={allQuestions[0].passages[0]} />}
+                {currentQuestion === 1 && <ListeningQuestions
+                  answers={answers.listening}
+                  onAnswerChange={(answers) => handleAnswerupdate('listening', answers)}
+                  listeningData={allQuestions[1]} />}
+                {currentQuestion === 2 && <WritingQuestions
+                  answers={answers.writing}
+                  onAnswerChange={(answers) => handleAnswerupdate('writing', answers)}
+                  writingData={allQuestions[2]} />}
+              </> :
+                <div>
+                  {/* Questions Section starts */}
+                  <div className=" ">
+                    <div className="flex justify-between py-5 items-center">
+                      <h2>Question: {currentQuestion + 1}</h2>
+                    </div>
+                    {allQuestions && allQuestions.length > currentQuestion && (
+                      <div>
+                        <p>{allQuestions[currentQuestion].question}</p>
+                        {"attachments" in allQuestions[currentQuestion] && (
+                          <div className="flex flex-wrap">
+                            {allQuestions[currentQuestion].attachments.map(
+                              (item, index) => (
+                                <img
+                                  src={`${item}`}
+                                  alt={`attachment${index}`}
+                                  className={`${allQuestions[currentQuestion].attachments
+                                    .length > 1
+                                    ? "lg:w-1/2"
+                                    : "w-2/3"
+                                    } pt-5 mx-auto`}
+                                />
+                              )
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
-                  {allQuestions && allQuestions.length > currentQuestion && (
-                    <div>
-                      <p>{allQuestions[currentQuestion].question}</p>
-                      {"attachments" in allQuestions[currentQuestion] && (
-                        <div className="flex flex-wrap">
-                          {allQuestions[currentQuestion].attachments.map(
-                            (item, index) => (
-                              <img
-                                src={`${item}`}
-                                alt={`attachment${index}`}
-                                className={`${allQuestions[currentQuestion].attachments
-                                  .length > 1
-                                  ? "lg:w-1/2"
-                                  : "w-2/3"
-                                  } pt-5 mx-auto`}
-                              />
-                            )
-                          )}
-                        </div>
+                  {/* Questions Sections ends */}
+
+                  {/* Answers Section  starts */}
+                  {allQuestions[currentQuestion] && (
+                    <div className="flex flex-wrap nter items-center sm:justify-start gap-5">
+                      {user.plan_name === "Free Plan" ? (
+                        <textarea
+                          className="w-[900px] mt-10 appearance-none lg:h-[170px] text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
+                          type="search"
+                          spellCheck={false}
+                          name="q"
+                          placeholder="Answer :"
+                          value={allQuestions[currentQuestion].answer || ""}
+                          onChange={handleInputChange}
+                        />
+                      ) : (
+                        <textarea
+                          className="w-[900px] mt-10 appearance-none lg:h-[170px] text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
+                          type="search"
+                          spellCheck={false}
+                          name="q"
+                          placeholder="Answer :"
+                          value={allQuestions[currentQuestion].answer || ""}
+                          onChange={handleInputChange}
+                          onPaste={(event) => {
+                            event.preventDefault();
+                            const pastedText =
+                              event.clipboardData.getData("text/plain");
+                            pastedText.replace(/[^a-zA-Z0-9 ]/g, "");
+                          }}
+                        />
                       )}
+                      <div className="hidden">
+                        <svg
+                          onClick={() => {
+                            const item = document.getElementById("addFile");
+                            item.click();
+                          }}
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="size-6 cursor-pointer"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15"
+                          />
+                        </svg>
+                        <input
+                          id="addFile"
+                          type="file"
+                          required
+                          className="hidden"
+                          onChange={(e) => {
+                            uploadFile(e.target.files[0]);
+                          }}
+                        />
+                      </div>
+                      <div className="my-4">Words: {allQuestions[currentQuestion].answer.trim().split(/\s+/).filter((word) => word.length > 0).length}</div>
+
                     </div>
                   )}
+                  {/* Answers Section ends */}
                 </div>
-                {/* Questions Sections ends */}
+              }
 
-                {/* Answers Section  starts */}
-                {allQuestions[currentQuestion] && (
-                  <div className="flex flex-wrap nter items-center sm:justify-start gap-5">
-                    {user.plan_name === "Free Plan" ? (
-                      <textarea
-                        className="w-[900px] mt-10 appearance-none lg:h-[170px] text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
-                        type="search"
-                        spellCheck={false}
-                        name="q"
-                        placeholder="Answer :"
-                        value={allQuestions[currentQuestion].answer || ""}
-                        onChange={handleInputChange}
-                      />
-                    ) : (
-                      <textarea
-                        className="w-[900px] mt-10 appearance-none lg:h-[170px] text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
-                        type="search"
-                        spellCheck={false}
-                        name="q"
-                        placeholder="Answer :"
-                        value={allQuestions[currentQuestion].answer || ""}
-                        onChange={handleInputChange}
-                        onPaste={(event) => {
-                          event.preventDefault();
-                          const pastedText =
-                            event.clipboardData.getData("text/plain");
-                          pastedText.replace(/[^a-zA-Z0-9 ]/g, "");
-                        }}
-                      />
-                    )}
-                    <div className="hidden">
-                      <svg
-                        onClick={() => {
-                          const item = document.getElementById("addFile");
-                          item.click();
-                        }}
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="size-6 cursor-pointer"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15"
-                        />
-                      </svg>
-                      <input
-                        id="addFile"
-                        type="file"
-                        required
-                        className="hidden"
-                        onChange={(e) => {
-                          uploadFile(e.target.files[0]);
-                        }}
-                      />
-                    </div>
-                    <div className="my-4">Words: {allQuestions[currentQuestion].answer.trim().split(/\s+/).filter((word) => word.length > 0).length}</div>
-
-                  </div>
-                )}
-                {/* Answers Section ends */}
-              </div>
 
 
               {/* Next and Prev Buttons starts*/}

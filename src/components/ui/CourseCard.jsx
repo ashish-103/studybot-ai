@@ -79,33 +79,33 @@ export default function CourseCard({
     }
   };
 
-  const handleExam = () => {
-    if (set_name.includes('exam_set')) {
-      navigate(`/dashboard/practice2`, {
-        state: {
-          set_name: set_name,
-          task_type: task_type,
-          time: timing,
-          exam_id: exam_id,
-          user_id: userId,
-          status: status,
-        },
-      });
-      enterFullScreen();
-    } else {
-      navigate(`/dashboard/practice`, {
-        state: {
-          set_name: set_name,
-          task_type: task_type,
-          time: timing,
-          exam_id: exam_id,
-          user_id: userId,
-          status: status,
-        },
-      });
-      enterFullScreen();
-    }
-  }
+  // const handleExam = () => {
+  //   if (set_name.includes('exam_set')) {
+  //     navigate(`/dashboard/practice2`, {
+  //       state: {
+  //         set_name: set_name,
+  //         task_type: task_type,
+  //         time: timing,
+  //         exam_id: exam_id,
+  //         user_id: userId,
+  //         status: status,
+  //       },
+  //     });
+  //     enterFullScreen();
+  //   } else {
+  //     navigate(`/dashboard/practice`, {
+  //       state: {
+  //         set_name: set_name,
+  //         task_type: task_type,
+  //         time: timing,
+  //         exam_id: exam_id,
+  //         user_id: userId,
+  //         status: status,
+  //       },
+  //     });
+  //     enterFullScreen();
+  //   }
+  // }
 
   return (
     <div
@@ -183,7 +183,19 @@ export default function CourseCard({
             disabled={status == "False"}
             variant={"blueOutlineCourse"}
             text="Get Started"
-            onClick={handleExam}
+            onClick={() => {
+              navigate(`/dashboard/practice`, {
+                state: {
+                  set_name: set_name,
+                  task_type: task_type,
+                  time: timing,
+                  exam_id: exam_id,
+                  user_id: userId,
+                  status: status,
+                },
+              });
+              enterFullScreen();
+            }}
           />
         )}
 
