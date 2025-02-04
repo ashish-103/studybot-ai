@@ -4,25 +4,18 @@ import starIcon from "../../assets/images/starticon.svg";
 import { Element } from "react-scroll";
 import { UserContext } from "../../context/userContext";
 import { useModal } from "../../context/ModalProvider";
+import Plans from "../../data/plansData";
+import { useNavigate } from "react-router-dom";
 
 export const SubscriptionPlans = ({ toggleModal }) => {
   const { openModal } = useModal();
   const { user } = useContext(UserContext);
+  const navigate = useNavigate()
 
   const [data, setData] = useState([]);
 
-  const getData = async () => {
-    try {
-      const response = await apiCall.get("plans");
-      const data = response.data;
-      setData(data);
-      // console.log("data: ", data);
-    } catch (error) {
-      console.log("error fetching question: ", error);
-    }
-  };
   useEffect(() => {
-    getData();
+    setData(Plans);
   }, []);
 
   return (
@@ -40,6 +33,8 @@ export const SubscriptionPlans = ({ toggleModal }) => {
                   onClick={() => {
                     if (!user) {
                       openModal('login');
+                    } else {
+                      navigate('/dashboard/subscription')
                     }
                   }}
                   className={`${plan?.plan_name === user?.plan_name ? "" : "bg-white"} group h-full shadow-xl rounded-lg overflow-hidden transform  hover:scale-105 transition duration-300 border border-gray-150
@@ -92,15 +87,14 @@ export const SubscriptionPlans = ({ toggleModal }) => {
                         .map((detail, i) => {
                           const [title, content] = detail.split(":");
                           // Check if the title before ":" is a number
-                          const isTitleNumeric = !isNaN(title.trim());
 
                           return (
                             <li key={i} className="flex items-start gap-2">
                               <span>
                                 {/* Apply bold and larger font if the title is not numeric */}
-                                <strong className={title === "1" ? "" : "text-lg font-semibold"}>
-                                  {title}:
-                                </strong>
+                                <span className={title === "1" ? "text-base " : "text-lg font-semibold"}>
+                                  {title} :
+                                </span>
                                 <span className="text-base"> {content}</span>
                               </span>
                             </li>

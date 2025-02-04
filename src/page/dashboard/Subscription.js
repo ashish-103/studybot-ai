@@ -10,6 +10,7 @@ import { apiCall } from "../../api/login";
 import PaymentHistoryData from "./PaymentHistory";
 import ContactUsModal from "../../components/ContactUsMoodal";
 import UpgradePlan from "../../components/UpgradePlan/UpgradePlan";
+import Plans from "../../data/plansData";
 
 const Subscription = () => {
   const user_id = localStorage.getItem("user");
@@ -117,17 +118,17 @@ const Subscription = () => {
       .catch((error) => console.error(error));
   };
 
-  const getData = async () => {
-    try {
-      const response = await apiCall.get("plans");
-      const data = response.data;
-      setData(data);
-    } catch (error) {
-      console.log("error fetching question: ", error);
-    }
-  };
+  // const getData = async () => {
+  //   try {
+  //     const response = await apiCall.get("plans");
+  //     const data = response.data;
+  //     setData(data);
+  //   } catch (error) {
+  //     console.log("error fetching question: ", error);
+  //   }
+  // };
   useEffect(() => {
-    getData();
+    setData(Plans);
   }, []);
 
   const validateForm = () => {
@@ -242,7 +243,7 @@ const Subscription = () => {
       ) : (
         <>
           <section className="bg-white py-12 rounded-2xl">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 ">
               <div className="flex justify-between items-center mb-8">
                 <h2 className="text-2xl font-extrabold text-black">
                   Subscription Plans
@@ -261,14 +262,14 @@ const Subscription = () => {
                     <div
                       key={`subscriptionid-${index}`}
                       className={`${plan.plan_name === userID.plan_name
-                        ? "bg-[#001921] text-white"
+                        ? ""
                         : "bg-white"
-                        } ${upgradeIndex === index ? "upgradeIndex" : ""
-                        } h-full shadow-2xl rounded-lg p-6 transform hover:border-[#001921] hover:scale-105 transition duration-300 border border-gray-150 `}
+                        }
+                      } h-full shadow-2xl rounded-lg  group transform hover:scale-105 transition duration-300 border border-gray-150 `}
+                      // ${upgradeIndex === index ? "upgradeIndex" : ""
                       onClick={() => {
                         if (
-                          valueSend !== "Elite Plan" &&
-                          plan.plan_name !== userID.plan_name
+                          valueSend !== "Elite Plan" && plan.plan_name !== userID.plan_name
                         ) {
                           openModalUpgrade();
                           setSelectedCard(index);
@@ -276,7 +277,7 @@ const Subscription = () => {
                         }
                       }}
                     >
-                      {plan.current && (
+                      {/* {plan.current && (
                         <p className="flex items-center gap-2 absolute right-2 py-1.5 px-2 bg-[#001921] text-white rounded-lg text-xs font-semibold uppercase tracking-wide transform -translate-y-1/2">
                           <span>
                             <img src={starIcon} alt="current" className="" />
@@ -313,7 +314,75 @@ const Subscription = () => {
                         </li>
                         <li>{plan.details.reattempts}</li>
                         <li>{plan.details.validity_period}</li>
-                      </ul>
+                      </ul> */}
+
+                      {plan.current && (
+                        <p className="flex items-center gap-2 absolute right-2 py-1.5 px-2 bg-primary-orange text-white rounded-lg text-xs font-semibold uppercase tracking-wide transform -translate-y-1/2
+                              ">
+                          <span>
+                            <img
+                              src={starIcon}
+                              alt="current"
+                              className="text-white"
+                            />
+                          </span>
+                          Current
+                        </p>
+                      )}
+
+                      <div className={` 
+                          ${plan?.plan_name === userID?.plan_name && upgradeIndex !== index
+                          ? "bg-primary-orange"
+                          : "bg-primary-blue"}  
+                          ${upgradeIndex === index && plan?.plan_name === userID?.plan_name ? "bg-primary-orange" : ""}  
+                        group-hover:bg-primary-orange text-white w-full h-16 p-0 my-auto flex justify-center items-center
+                          `}>
+                        <h3 className="text-3xl font-semibold  ">
+                          {plan.plan_name}
+                        </h3>
+                        {/* <p className="">{plan.description}</p> */}
+                      </div>
+                      <div className="">
+                        <div className="mb-8 text-center p-12 bg-gray-100">
+                          {plan.price !== "Free" ? (
+                            <p className="text-5xl font-semibold align-middle ">
+                              {`₹ ${plan.price.replace("INR", "").trim()}`}
+                              <span className="text-lg pt-2 px-2 text-gray-600"> per Year</span>
+                            </p>
+                          ) : (<p className="text-5xl font-semibold ">Free</p>)}
+
+                        </div>
+                        {/* <p className=" uppercase font-medium mb-4">What's included</p> */}
+                        <ul className="mb-8 space-y-4 px-6 price__plan">
+                          {Object.values(plan.details)
+                            .filter(detail => !detail.includes(":"))
+                            .map((detail, i) => (
+                              <li key={i} className="flex items-center gap-2">
+                                {detail}
+                              </li>
+                            ))}
+
+                          {Object.values(plan.details)
+                            .filter(detail => detail.includes(":"))
+                            .map((detail, i) => {
+                              const [title, content] = detail.split(":");
+                              // Check if the title before ":" is a number
+
+                              return (
+                                <li key={i} className="flex items-start gap-2">
+                                  <span>
+                                    {/* Apply bold and larger font if the title is not numeric */}
+                                    <span className={title === "1" ? "text-base " : "text-lg font-semibold"}>
+                                      {title} :
+                                    </span>
+                                    <span className="text-base"> {content}</span>
+                                  </span>
+                                </li>
+                              );
+                            })}
+                        </ul>
+
+                      </div>
                     </div>
                   );
                 })}
@@ -434,7 +503,7 @@ const Subscription = () => {
                 </form>
               </div>
               <div className="flex gap-4 justify-end mt-10">
-                <button
+                {/* <button
                   onClick={() => {
                     setFormData({
                       selectedPlan: "select a Plan",
@@ -449,7 +518,7 @@ const Subscription = () => {
                   className="px-4 py-2 min-w-[120px] text-center text-[#212B36] border border-[#001921]  rounded hover:bg-[#001921] hover:text-white hover:border-[#001921]  focus:outline-none focus:ring font-semibold"
                 >
                   Cancel Plan
-                </button>
+                </button> */}
                 <button
                   className="px-4 py-2 min-w-[120px] text-center text-white bg-[#001921]  border border-[#001921] rounded  hover:bg-transparent hover:text-[#212B36] focus:outline-none focus:ring font-semibold"
                   type="submit"
@@ -489,21 +558,26 @@ const Subscription = () => {
             </div>
           </section>
         </>
-      )}
-      {isModalOpenContact && (
-        <ContactUsModal
-          isOpen={isModalOpenContact}
-          closeModal={closeModal}
-          valueSend={valueSend}
-        />
-      )}
-      {isModalOpenUpgrade && (
-        <UpgradePlan
-          closeModalUpgrade={closeModalUpgrade}
-          SureUpgradePlan={SureUpgradePlan}
-          selectedCard={selectedCard}
-        />
-      )}
+      )
+      }
+      {
+        isModalOpenContact && (
+          <ContactUsModal
+            isOpen={isModalOpenContact}
+            closeModal={closeModal}
+            valueSend={valueSend}
+          />
+        )
+      }
+      {
+        isModalOpenUpgrade && (
+          <UpgradePlan
+            closeModalUpgrade={closeModalUpgrade}
+            SureUpgradePlan={SureUpgradePlan}
+            selectedCard={selectedCard}
+          />
+        )
+      }
     </>
   );
 };

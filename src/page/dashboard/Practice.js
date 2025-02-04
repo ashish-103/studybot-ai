@@ -200,6 +200,7 @@ export default function Practice() {
           await apiCall.post(`evaluate_exam1111`, JSON.stringify(answers))
         ).data;
         console.log(response);
+        // setPerformanceData(response)
 
         // response && navigate("/dashboard/performanceAnalytics2")
 
@@ -559,6 +560,7 @@ export default function Practice() {
           </>
         )}
       </div>
+      {/* Modals  */}
       {isModalOpen &&
         (currentQuestion !== 1 ? (
           <ExitModel
