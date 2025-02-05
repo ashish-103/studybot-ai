@@ -29,7 +29,7 @@ import Guidelines from "./page/dashboard/Guidelines";
 import NewPassword from "./page/NewPassword";
 import { ModalProvider } from "./context/ModalProvider";
 import PerformanceAnalytics2 from "./page/dashboard/Perfomace_analytics2";
-import { PerformanceDataProvider } from "./context/performanceContext";
+import PerformanceContext from "./context/performanceContext";
 import { ChangePassword } from "./page/dashboard/ChangePassword";
 
 const clientId =

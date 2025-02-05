@@ -64,9 +64,9 @@ export const ChangePassword = () => {
     <div className='w-full h-full mx-auto flex flex-col  justify-center items-center gap-8'>
       <h1 className='text-3xl font-semibold'>Change Password</h1>
       <form onSubmit={handleSubmit}>
-        <div className='flex flex-col gap-4 justify-center '>
+        <div className='flex flex-col gap-4 justify-center max-w-96'>
           <div className='relative'>
-            <input className='px-4 py-2 text-lg border border-gray-400 rounded-md'
+            <input className='px-4 py-2 text-lg border border-gray-400 outline-gray-500 w-full rounded-md'
               type={showCurrentPassword ? "text" : "password"}
               name='current_password'
               placeholder='Current Password*'
@@ -86,12 +86,12 @@ export const ChangePassword = () => {
             </button>
           </div>
           {errors.current_password && (
-            <div className="error-message text-red-500 text-sm">
+            <span className="w-fit error-message text-red-500 text-sm">
               {errors.current_password}
-            </div>
+            </span>
           )}
           <div className='relative'>
-            <input className='px-4 py-2 text-lg border border-gray-400 rounded-md'
+            <input className='px-4 py-2 text-lg border border-gray-400 outline-gray-500 w-full rounded-md'
               type={showNewPassword ? "text" : "password"}
               name='new_password'
               placeholder='New Password*'
@@ -111,12 +111,12 @@ export const ChangePassword = () => {
             </button>
           </div>
           {errors.new_password && (
-            <div className="error-message text-red-500 text-sm">
+            <span className="w-fit error-message text-red-500 text-sm">
               {errors.new_password}
-            </div>
+            </span>
           )}
           <div className='relative'>
-            <input className='px-4 py-2 text-lg border border-gray-400 rounded-md'
+            <input className='px-4 py-2 text-lg border border-gray-400 outline-gray-500 w-full rounded-md'
               type={showConfirmPassword ? "text" : "password"}
               name='confirm_password'
               placeholder='Confirm Password*'
@@ -136,9 +136,9 @@ export const ChangePassword = () => {
             </button>
           </div>
           {errors.confirm_password && (
-            <div className="error-message text-red-500 text-sm">
+            <span className="w-fit error-message text-red-500 text-sm">
               {errors.confirm_password}
-            </div>
+            </span>
           )}
           <button className='bg-primary-orange w-full text-lg px-4 py-2 text-white rounded-md font-semibold cursor-pointer' type='submit'>Save Changes</button>
         </div>

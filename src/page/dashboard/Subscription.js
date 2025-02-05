@@ -265,7 +265,7 @@ const Subscription = () => {
                         ? ""
                         : "bg-white"
                         }
-                      } h-full shadow-2xl rounded-lg  group transform hover:scale-105 transition duration-300 border border-gray-150 `}
+                      } h-full shadow-2xl rounded-lg  transform hover:scale-105 transition duration-300 border border-gray-150 `}
                       // ${upgradeIndex === index ? "upgradeIndex" : ""
                       onClick={() => {
                         if (
@@ -331,11 +331,8 @@ const Subscription = () => {
                       )}
 
                       <div className={` 
-                          ${plan?.plan_name === userID?.plan_name && upgradeIndex !== index
-                          ? "bg-primary-orange"
-                          : "bg-primary-blue"}  
-                          ${upgradeIndex === index && plan?.plan_name === userID?.plan_name ? "bg-primary-orange" : ""}  
-                        group-hover:bg-primary-orange text-white w-full h-16 p-0 my-auto flex justify-center items-center
+                      ${selectedNew === "" ? plan?.plan_name === userID?.plan_name ? "bg-primary-orange" : "bg-primary-blue" : selectedNew === plan?.plan_name ? "bg-primary-orange" : "bg-primary-blue"}
+                         text-white w-full h-16 p-0 my-auto flex justify-center items-center
                           `}>
                         <h3 className="text-3xl font-semibold  ">
                           {plan.plan_name}

@@ -37,7 +37,7 @@ export const SubscriptionPlans = ({ toggleModal }) => {
                       navigate('/dashboard/subscription')
                     }
                   }}
-                  className={`${plan?.plan_name === user?.plan_name ? "" : "bg-white"} group h-full shadow-xl rounded-lg overflow-hidden transform  hover:scale-105 transition duration-300 border border-gray-150
+                  className={`${plan?.plan_name === user?.plan_name ? "" : "bg-white"}  h-full shadow-xl rounded-lg overflow-hidden transform  hover:scale-105 transition duration-300 border border-gray-150
                   }`}
                 // hover:border-[#001921]
                 // className={`h-[350px] bg-white shadow-2xl rounded-lg p-6 transform hover:border-primary-orange hover:scale-105 transition duration-300  border-gray-150 border-[2px]  border-primary-orange`} [#de922c]
@@ -56,7 +56,7 @@ export const SubscriptionPlans = ({ toggleModal }) => {
                     </p>
                   )}
 
-                  <div className={`${plan?.plan_name === user?.plan_name ? 'bg-primary-orange' : 'bg-primary-blue'} group-hover:bg-primary-orange bg-primary-blue text-white  w-full h-16 p-0 my-auto flex justify-center items-center`} >
+                  <div className={`${plan?.plan_name === user?.plan_name ? 'bg-primary-orange' : 'bg-primary-blue'}  bg-primary-blue text-white  w-full h-16 p-0 my-auto flex justify-center items-center`} >
                     <h3 className="text-3xl font-semibold  ">
                       {plan.plan_name}
                     </h3>
