@@ -436,151 +436,83 @@ export default function Practice() {
                             <UploadFile display={'hidden'} file={uploadFile} />
                             <WordCounter text={answers.writing[q.question]} />
                           </div>
-                        )}
                         </div>
-                    )}
                       </div>
-                      {/* Questions Sections ends */}
-
-                      {/* Answers Section  starts */}
-                      {allQuestions[currentQuestion] && (
-                        <div className="flex flex-wrap nter items-center sm:justify-start gap-5">
-                          {user.plan_name === "Free Plan" ? (
-                            <textarea
-                              className="w-[900px] h-[170px] mt-10 appearance-none text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
-                              type="search"
-                              spellCheck={false}
-                              name="q"
-                              placeholder="Answer :"
-                              value={allQuestions[currentQuestion].answer || ""}
-                              onChange={handleInputChange}
-                            />
-                          ) : (
-                            <textarea
-                              className="w-[900px] h-[170px] mt-10 appearance-none text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
-                              type="search"
-                              spellCheck={false}
-                              name="q"
-                              placeholder="Answer :"
-                              value={allQuestions[currentQuestion].answer || ""}
-                              onChange={handleInputChange}
-                            // onPaste={(event) => {
-                            //   event.preventDefault();
-                            //   const pastedText =
-                            //     event.clipboardData.getData("text/plain");
-                            //   pastedText.replace(/[^a-zA-Z0-9 ]/g, "");
-                            // }}
-                            />
-                          )}
-                          <div className="hidden">
-                            <svg
-                              onClick={() => {
-                                const item = document.getElementById("addFile");
-                                item.click();
-                              }}
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth={1.5}
-                              stroke="currentColor"
-                              className="size-6 cursor-pointer"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15"
-                              />
-                            </svg>
-                            <input
-                              id="addFile"
-                              type="file"
-                              required
-                              className="hidden"
-                              onChange={(e) => {
-                                uploadFile(e.target.files[0]);
-                              }}
-                            />
-                          </div>
-                          <div className="my-4">Words: {allQuestions[currentQuestion].answer.trim().split(/\s+/).filter((word) => word.length > 0).length}</div>
-
-                        </div>
-                      )}
-                      {/* Answers Section ends */}
-                    </div >
+                    </>))}
+                  {/* Questions Sections ends */}
+                </div >
               }
 
-
-
-                  {/* Next and Prev Buttons starts*/}
-                  <div className="flex justify-between items-center">
-                    <div className="relative">
-                      <div
-                        className={`items-center justify-center bg-white border-2 pr-2 border-[#E4F9FF] text-[#0AA6D7] ${currentQuestion === 0 ? "hidden" : "flex"
-                          }`}
-                      >
-                        <img src={leftArrow} className="w-6 h-6" alt="leftarrow" />
-                        <Button
-                          label="Prev"
-                          type="button"
-                          className="px-0"
-                          onClick={handlePrevQuestion}
-                          disabled={currentQuestion === 0}
-                        />
-                      </div>
-                    </div>
-                    {currentQuestion === allQuestions.length - 1 ? (
-                      <button
-                        className="bg-[#0AA6D7] text-white px-4 py-1 rounded-lg"
-                        onClick={handleSubmit}
-                      >
-                        Submit
-                      </button>
-                    ) : (
-                      <div className="flex items-center justify-center bg-white border-2 pl-2 border-[#E4F9FF] text-[#0AA6D7]">
-                        <Button
-                          label="Next"
-                          type="button"
-                          className="px-0"
-                          onClick={handleNextQuestion}
-                          disabled={currentQuestion === allQuestions.length - 1}
-                        />
-                        <img
-                          src={leftArrow}
-                          className="w-6 rotate-180 h-6"
-                          alt="right arrow"
-                        />
-                      </div>
-                    )}
+              {/* Next and Prev Buttons starts*/}
+              <div className="flex justify-between items-center">
+                <div className="relative">
+                  <div
+                    className={`items-center justify-center bg-white border-2 pr-2 border-[#E4F9FF] text-[#0AA6D7] ${currentQuestion === 0 ? "hidden" : "flex"
+                      }`}
+                  >
+                    <img src={leftArrow} className="w-6 h-6" alt="leftarrow" />
+                    <Button
+                      label="Prev"
+                      type="button"
+                      className="px-0"
+                      onClick={handlePrevQuestion}
+                      disabled={currentQuestion === 0}
+                    />
                   </div>
-                  {/* Next and Prev Buttons ends*/}
-
                 </div>
+                {currentQuestion === questionsList.length - 1 ? (
+                  <button
+                    className="bg-[#0AA6D7] text-white px-4 py-1 rounded-lg"
+                    onClick={handleSubmit}
+                  >
+                    Submit
+                  </button>
+                ) : (
+                  <div className="flex items-center justify-center bg-white border-2 pl-2 border-[#E4F9FF] text-[#0AA6D7]">
+                    <Button
+                      label="Next"
+                      type="button"
+                      className="px-0"
+                      onClick={handleNextQuestion}
+                      disabled={currentQuestion === questionsList.length - 1}
+                    />
+                    <img
+                      src={leftArrow}
+                      className="w-6 rotate-180 h-6"
+                      alt="right arrow"
+                    />
+                  </div>
+                )}
+              </div>
+              {/* Next and Prev Buttons ends*/}
+
+            </div>
           </>
         )}
-          </div>
-        {/* Modals  */}
-        {isModalOpen &&
-          (currentQuestion !== 1 ? (
-            <ExitModel
-              heading="Exam"
-              paragraph="Are you sure you want to exit"
-              isModalOpen={isModalOpen}
-              handleCloseModal={handleCloseModal}
-            />
-          ) : (
-            <ExitModel
-              heading={currentQuestion + 1}
-              paragraph="Are you sure you want to exit"
-              isModalOpen={isModalOpen}
-              handleCloseModal={handleCloseModal}
-              handlePrevQuestion={handlePrevQuestion}
-            />
-          ))}
-        {
-          <Modal isOpen={isOpen} closeModal={closeModal}>
-            <Guidelines setName={state?.set_name} />
-          </Modal>
-        }
       </div>
-      );
+      {/* Modals  */}
+      {isModalOpen &&
+        (currentQuestion !== 1 ? (
+          <ExitModel
+            heading="Exam"
+            paragraph="Are you sure you want to exit"
+            isModalOpen={isModalOpen}
+            handleCloseModal={handleCloseModal}
+          />
+        ) : (
+          <ExitModel
+            heading={currentQuestion + 1}
+            paragraph="Are you sure you want to exit"
+            isModalOpen={isModalOpen}
+            handleCloseModal={handleCloseModal}
+            handlePrevQuestion={handlePrevQuestion}
+          />
+        ))}
+      {
+        <Modal isOpen={isOpen} closeModal={closeModal}>
+          <Guidelines setName={state?.set_name} />
+        </Modal>
+      }
+    </div>
+  );
 }
