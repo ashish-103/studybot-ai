@@ -23,6 +23,7 @@ import PrivacyPolicy from "./PrivacyPolicy.js";
 import ForgotPasswordModal from "../components/ForgotPasswordModal.jsx";
 import LoginModal from "../components/LoginModal.jsx";
 import { useModal } from "../context/ModalProvider.jsx";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const { activeModal, openModal, closeModal } = useModal();
@@ -34,7 +35,7 @@ function Home() {
   const [open, setOpen] = useState(false); // Initialize with false
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-
+  const navigate = useNavigate();
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -54,6 +55,13 @@ function Home() {
   };
 
   const [isModalOpenContact, setIsModalOpenContact] = useState(false);
+
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard/tests"); // Redirect logged-in users to the dashboard
+    }
+  }, [user, navigate]);
 
   return (
     <div className="App">

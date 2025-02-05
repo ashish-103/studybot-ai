@@ -381,7 +381,7 @@ export default function Practice() {
             </div>
             {allQuestions && (
               <div className="flex justify-end px-8 pt-2">
-                {state?.set_name.includes('exam_set') ? "Total Sections" : `Total Questions ${allQuestions.length}`}
+                {examType?.includes('exam_set') ? "Total Sections" : `Total Questions ${allQuestions.length}`}
               </div>
             )}
 
@@ -449,7 +449,7 @@ export default function Practice() {
                     <div className="flex flex-wrap nter items-center sm:justify-start gap-5">
                       {user.plan_name === "Free Plan" ? (
                         <textarea
-                          className="w-[900px] mt-10 appearance-none lg:h-[170px] text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
+                          className="w-[900px] h-[170px] mt-10 appearance-none text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
                           type="search"
                           spellCheck={false}
                           name="q"
@@ -459,19 +459,19 @@ export default function Practice() {
                         />
                       ) : (
                         <textarea
-                          className="w-[900px] mt-10 appearance-none lg:h-[170px] text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
+                          className="w-[900px] h-[170px] mt-10 appearance-none text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
                           type="search"
                           spellCheck={false}
                           name="q"
                           placeholder="Answer :"
                           value={allQuestions[currentQuestion].answer || ""}
                           onChange={handleInputChange}
-                          onPaste={(event) => {
-                            event.preventDefault();
-                            const pastedText =
-                              event.clipboardData.getData("text/plain");
-                            pastedText.replace(/[^a-zA-Z0-9 ]/g, "");
-                          }}
+                        // onPaste={(event) => {
+                        //   event.preventDefault();
+                        //   const pastedText =
+                        //     event.clipboardData.getData("text/plain");
+                        //   pastedText.replace(/[^a-zA-Z0-9 ]/g, "");
+                        // }}
                         />
                       )}
                       <div className="hidden">
@@ -580,7 +580,7 @@ export default function Practice() {
         ))}
       {
         <Modal isOpen={isOpen} closeModal={closeModal}>
-          <Guidelines />
+          <Guidelines setName={state?.set_name} />
         </Modal>
       }
     </div>
