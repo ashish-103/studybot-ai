@@ -1,12 +1,9 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import Button from "../../components/ui/Button";
+import { writingSections } from "../../components/Guildelines/writingGuidelines";
 
-const Guidelines = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const state = location.state;
-  const sections = [
+const Guidelines = ({ setName }) => {
+  console.log('setName', setName)
+  let sections = [
     {
       title: "1. Overview of the IELTS Exam",
       content: (
@@ -164,9 +161,11 @@ const Guidelines = () => {
       ),
     },
   ];
-
+  if (setName.includes('Writing')) {
+    sections = writingSections;
+  }
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <div className=" mx-auto md:p-6 space-y-8 overflow-y-auto">
       {sections.map((section, index) => (
         <div key={index} className="border-b pb-4">
           <h2 className="text-xl font-bold mb-4">{section.title}</h2>

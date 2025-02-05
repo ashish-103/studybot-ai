@@ -115,28 +115,3 @@ export const SubscriptionPlans = ({ toggleModal }) => {
     </Element>
   );
 };
-
-/* 
- <ul className="mb-8 space-y-4 px-6 price__plan">
-                      <li>{plan.details.mock_exams}</li>
-                      {/* <li>{plan.details.performance_report}</li> 
-                      <li>
-                        <span>{title}</span>
-                        <span>{content}</span>
-                      </li>
-                      <li>{plan.details.ai_assistance}</li>
-                      <li>{plan.details.exam_simulation}</li>
-                      <li>{plan.details.reattempts}</li>
-                      <li>
-                        {plan.details.interactive_dashboard &&
-                          plan.details.interactive_dashboard}
-                      </li>
-                      <li>
-                        {plan.details.priority_support &&
-                          plan.details.priority_support}
-                      </li>
-                      <li>{plan.details.ai_mentoring}</li>
-                      <li>{plan.details.lifetime_access}</li>
-                      <li>{plan.details.validity_period}</li>
-                    </ul >
-*/

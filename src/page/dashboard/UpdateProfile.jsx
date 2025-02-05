@@ -5,6 +5,7 @@ export default function UpdateProfile() {
   const [isEditingPersonalInfo, setIsEditingPersonalInfo] = useState(false)
   const [isEditingAddress, setIsEditingAddress] = useState(false)
   const [errors, setErrors] = useState({});
+  const [errors2, setErrors2] = useState({});
   const [formData, setFormData] = useState({
     firstName: "Rafiqur",
     lastName: "Rahman",
@@ -17,7 +18,7 @@ export default function UpdateProfile() {
     taxId: 'AS45645756',
   });
 
-  const validateForm = () => {
+  const validateForm1 = () => {
     const newErrors = {};
     // First Name and Last Name validation
     if (!formData.firstName.trim()) {
@@ -47,6 +48,13 @@ export default function UpdateProfile() {
       newErrors.bio = "Bio is required.";
     }
 
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
+
+  const validateForm2 = () => {
+    const newErrors = {};
+
     // Country validation
     if (!formData.country.trim()) {
       newErrors.country = "Country is required.";
@@ -64,7 +72,7 @@ export default function UpdateProfile() {
     } else if (!postalCodeRegex.test(formData.postalCode)) {
       newErrors.postalCode = "Postal code must be exactly 6 digits.";
     }
-    setErrors(newErrors);
+    setErrors2(newErrors);
     return Object.keys(newErrors).length === 0;
   }
 
@@ -79,7 +87,7 @@ export default function UpdateProfile() {
   const toggleEditPersonalInfo = (e) => {
     e.preventDefault();
     if (isEditingPersonalInfo) {
-      if (validateForm()) {
+      if (validateForm1()) {
         setIsEditingPersonalInfo(false);
       } else {
         console.log("Errors in Personal Info form:", errors);
@@ -92,7 +100,7 @@ export default function UpdateProfile() {
   const toggleEditAddress = (e) => {
     e.preventDefault();
     if (isEditingAddress) {
-      if (validateForm()) {
+      if (validateForm2()) {
         setIsEditingAddress(false);
       } else {
         console.log("Errors in Address form:", errors);
@@ -263,9 +271,9 @@ export default function UpdateProfile() {
                       name="country"
                       value={formData.country}
                       onChange={handleInputChange}
-                    /> {errors.country && (
+                    /> {errors2.country && (
                       <div className="error-message text-red-500">
-                        {errors.country}
+                        {errors2.country}
                       </div>
                     )}
                   </>
@@ -282,9 +290,9 @@ export default function UpdateProfile() {
                       name="cityState"
                       value={formData.cityState}
                       onChange={handleInputChange}
-                    /> {errors.cityState && (
+                    /> {errors2.cityState && (
                       <div className="error-message text-red-500">
-                        {errors.cityState}
+                        {errors2.cityState}
                       </div>
                     )}
                   </>
@@ -302,9 +310,9 @@ export default function UpdateProfile() {
                       value={formData.postalCode}
                       onChange={handleInputChange}
                     />
-                    {errors.postalCode && (
+                    {errors2.postalCode && (
                       <div className="error-message text-red-500">
-                        {errors.postalCode}
+                        {errors2.postalCode}
                       </div>)}
                   </>
                 ) : (

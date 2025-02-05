@@ -1,15 +1,15 @@
 import { createContext, useContext, useState } from "react";
 
-const PerfomaceContext = createContext();
+const PerformanceContext = createContext();
 
-export const usePerfomaceData = () => {
-  return useContext(PerfomaceContext)
+export const usePerformanceData = () => {
+  return useContext(PerformanceContext)
 }
 
-export default function PerformanceContext({ children }) {
+export const PerformanceDataProvider = ({ children }) => {
   const [data, setData] = useState(null);
-  const setPerformanceData = (data) => {
-    setData(data);
+  const setPerformanceData = (pdata) => {
+    setData(pdata);
   }
   return (
     <PerformanceContext.Provider value={{ data, setPerformanceData }}>
