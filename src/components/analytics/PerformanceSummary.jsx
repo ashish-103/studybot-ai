@@ -26,16 +26,23 @@ export default function PerformanceSummary() {
             if (isAttempted > 0) {
                 attempted_questions += 1;
             }
+            console.log("band_score", band_score)
             total_band_score += band_score;
+            console.log("total_band_score", total_band_score)
         }
 
-        total_band_score /= total_questions;
 
+        total_band_score /= total_questions;
+        console.log('total_questions', total_questions)
+        console.log("total_band_score after dividing", total_band_score)
+        function roundIELTS(score) {
+            return Math.round(score * 2) / 2;
+        }
         setValues({
             all_questions: total_questions,
             questions: attempted_questions,
-            band_score: total_band_score,
-            score: total_band_score,
+            band_score: roundIELTS(total_band_score),
+            score: roundIELTS(total_band_score),
             accuracy: (total_band_score * (100 / 9)).toFixed(2)
         })
     }

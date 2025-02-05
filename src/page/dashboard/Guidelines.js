@@ -165,7 +165,7 @@ const Guidelines = ({ setName }) => {
     sections = writingSections;
   }
   return (
-    <div className=" mx-auto md:p-6 space-y-8 overflow-y-auto">
+    <div className=" md:p-6 space-y-8 overflow-y-auto">
       {sections.map((section, index) => (
         <div key={index} className="border-b pb-4">
           <h2 className="text-xl font-bold mb-4">{section.title}</h2>

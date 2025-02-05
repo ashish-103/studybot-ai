@@ -86,7 +86,8 @@ export default function AreasToImprove() {
                 <div className="font-semibold text-2xl pb-3 text-primary-blue">
                   {areas[currentSlide].heading}
                 </div>
-                {
+                <p> {areas[currentSlide]?.description}</p>
+                {/* {
                   areas[currentSlide].heading === "AI - sample answer" ? (<p> {areas[currentSlide]?.description}</p>) : (<p
                     dangerouslySetInnerHTML={{
                       __html: addRedBackgroundToBraces(
@@ -94,7 +95,7 @@ export default function AreasToImprove() {
                       ),
                     }}
                   ></p>)
-                }
+                } */}
 
 
               </div>

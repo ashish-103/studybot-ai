@@ -49,7 +49,7 @@ export default function DetailedAnalysis() {
                 <div className='pt-5 flex flex-col md:flex-row justify-center items-start gap-5'>
                     <div className='md:w-[15%] flex flex-col gap-2'>
                         {sections.map((item, index) => (
-                            <div key={`detailedanalysis-${item}`} onClick={() => setCurrentSection(index)} className='p-2 border rounded-md bg-white cursor-pointer'>{item}</div>
+                            <div key={`detailedanalysis-${item}`} onClick={() => setCurrentSection(index)} className={`p-2 border rounded-md bg-white cursor-pointer ${currentSection === index && "border-gray-500"}`}>{item}</div>
                         ))}
                     </div>
                     <div className="md:w-[85%] grid md:grid-cols-2 gap-5">
