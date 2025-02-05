@@ -381,7 +381,7 @@ export default function Practice() {
             </div>
             {allQuestions && (
               <div className="flex justify-end px-8 pt-2">
-                {examType?.includes('exam_set') ? "Total Sections" : `Total Questions ${allQuestions.length}`}
+                {examType?.includes('exam_set') ? `Total Section:  ${allQuestions.length}` : `Total Questions: ${allQuestions.length}`}
               </div>
             )}
 

@@ -14,6 +14,9 @@ export default function PerformanceSummary() {
         accuracy: 0,
         band_score: 0,
     })
+    const roundIELTS = (score) => {
+        return Math.round(score * 2) / 2;
+    }
     const calculateValues = () => {
         let total_band_score = 0;
         let attempted_questions = 0;
@@ -35,14 +38,12 @@ export default function PerformanceSummary() {
         total_band_score /= total_questions;
         console.log('total_questions', total_questions)
         console.log("total_band_score after dividing", total_band_score)
-        function roundIELTS(score) {
-            return Math.round(score * 2) / 2;
-        }
+
         setValues({
             all_questions: total_questions,
             questions: attempted_questions,
-            band_score: roundIELTS(total_band_score),
-            score: roundIELTS(total_band_score),
+            band_score: total_band_score,
+            score: total_band_score,
             accuracy: (total_band_score * (100 / 9)).toFixed(2)
         })
     }
@@ -53,8 +54,8 @@ export default function PerformanceSummary() {
 
     const performanceSummaryData = [
         {
-            score: `${values.score * 10}`,
-            value: `${values.score}`,
+            score: `${roundIELTS(values.score * 10)}`,
+            value: `${roundIELTS(values.score)}`,
             title: "Score",
             desc: "Total score achieved",
         },
@@ -72,8 +73,8 @@ export default function PerformanceSummary() {
             desc: "Percentage of correct answers",
         },
         {
-            score: `${values.band_score * 10}`,
-            value: `${values.band_score}`,
+            score: `${roundIELTS(values.band_score * 10)}`,
+            value: `${roundIELTS(values.band_score)}`,
             title: "Band Score",
             desc: "Average Band Score",
         },
