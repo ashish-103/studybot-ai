@@ -30,6 +30,7 @@ import NewPassword from "./page/NewPassword";
 import { ModalProvider } from "./context/ModalProvider";
 import PerformanceAnalytics2 from "./page/dashboard/Perfomace_analytics2";
 import PerformanceContext from "./context/performanceContext";
+import { ChangePassword } from "./page/dashboard/ChangePassword";
 
 const clientId =
   "483619648597-giknf43p085748h88hjebe5f7vm3be42.apps.googleusercontent.com";
@@ -84,6 +85,7 @@ export default function App() {
                 <Route path="settings" element={<Settings />} />
                 <Route path="account" element={<Account />} />
                 <Route path="account/update-profile" element={<UpdateProfile />} />
+                <Route path="account/change-password" element={<ChangePassword />} />
                 <Route path="subscription" element={<Subscription />} />
                 <Route path="help" element={<Help />} />
               </Route>
