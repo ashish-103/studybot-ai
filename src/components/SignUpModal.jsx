@@ -169,7 +169,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
         }
       } catch (error) {
         const errorMsg =
-          error.response?.data?.message || "Failed to generate OTP.";
+          error.response?.data?.error || "Failed to generate OTP.";
         console.error("Request failed:", errorMsg);
         toast.error(errorMsg);
       }
