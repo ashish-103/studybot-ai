@@ -1,93 +1,26 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import course from "../../assets/images/ielts.jpg";
-import { apiCall } from "../../api/login";
 import CourseCard from "../../components/ui/CourseCard";
 import Pagination from "../../components/ui/Pagination";
 import { UserContext } from "../../context/userContext";
-import search from "../../assets/images/search.png";
 import WelcomeEmail from "../../components/WelcomeEmail/WelcomeEmail";
+import { useFetchExams } from "../../hooks/useFetchExams";
+import Search from "../../components/Search";
 
 export default function ExploreTests() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
-  const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [displayData, setDisplayData] = useState([]);
-  const [currentData, setCurrentData] = useState([]);
-  const [difficulty, setDifficulty] = useState("All");
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [totalPages, setTotalPages] = useState(0);
   const { user } = useContext(UserContext);
-  const user_id = localStorage.getItem("user");
-  const userID = JSON.parse(user_id);
+  // console.log('Explore Test rendered!')
 
-  const itemsPerPage = 8;
+  const { data, displayData, currentData, currentPage, totalPages, itemsPerPage, difficulty, setDisplayData, setTotalPages, setCurrentPage, setDifficulty } = useFetchExams();
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = (
-          await apiCall.get(`get_exam_sets11?user_id=${userID.userid}`)
-        ).data;
-        const users = Array.from({ length: response.length }, (_, index) => ({
-          name: `Exam ${index + 1}`,
-          image:
-            index % 2 === 0
-              ? `https://randomuser.me/api/portraits/women/${index + 1}.jpg`
-              : `https://randomuser.me/api/portraits/men/${index + 1}.jpg`,
-        }));
-        const dummyArr = response.map((item, index) => ({
-          courseImage: { course },
-          authorImage: users[index % users.length].image,
-          authorName: users[index % users.length].name,
-          authorRole: "Teacher",
-          courseDescription: item.set_name,
-          rating: item.rating,
-          timing: item.time,
-          set_name: item.set_name,
-          task_type: item.task_type,
-          exam_id: item.exam_id,
-          status: item.status,
-        }));
-        setData(dummyArr);
-        setDisplayData(dummyArr);
-        const firstPage = dummyArr.filter((_i, index) => index < 8);
-        setCurrentData(firstPage);
-        const _totalpages = Math.ceil(dummyArr.length / itemsPerPage);
-        setTotalPages(_totalpages);
-      } catch (error) {
-        console.log("error fetching question: ", error);
-      }
-    };
-    getData();
-  }, []);
 
-  useEffect(() => {
-    const _totalpages = Math.ceil(displayData.length / itemsPerPage);
-    setTotalPages(_totalpages);
-  }, [displayData]);
-
-  useEffect(() => {
-    if (difficulty !== "All") {
-      const newData = data.filter((item) => item.set_name.includes(difficulty));
-      setDisplayData(newData);
-    } else {
-      setDisplayData(data);
-    }
-  }, [data, difficulty]);
-
-  useEffect(() => {
-    const currentItems = displayData.slice(
-      (currentPage - 1) * itemsPerPage,
-      currentPage * itemsPerPage
-    );
-    setCurrentData(currentItems);
-  }, [currentPage, data, displayData]);
-
-  const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase();
+  const handleSearch = useCallback((e) => {
+    let query = e.target.value;
     if (e.key === "Enter") {
       query = query.split("").join(" ");
     }
@@ -116,18 +49,20 @@ export default function ExploreTests() {
 
     const _totalpages = Math.ceil(filteredData.length / itemsPerPage);
     setTotalPages(_totalpages);
-  };
+  }, [data, itemsPerPage, setCurrentPage, setDisplayData, setTotalPages]);
 
   useEffect(() => {
+    // console.log("xplore Test rendered! from useEffect 1 ")
     const urlParams = new URLSearchParams(window.location.search);
     const messageParam = urlParams.get("message");
+    // console.log(messageParam);
     if (messageParam) {
       setMessage(messageParam);
     }
   }, []);
 
   useEffect(() => {
-    if (message == "Welcome email is being sent") {
+    if (message === "Welcome email is being sent") {
       setIsOpen(true);
       const timer = setTimeout(() => {
         setIsOpen(false);
@@ -139,23 +74,13 @@ export default function ExploreTests() {
     <>
       {isOpen && <WelcomeEmail />}
       <section className="md:px-5 pb-10 mt-0">
-        <div className="flex items-center bg-[#E1F2F8] rounded-lg px-2 py-1 fixed top-[18px] left-[57px] md:top-[1.125rem] lg:left-[18.25rem] z-10 ">
-          <img
-            src={search}
-            className="w-5 h-5 text-gray-500 mr-2"
-            alt="search"
-          />
-          <input
-            type="text"
-            placeholder="Search here....."
-            className="hidden sm:block outline-none text-sm bg-[#E1F2F8] w-full text-gray-700 "
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-        </div>
+
+        <Search onchange={handleSearch} value={searchTerm} />
+
         <div className="text-[#2A4563] text-2xl font-bold pb-5">
           Explore tests
         </div>
+
         <div className="flex flex-col md:flex-row justify-between md:items-center">
           <div className="relative text-[#2A4563] text-base font-semibold pb-5 flex justify-start items-center gap-2">
             <span>Difficulty: </span>
@@ -224,6 +149,7 @@ export default function ExploreTests() {
               />
             )}
         </div>
+
         <div className="md:bg-white md:py-4 md:px-4 md:shadow-md rounded-md flex flex-wrap">
           {Array.isArray(currentData) &&
             currentData.length > 0 &&
