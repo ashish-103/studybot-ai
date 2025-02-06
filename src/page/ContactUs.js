@@ -1,10 +1,11 @@
 import { Dialog, Transition, TransitionChild } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import facebook from "../assets/images/facebook.svg";
 import linkdin from "../assets/images/linkdin.svg";
 import instgram from "../assets/images/instgram.svg";
 import { countries } from "../utils/data";
 import { toast } from "react-toastify";
+import { ErrorMessage } from "../components/ResubaleComponents/ErrorMessage";
 
 const ContactUs = ({ isOpen, closeModal, valueSend }) => {
   const [errors, setErrors] = useState({})
@@ -207,11 +208,7 @@ const ContactUs = ({ isOpen, closeModal, valueSend }) => {
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                          />{errors.name && (
-                            <div className="error-message text-red-500">
-                              {errors.name}
-                            </div>
-                          )}
+                          />{errors.name && <ErrorMessage message={errors.name} />}
                         </div>
                         <div className="mb-4">
                           <label
@@ -226,11 +223,7 @@ const ContactUs = ({ isOpen, closeModal, valueSend }) => {
                             name="phone_number"
                             value={formData.phone_number}
                             onChange={handleInputChange}
-                          />{errors.phone_number && (
-                            <div className="error-message text-red-500">
-                              {errors.phone_number}
-                            </div>
-                          )}
+                          />{errors.phone_number && <ErrorMessage message={errors.phone_number} />}
                         </div>
                         <div className="mb-4">
                           <label
@@ -245,11 +238,7 @@ const ContactUs = ({ isOpen, closeModal, valueSend }) => {
                             name="email"
                             value={formData.email}
                             onChange={handleInputChange}
-                          />{errors.email && (
-                            <div className="error-message text-red-500">
-                              {errors.email}
-                            </div>
-                          )}
+                          />{errors.email && <ErrorMessage message={errors.email} />}
                         </div>
                         <div className="mb-4">
                           <label
@@ -271,11 +260,7 @@ const ContactUs = ({ isOpen, closeModal, valueSend }) => {
                               </option>
                             ))}
                           </select>
-                          {errors.country && (
-                            <div className="error-message text-red-500">
-                              {errors.country}
-                            </div>
-                          )}
+                          {errors.country && <ErrorMessage message={errors.country} />}
                         </div>
                         <div className="mb-4">
                           <label
@@ -307,11 +292,7 @@ const ContactUs = ({ isOpen, closeModal, valueSend }) => {
                               Feedback/Suggestions
                             </option>
                           </select>
-                          {errors.reason && (
-                            <div className="error-message text-red-500">
-                              {errors.reason}
-                            </div>
-                          )}
+                          {errors.reason && <ErrorMessage message={errors.reason} />}
                         </div>
 
                         <button

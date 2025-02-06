@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
+import { EyeButton } from '../../components/ResubaleComponents/EyeButton';
+import { ErrorMessage } from '../../components/ResubaleComponents/ErrorMessage';
 
 export const ChangePassword = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -35,16 +37,6 @@ export const ChangePassword = () => {
     return Object.keys(passErrors).length === 0;
   }
 
-  const toggleCurrentPasswordVisibility = () => {
-    setShowCurrentPassword(!showCurrentPassword);
-  };
-  const toggleNewPasswordVisibility = () => {
-    setShowNewPassword(!showNewPassword);
-  };
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setformData({
@@ -73,23 +65,9 @@ export const ChangePassword = () => {
               value={formData.current_password}
               onChange={handleInputChange}
             />
-            <button
-              type="button"
-              onClick={toggleCurrentPasswordVisibility}
-              className="absolute right-2 bottom-0 transform -translate-y-1/2 text-gray-500"
-            >
-              {showCurrentPassword ? (
-                <FaRegEye size={20} />
-              ) : (
-                <FaRegEyeSlash size={20} />
-              )}
-            </button>
+            <EyeButton handleClick={() => setShowCurrentPassword(!showCurrentPassword)} password={showCurrentPassword} />
           </div>
-          {errors.current_password && (
-            <span className="w-fit error-message text-red-500 text-sm">
-              {errors.current_password}
-            </span>
-          )}
+          {errors.current_password && <ErrorMessage message={errors.current_password} />}
           <div className='relative'>
             <input className='px-4 py-2 text-lg border border-gray-400 outline-gray-500 w-full rounded-md'
               type={showNewPassword ? "text" : "password"}
@@ -98,23 +76,9 @@ export const ChangePassword = () => {
               value={formData.new_password}
               onChange={handleInputChange}
             />
-            <button
-              type="button"
-              onClick={toggleNewPasswordVisibility}
-              className="absolute right-2 bottom-0 transform -translate-y-1/2 text-gray-500"
-            >
-              {showNewPassword ? (
-                <FaRegEye size={20} />
-              ) : (
-                <FaRegEyeSlash size={20} />
-              )}
-            </button>
+            <EyeButton handleClick={() => setShowNewPassword(!showNewPassword)} password={showNewPassword} />
           </div>
-          {errors.new_password && (
-            <span className="w-fit error-message text-red-500 text-sm">
-              {errors.new_password}
-            </span>
-          )}
+          {errors.new_password && <ErrorMessage message={errors.new_password} />}
           <div className='relative'>
             <input className='px-4 py-2 text-lg border border-gray-400 outline-gray-500 w-full rounded-md'
               type={showConfirmPassword ? "text" : "password"}
@@ -123,23 +87,9 @@ export const ChangePassword = () => {
               value={formData.confirm_password}
               onChange={handleInputChange}
             />
-            <button
-              type="button"
-              onClick={toggleConfirmPasswordVisibility}
-              className="absolute right-2 bottom-0 transform -translate-y-1/2 text-gray-500"
-            >
-              {showConfirmPassword ? (
-                <FaRegEye size={20} />
-              ) : (
-                <FaRegEyeSlash size={20} />
-              )}
-            </button>
+            <EyeButton handleClick={() => setShowConfirmPassword(!showConfirmPassword)} password={showConfirmPassword} />
           </div>
-          {errors.confirm_password && (
-            <span className="w-fit error-message text-red-500 text-sm">
-              {errors.confirm_password}
-            </span>
-          )}
+          {errors.confirm_password && <ErrorMessage message={errors.confirm_password} />}
           <button className='bg-primary-orange w-full text-lg px-4 py-2 text-white rounded-md font-semibold cursor-pointer' type='submit'>Save Changes</button>
         </div>
       </form>

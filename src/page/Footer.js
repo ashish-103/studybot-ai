@@ -1,9 +1,9 @@
 import "./../App.css";
 import linkdin from "../assets/images/linkdin.svg";
-import facebook from "./../images/facebook.png";
+// import facebook from "./../images/facebook.png";
 import instagram from "./../images/instagram.png";
-import twitter from "./../images/twitter.png";
-import footerLogo from "./../images/footer-logo.png";
+// import twitter from "./../images/twitter.png";
+// import footerLogo from "./../images/footer-logo.png";
 import { Link } from "react-router-dom";
 import heroBg from "../images/hero-bg.png";
 import { Link as RouteLink } from "react-scroll";

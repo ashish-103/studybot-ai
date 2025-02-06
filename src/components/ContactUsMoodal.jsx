@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import CountryDropdown from "./CountryDropdown";
 import { apiCall } from "../api/login";
+import { ErrorMessage } from "./ResubaleComponents/ErrorMessage";
 
 export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
   const [errors, setErrors] = useState({})
@@ -225,11 +226,7 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                          />{errors.name && (
-                            <div className="error-message text-red-500">
-                              {errors.name}
-                            </div>
-                          )}
+                          />{errors.name && <ErrorMessage message={errors.name} />}
                         </div>
 
                         <div className="mb-4">
@@ -245,11 +242,7 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                             className="email flex-1 w-full border border-gray-500 rounded-lg p-2 bg-transparent focus:outline-none"
                             value={formData.email}
                             onChange={handleInputChange}
-                          />{errors.email && (
-                            <div className="error-message text-red-500">
-                              {errors.email}
-                            </div>
-                          )}
+                          />{errors.email && <ErrorMessage message={errors.email} />}
                         </div>
                         <div className="mb-4">
                           {/* <label
@@ -271,11 +264,7 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                             ))}
                           </select> */}
                           <CountryDropdown value={formData.country} handleChange={handleInputChange} />
-                          {errors.country && (
-                            <div className="error-message text-red-500">
-                              {errors.country}
-                            </div>
-                          )}
+                          {errors.country && <ErrorMessage message={errors.country} />}
                         </div>
                         <div className="mb-4">
                           <label
@@ -290,11 +279,7 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                             className="flex-1 w-full border border-gray-500 rounded-lg p-2 bg-transparent focus:outline-none"
                             value={formData.phone_number}
                             onChange={handleInputChange}
-                          />{errors.phone_number && (
-                            <div className="error-message text-red-500">
-                              {errors.phone_number}
-                            </div>
-                          )}
+                          />{errors.phone_number && <ErrorMessage message={errors.phone_number} />}
                         </div>
                         <div className="mb-4">
                           <label
@@ -339,11 +324,7 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                               Others (Please Specify)
                             </option>
                           </select>
-                          {errors.reason && (
-                            <div className="error-message text-red-500">
-                              {errors.reason}
-                            </div>
-                          )}
+                          {errors.reason && <ErrorMessage message={errors.reason} />}
                         </div>
                         {formData.reason === 'Others' && (
                           <textarea

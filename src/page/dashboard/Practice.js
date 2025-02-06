@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useRef, useState } from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
-import Button from "../../components/ResubaleComponents/Button";
-import leftArrow from "../../assets/images/leftArrow.png";
 import { PulseLoader } from "react-spinners";
 import { UserContext } from "../../context/userContext";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Timer from "../../components/ui/Timer";
 import { apiCall } from "../../api/login";
 import { toast } from "react-toastify";
@@ -19,6 +17,10 @@ import { usePerformanceData } from "../../context/performanceContext";
 import { UploadFile } from "../../components/ResubaleComponents/UploadFile";
 import { WordCounter } from "../../components/ResubaleComponents/WordCounter";
 import { TextArea } from "../../components/ResubaleComponents/TextArea";
+import { NextButton } from "../../components/ResubaleComponents/NextButton";
+import { PrevButton } from "../../components/ResubaleComponents/PrevButton";
+import { BackButton } from "../../components/ResubaleComponents/BackButton";
+import { useFetchServerTime } from "../../hooks/useFetchServerTime";
 
 export default function Practice() {
   const navigate = useNavigate();
@@ -32,11 +34,11 @@ export default function Practice() {
   const [allQuestions, setAllQuestions] = useState([]);
   const [questionsList, setQuestionsList] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [type, setType] = useState("hard");
+  // const [type, setType] = useState("hard");
   const [exam_id, setExam_id] = useState("");
   const [barProgress, setBarProgress] = useState(0);
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  // const [startTime, setStartTime] = useState("");
+  // const [endTime, setEndTime] = useState("");
   const [loading, setLoading] = useState({
     status: false,
     text: "",
@@ -61,8 +63,9 @@ export default function Practice() {
     },
   });
 
+  const { startTime, endTime } = useFetchServerTime();
 
-  const fetchCalled = useRef(false);
+  // const fetchCalled = useRef(false);
   const closeModal = () => {
     setIsOpen(false)
   }
@@ -154,8 +157,11 @@ export default function Practice() {
       },
     }));
   }
+
+  const lastQuestion = questionsList.length - 1;
+
   const handleNextQuestion = () => {
-    if (currentQuestion < questionsList.length - 1) {
+    if (currentQuestion < lastQuestion) {
       setCurrentQuestion(currentQuestion + 1);
     }
   };
@@ -272,29 +278,30 @@ export default function Practice() {
     }
   }, [questionsList, questionsList.length, currentQuestion, isOpen]);
 
-  useEffect(() => {
-    if (!isOpen) {
-      const fetchServerTime = async () => {
-        try {
-          const response = await apiCall.get(`get_time?exam_id=${state.exam_id}`);
-          const data = response.data;
-          const currentTime = new Date().getTime();
-          const serverTime = new Date(data.current_time).getTime();
+  // useEffect(() => {
+  //   if (!isOpen) {
+  //     const fetchServerTime = async () => {
+  //       try {
+  //         const response = await apiCall.get(`get_time?exam_id=${state.exam_id}`);
+  //         const data = response.data;
+  //         const currentTime = new Date().getTime();
+  //         const serverTime = new Date(data.current_time).getTime();
 
-          const oneHour = 60 * 60 * 1000;
-          const targetEndTime = currentTime + oneHour;
-          setStartTime(currentTime);
-          setEndTime(targetEndTime);
-        } catch (error) {
-          console.error("Error fetching server time:", error);
-        }
-      };
-      if (!fetchCalled.current) {
-        fetchServerTime();
-        fetchCalled.current = true;
-      }
-    }
-  }, [isOpen]);
+  //         const oneHour = 60 * 60 * 1000;
+  //         const targetEndTime = currentTime + oneHour;
+  //         setStartTime(currentTime);
+  //         setEndTime(targetEndTime);
+  //       } catch (error) {
+  //         console.error("Error fetching server time:", error);
+  //       }
+  //     };
+  //     if (!fetchCalled.current) {
+  //       fetchServerTime();
+  //       fetchCalled.current = true;
+  //     }
+  //   }
+  // }, [isOpen]);
+
 
   useEffect(() => {
     if (!isOpen) {
@@ -333,31 +340,7 @@ export default function Practice() {
 
   return (
     <div>
-      <div>
-        {currentQuestion !== 1 && (
-          <Link
-            to="/dashboard/practice"
-            className="inline-flex items-center border border-[#0AA6D7]-300 px-3 py-1.5 rounded-md text-[#0AA6D7] hover:bg-indigo-50"
-            onClick={handleOpenModal}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="h-6 w-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M7 16l-4-4m0 0l4-4m-4 4h18"
-              ></path>
-            </svg>
-            <span className="ml-1 font-bold text-lg">Back</span>
-          </Link>
-        )}
-      </div>
+      {currentQuestion !== 1 && <BackButton handleClick={handleOpenModal} />}
       <div
         className='bg-white rounded-lg mx-4 md:mx-auto max-w-[900px] border-2 border-[#E4F9FF] my-8'
         style={{ boxShadow: "0.2px 0px 4px 4px rgb(122 219 249)" }}
@@ -446,21 +429,9 @@ export default function Practice() {
               {/* Next and Prev Buttons starts*/}
               <div className="flex justify-between items-center">
                 <div className="relative">
-                  <div
-                    className={`items-center justify-center bg-white border-2 pr-2 border-[#E4F9FF] text-[#0AA6D7] ${currentQuestion === 0 ? "hidden" : "flex"
-                      }`}
-                  >
-                    <img src={leftArrow} className="w-6 h-6" alt="leftarrow" />
-                    <Button
-                      label="Prev"
-                      type="button"
-                      className="px-0"
-                      onClick={handlePrevQuestion}
-                      disabled={currentQuestion === 0}
-                    />
-                  </div>
+                  <PrevButton currentQuestion={currentQuestion} handleClick={handlePrevQuestion} handleDisabled={currentQuestion === 0} />
                 </div>
-                {currentQuestion === questionsList.length - 1 ? (
+                {currentQuestion === lastQuestion ? (
                   <button
                     className="bg-[#0AA6D7] text-white px-4 py-1 rounded-lg"
                     onClick={handleSubmit}
@@ -468,24 +439,10 @@ export default function Practice() {
                     Submit
                   </button>
                 ) : (
-                  <div className="flex items-center justify-center bg-white border-2 pl-2 border-[#E4F9FF] text-[#0AA6D7]">
-                    <Button
-                      label="Next"
-                      type="button"
-                      className="px-0"
-                      onClick={handleNextQuestion}
-                      disabled={currentQuestion === questionsList.length - 1}
-                    />
-                    <img
-                      src={leftArrow}
-                      className="w-6 rotate-180 h-6"
-                      alt="right arrow"
-                    />
-                  </div>
+                  <NextButton handleClick={handleNextQuestion} handleDisabled={currentQuestion === lastQuestion} />
                 )}
               </div>
               {/* Next and Prev Buttons ends*/}
-
             </div>
           </>
         )}

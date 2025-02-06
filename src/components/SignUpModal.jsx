@@ -17,6 +17,7 @@ import { login, signup } from "../features/auth/authSlice";
 import OtpInput from "react-otp-input";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { ErrorMessage } from "./ResubaleComponents/ErrorMessage";
 
 const SignUpModal = ({ openModal, closeModal, activeModal }) => {
   const navigate = useNavigate();
@@ -254,11 +255,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                       placeholder="Username"
                                     />
 
-                                    {errors.username && (
-                                      <div className="error-message text-red-500 text-sm">
-                                        {errors.username}
-                                      </div>
-                                    )}
+                                    {errors.username && <ErrorMessage message={errors.username} />}
                                   </div>
                                   <div className="mb-4">
                                     {/* <label
@@ -276,11 +273,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                       onChange={handleChange}
                                       placeholder="Email"
                                     />
-                                    {errors.email && (
-                                      <div className="error-message text-red-500 text-sm">
-                                        {errors.email}
-                                      </div>
-                                    )}
+                                    {errors.email && <ErrorMessage message={errors.email} />}
                                   </div>
                                   <div className="col-sm-6 col-md-12 mb-2">
                                     <div className="mb-4">
@@ -314,11 +307,8 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                             <FaRegEyeSlash size={20} />
                                           )}
                                         </button>
-                                      </div>{errors.password && (
-                                        <div className="error-message text-red-500  text-sm">
-                                          {errors.password}
-                                        </div>
-                                      )}
+                                      </div>
+                                      {errors.password && <ErrorMessage message={errors.password} />}
                                     </div>
                                   </div>
                                   <div className="col-sm-6 col-md-12 mb-2">
@@ -355,11 +345,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                           )}
                                         </button>
                                       </div>
-                                      {errors.re_password && (
-                                        <div className="error-message text-red-500 text-sm">
-                                          {errors.re_password}
-                                        </div>
-                                      )}
+                                      {errors.re_password && <ErrorMessage message={errors.re_password} />}
                                     </div>
                                   </div>
                                   {/* <div className="flex flex-col gap-4 items-start text-sm">

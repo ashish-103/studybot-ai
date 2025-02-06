@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useLocation, useNavigate } from "react-router"
 import { apiCall } from '../api/login';
 import { toast } from 'react-toastify';
+import { ErrorMessage } from '../components/ResubaleComponents/ErrorMessage';
 
 export default function NewPassword() {
   const [errors, setErrors] = useState({});
@@ -76,22 +77,14 @@ export default function NewPassword() {
             value={formData.password}
             onChange={handleChange}
           />
-          {errors.password && (
-            <div className="error-message text-red-500 text-sm">
-              {errors.password}
-            </div>
-          )}
+          {errors.password && <ErrorMessage message={errors.password} />}
           <label htmlFor="confirm-password">Confirm Password</label>
           <input
             name='re_password'
             className='w-full  border border-gray-600 px-2 py-1 outline-1 outline-stone-700 rounded-lg' type="password" placeholder='Confirm Password'
             value={formData.re_password}
             onChange={handleChange} />
-          {errors.re_password && (
-            <div className="error-message text-red-500 text-sm">
-              {errors.re_password}
-            </div>
-          )}
+          {errors.re_password && <ErrorMessage message={errors.re_password} />}
           <p className='m-2'>Make sure it's at least 8 characters including a number, uppercase and lowercase letters.</p>
           <button type='submit' className='border mt-4 border-gray-700 bg-slate-600 text-white w-full p-2 text-lg rounded-lg'>
             change password

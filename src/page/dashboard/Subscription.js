@@ -11,6 +11,7 @@ import PaymentHistoryData from "./PaymentHistory";
 import ContactUsModal from "../../components/ContactUsMoodal";
 import UpgradePlan from "../../components/UpgradePlan/UpgradePlan";
 import Plans from "../../data/plansData";
+import { ErrorMessage } from "../../components/ResubaleComponents/ErrorMessage";
 
 const Subscription = () => {
   const user_id = localStorage.getItem("user");
@@ -441,11 +442,7 @@ const Subscription = () => {
                             onChange={handleInputChange}
                             className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                           />
-                          {errors.billingName && (
-                            <p className="text-red-500 text-[12px] my-2">
-                              {errors.billingName}
-                            </p>
-                          )}
+                          {errors.billingName && <ErrorMessage messsage={errors.billingName} />}
                         </p>
                       </div>
                       <div className="flex justify-between items-center w-full pb-2">
@@ -460,11 +457,7 @@ const Subscription = () => {
                             onChange={handleInputChange}
                             className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                           />
-                          {errors.billingAddress && (
-                            <p className="text-red-500 text-[12px] my-2">
-                              {errors.billingAddress}
-                            </p>
-                          )}
+                          {errors.billingAddress && <ErrorMessage message={errors.billingAddress} />}
                         </p>
                       </div>
                       <div className="flex justify-between items-center w-full">
@@ -480,11 +473,7 @@ const Subscription = () => {
                             maxLength="10"
                             className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                           />
-                          {errors.billingPhone && (
-                            <p className="text-red-500 text-[12px] my-2">
-                              {errors.billingPhone}
-                            </p>
-                          )}
+                          {errors.billingPhone && <ErrorMessage message={errors.billingPhone} />}
                         </p>
                       </div>
                       <div className="flex justify-between items-center w-full">

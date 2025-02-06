@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import edit from "./../../images/icons/edit.png"
+import { ErrorMessage } from '../../components/ResubaleComponents/ErrorMessage';
 
 export default function UpdateProfile() {
   const [isEditingPersonalInfo, setIsEditingPersonalInfo] = useState(false)
@@ -157,11 +158,7 @@ export default function UpdateProfile() {
                       value={formData.firstName}
                       onChange={handleInputChange}
                     />
-                    {errors.firstName && (
-                      <div className="error-message text-red-500">
-                        {errors.firstName}
-                      </div>
-                    )}
+                    {errors.firstName && <ErrorMessage message={errors.firstName} />}
                   </>
                 ) : (
                   <p>{formData.firstName}</p>
@@ -177,11 +174,7 @@ export default function UpdateProfile() {
                       value={formData.lastName}
                       onChange={handleInputChange}
                     />
-                    {errors.lastName && (
-                      <div className="error-message text-red-500">
-                        {errors.lastName}
-                      </div>
-                    )}
+                    {errors.lastName && <ErrorMessage message={errors.lastName} />}
                   </>
                 ) : (
                   <p>{formData.lastName}</p>
@@ -196,11 +189,7 @@ export default function UpdateProfile() {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                    />  {errors.email && (
-                      <div className="error-message text-red-500">
-                        {errors.email}
-                      </div>
-                    )}
+                    />  {errors.email && <ErrorMessage message={errors.email} />}
                   </>
                 ) : (
                   <p>{formData.email}</p>
@@ -215,11 +204,7 @@ export default function UpdateProfile() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                    /> {errors.phone && (
-                      <div className="error-message text-red-500">
-                        {errors.phone}
-                      </div>
-                    )}
+                    /> {errors.phone && <ErrorMessage message={errors.phone} />}
                   </>
                 ) : (
                   <p>{formData.phone}</p>
@@ -234,11 +219,7 @@ export default function UpdateProfile() {
                       name="bio"
                       value={formData.bio}
                       onChange={handleInputChange}
-                    /> {errors.bio && (
-                      <div className="error-message text-red-500">
-                        {errors.bio}
-                      </div>
-                    )}
+                    /> {errors.bio && <ErrorMessage message={errors.bio} />}
                   </>
                 ) : (
                   <p>{formData.bio}</p>
@@ -271,11 +252,7 @@ export default function UpdateProfile() {
                       name="country"
                       value={formData.country}
                       onChange={handleInputChange}
-                    /> {errors2.country && (
-                      <div className="error-message text-red-500">
-                        {errors2.country}
-                      </div>
-                    )}
+                    /> {errors2.country && <ErrorMessage message={errors.country} />}
                   </>
                 ) : (
                   <p>{formData.country}</p>
@@ -290,11 +267,7 @@ export default function UpdateProfile() {
                       name="cityState"
                       value={formData.cityState}
                       onChange={handleInputChange}
-                    /> {errors2.cityState && (
-                      <div className="error-message text-red-500">
-                        {errors2.cityState}
-                      </div>
-                    )}
+                    /> {errors2.cityState && <ErrorMessage message={errors.cityState} />}
                   </>
                 ) : (
                   <p>{formData.cityState}</p>
@@ -310,10 +283,7 @@ export default function UpdateProfile() {
                       value={formData.postalCode}
                       onChange={handleInputChange}
                     />
-                    {errors2.postalCode && (
-                      <div className="error-message text-red-500">
-                        {errors2.postalCode}
-                      </div>)}
+                    {errors2.postalCode && <ErrorMessage message={errors.postalCode} />}
                   </>
                 ) : (
                   <p>{formData.postalCode}</p>
