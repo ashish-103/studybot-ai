@@ -31,6 +31,6 @@ export function useFetchServerTime() {
       fetchServerTime();
       fetchCalled.current = true;
     }
-  }, [state.exam_id]);
+  }, []);
   return { startTime, endTime }
 }

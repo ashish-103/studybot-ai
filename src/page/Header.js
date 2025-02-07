@@ -6,7 +6,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Button from "../components/ui/Button";
 import logo from "./../images/Studybot-AI-Logo.png";
 import { Link as RouteLink } from "react-scroll";
-import ContactUsModal from "../components/ContactUsMoodal";
+import ContactUsModal from "../components/ContactUsModal";
 import { useModal } from "../context/ModalProvider";
 import ForgotPasswordModal from "../components/ForgotPasswordModal";
 import SignUpModal from "../components/SignUpModal";

@@ -3,7 +3,7 @@ import "./../App.css";
 
 import Header from "./../page/Header";
 import Footer from "./../page/Footer";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import HeroSection from "../components/home/HeroSection";
 import Features from "../components/home/Features";
 import Counter from "../components/home/Counter";
@@ -27,8 +27,6 @@ function Home() {
 
   return (
     <div className="App">
-      <Header />
-      <HeroSection />
       <Header />
       <HeroSection />
       <Features />
