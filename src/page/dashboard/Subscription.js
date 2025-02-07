@@ -1,12 +1,13 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import starIcon from "../../assets/images/starticon.svg";
-import upArrow from "../../assets/images/upArrow.png";
+// import upArrow from "../../assets/images/upArrow.png";
 import Billing from "../../assets/images/Billing.png";
 import PaymentHistory from "../../assets/images/payment_history.png";
 import Candidate from "../../assets/images/candidate.png";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { apiCall } from "../../api/login";
+// import { apiCall } from "../../api/login";
 import PaymentHistoryData from "./PaymentHistory";
 import ContactUsModal from "../../components/ContactUsMoodal";
 import UpgradePlan from "../../components/UpgradePlan/UpgradePlan";

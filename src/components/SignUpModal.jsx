@@ -1,31 +1,25 @@
-import { useEffect, useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useState } from "react";
 import {
   Dialog,
   DialogPanel,
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import { Link, useNavigate } from "react-router-dom";
-import Google from "../images/google.svg";
 import loginImage from "../images/login2.png";
-import { useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { apiCall } from "../api/login";
-import { useDispatch, useSelector } from "react-redux";
-import { login, signup } from "../features/auth/authSlice";
+import { useSelector } from "react-redux";
 import OtpInput from "react-otp-input";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 
 const SignUpModal = ({ openModal, closeModal, activeModal }) => {
-  const navigate = useNavigate();
-  const [open, setOpen] = useState(true);
   // const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
 
 
   const [errors, setErrors] = useState({});
@@ -35,9 +29,6 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
     password: "",
     re_password: "",
     username: "",
-    // checkbox1: false,
-    // checkbox2: false,
-
   });
 
   const { loading, error } = useSelector((state) => state.auth);
@@ -99,7 +90,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
     emailData.append("email", formData.username);
     try {
       const response = await apiCall.post("/send-welcome-email", emailData);
-      if (response.data.success == true) {
+      if (response.data.success === true) {
         setTimeout(() => {
           window.location.href = `dashboard/tests?message=${encodeURIComponent(
             response.data.message
@@ -362,26 +353,6 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                       )}
                                     </div>
                                   </div>
-                                  {/* <div className="flex flex-col gap-4 items-start text-sm">
-                                    <div>
-                                      <input type="checkbox" />
-                                      <label > I agree to Studybot AI's terms of service</label>
-                                      {errors.checkbox1 && (
-                                        <div className="error-message text-red-500 text-sm">
-                                          {errors.checkbox1}
-                                        </div>
-                                      )}
-                                    </div>
-                                    <div>
-                                      <input type="checkbox" />
-                                      <label > I would like to recieve marketing communication from Studybot AI.</label>
-                                      {errors.checkbox2 && (
-                                        <div className="error-message text-red-500 text-sm">
-                                          {errors.checkbox2}
-                                        </div>
-                                      )}
-                                    </div>
-                                  </div> */}
 
                                   {loading ? (
                                     <button

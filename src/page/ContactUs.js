@@ -1,5 +1,5 @@
 import { Dialog, Transition, TransitionChild } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import facebook from "../assets/images/facebook.svg";
 import linkdin from "../assets/images/linkdin.svg";
 import instgram from "../assets/images/instgram.svg";

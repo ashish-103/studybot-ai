@@ -12,12 +12,10 @@ import { ExitModel } from "../../components/exitModel/ExitModel";
 import Guidelines from "./Guidelines";
 import Modal from "../../components/Gmodal";
 import ReadingQuestions from "../../components/ReadingQuestions";
-import { useModal } from "../../context/ModalProvider";
 import ListeningQuestions from "../../components/ListeningQuestions";
 import WritingQuestions from "../../components/WritingQuestions";
 import { WordCounter } from "../../components/WordCounter";
 import { UploadFile } from "../../components/UploadFile";
-import { TextArea } from "../../components/TextArea";
 
 export default function Practice() {
   const navigate = useNavigate();
@@ -29,7 +27,7 @@ export default function Practice() {
   const [examType, setExamType] = useState(null);
   const [allQuestions, setAllQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [type, setType] = useState("hard");
+  // const [type, setType] = useState("hard");
   const [exam_id, setExam_id] = useState("");
   const [barProgress, setBarProgress] = useState(0);
   const [startTime, setStartTime] = useState("");
@@ -127,28 +125,28 @@ export default function Practice() {
     }
   };
 
-  const transcribeAudio = async () => {
-    try {
-      const response = await fetch(
-        `https://studybot.zapto.org/get_questions?type=${type}`,
-        {
-          method: "GET",
-        }
-      ).then((data) => data.json());
-      // console.log("All questions: ", response.questionData);
-      const questionsList = Array.from(response.questionData);
-      for (let i = 0; i < questionsList.length; i++) {
-        questionsList[i] = {
-          ...questionsList[i],
-          answer: "",
-        };
-      }
-      console.log("All questions(10): ", questionsList);
-      setAllQuestions(questionsList);
-    } catch (error) {
-      console.log("error fetching question: ", error);
-    }
-  };
+  // const transcribeAudio = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `https://studybot.zapto.org/get_questions?type=${type}`,
+  //       {
+  //         method: "GET",
+  //       }
+  //     ).then((data) => data.json());
+  //     // console.log("All questions: ", response.questionData);
+  //     const questionsList = Array.from(response.questionData);
+  //     for (let i = 0; i < questionsList.length; i++) {
+  //       questionsList[i] = {
+  //         ...questionsList[i],
+  //         answer: "",
+  //       };
+  //     }
+  //     console.log("All questions(10): ", questionsList);
+  //     setAllQuestions(questionsList);
+  //   } catch (error) {
+  //     console.log("error fetching question: ", error);
+  //   }
+  // };
 
   const handleInputChange = (event) => {
     // setAllAnswers
