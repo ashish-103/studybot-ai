@@ -6,11 +6,11 @@ Chart.register(...registerables);
 const SummaryBarChart = ({ data }) => {
   const chartRef = useRef(null);
 
-  console.log("data SummaryBarChart ", data);
-  console.log(
-    "data SummaryBarChart+++++++++++++++",
-    data.graph_value_coherence
-  );
+  // console.log("data SummaryBarChart ", data);
+  // console.log(
+  //   "data SummaryBarChart+++++++++++++++",
+  //   data.graph_value_coherence
+  // );
 
   useEffect(() => {
     const ctx = chartRef.current.getContext("2d");
@@ -51,7 +51,7 @@ const SummaryBarChart = ({ data }) => {
               data.graph_value_grammar[2], // Second value (2)
               data.graph_value_lexical[2], // Third value (2)
               data.graph_value_task_achievement[2], // Third value (0)
-   
+
             ],
             backgroundColor: ["#ff0000"],
           },

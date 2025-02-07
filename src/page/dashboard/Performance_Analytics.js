@@ -41,7 +41,7 @@ const PerformanceAnalytics = () => {
       const response = (await apiCall.get(`get-evaluation/${evaluationid}`))
         .data;
 
-      console.log("API Response:", response); // Log response to check its structure
+      // console.log("API Response:", response); // Log response to check its structure
 
       setAnalyticsData(response[0]["questions_answers"]);
       setMiscData(response[0]);
@@ -55,7 +55,7 @@ const PerformanceAnalytics = () => {
   };
 
   useEffect(() => {
-    console.log("misc dataa: ", miscData);
+    // console.log("misc dataa: ", miscData);
   }, [miscData]);
 
   // const calculateBandValues = (object, i, name) => {
@@ -136,7 +136,7 @@ const PerformanceAnalytics = () => {
     coherence_band.score /= total_questions;
     lexical_band.score /= total_questions;
     grammar_band.score /= total_questions;
-
+    console.log('task_response_band', task_response_band)
     task_response_band.accuracy = (
       task_response_band.score *
       (100 / 9)
