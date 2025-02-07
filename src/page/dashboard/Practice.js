@@ -81,10 +81,13 @@ export default function Practice() {
         setExamType(state.set_name)
         // console.log(state.set_name)
         const response = (await apiCall.get(`get_questions11/${state.set_name}`)).data;
-        const sections = [response.reading, response.listening, response.writing]
+        console.log('api response', response.writing.data.task1)
+        // console.log('writing', response.writing)
+        const sections = [response.reading, response.listening, response.writing.data.task1, response.writing.data.task2]
         // console.log("sections", sections);
         setQuestionsList(sections)
         setCurrentQuestion(0)
+        console.log('question', allQuestions)
       } else {
         const response = (await apiCall.get(`get_questions?exam_id=${state.exam_id}&exam_name=${state.task_type}`)).data;
         setQuestionsList(response.questionData);
@@ -385,18 +388,30 @@ export default function Practice() {
               {/* Progressbar */}
 
               {examType ? <>
-                {currentQuestion === 0 && <ReadingQuestions
-                  answers={answers.reading}
-                  onAnswerChange={(answers) => handleAnswerupdate('reading', answers)}
-                  passages={questionsList[0].passages[0]} />}
-                {currentQuestion === 1 && <ListeningQuestions
-                  answers={answers.listening}
-                  onAnswerChange={(answers) => handleAnswerupdate('listening', answers)}
-                  listeningData={questionsList[1]} />}
-                {currentQuestion === 2 && <WritingQuestions
-                  answers={answers.writing}
-                  onAnswerChange={(answers) => handleAnswerupdate('writing', answers)}
-                  writingData={questionsList[2]} />}
+                {currentQuestion === 0 &&
+                  <ReadingQuestions
+                    answers={answers.reading}
+                    onAnswerChange={(answers) => handleAnswerupdate('reading', answers)}
+                    passages={questionsList[0].passages[0]} />}
+                {currentQuestion === 1 &&
+                  <ListeningQuestions
+                    answers={answers.listening}
+                    onAnswerChange={(answers) => handleAnswerupdate('listening', answers)}
+                    listeningData={questionsList[1]} />}
+                {currentQuestion === 2 &&
+                  <WritingQuestions
+                    answers={answers.writing}
+                    onAnswerChange={(answers) => handleAnswerupdate('writing', answers)}
+                    writingData={questionsList[2]}
+                    q={currentQuestion}
+                  />}
+                {currentQuestion === 3 &&
+                  <WritingQuestions
+                    answers={answers.writing}
+                    onAnswerChange={(answers) => handleAnswerupdate('writing', answers)}
+                    writingData={questionsList[3]}
+                    q={currentQuestion}
+                  />}
               </> :
                 <div>
                   {questionsList.slice(currentQuestion, currentQuestion + 1).map((q, index) => (

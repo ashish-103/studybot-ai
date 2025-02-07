@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { apiCall } from "../../api/login";
 import starIcon from "../../assets/images/starticon.svg";
 import { Element } from "react-scroll";
 import { UserContext } from "../../context/userContext";
@@ -7,7 +6,7 @@ import { useModal } from "../../context/ModalProvider";
 import Plans from "../../data/plansData";
 import { useNavigate } from "react-router-dom";
 
-export const SubscriptionPlans = ({ toggleModal }) => {
+export const SubscriptionPlans = () => {
   const { openModal } = useModal();
   const { user } = useContext(UserContext);
   const navigate = useNavigate()

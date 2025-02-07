@@ -25,7 +25,7 @@ export default function TestSummary({ ratings }) {
       const newdummysetname = dummyArr.find(
         (item) => item.exam_id === miscData.exam_id
       );
-      console.log(newdummysetname);
+      // console.log(newdummysetname);
       setSetName(newdummysetname.set_name);
       //   console.log(dummyArr,"dummyArrdummyArr")
 
@@ -39,7 +39,7 @@ export default function TestSummary({ ratings }) {
   }, []);
 
   const handleRating = async (rate) => {
-    console.log(rate, "rate");
+    // console.log(rate, "rate");
     const ratingStr = String(rate); // Convert rating to string
     // Set the rating state
     setRating(rate);
@@ -57,7 +57,7 @@ export default function TestSummary({ ratings }) {
         throw new Error("Network response was not ok");
       }
       const result = await response.json();
-      console.log("Success:", result); // Handle success response
+      // console.log("Success:", result); // Handle success response
     } catch (error) {
       console.error("Error:", error); // Handle error
     }
@@ -78,7 +78,7 @@ export default function TestSummary({ ratings }) {
     const queryParams = new URLSearchParams(location.search);
     // const evaluationId = queryParams.get("evaluationid");
     const evalId = queryParams.get("evaluationid"); // Changed variable name to avoid shadowing
-    console.log(evalId, "evaluationId");
+    // console.log(evalId, "evaluationId");
     setEvaluationId(evalId);
 
     if (evalId) {

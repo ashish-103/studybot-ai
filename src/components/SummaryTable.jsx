@@ -7,7 +7,7 @@ import React, { useMemo } from "react";
 // import { SummaryTableData } from "../data/data";
 
 const SummaryTable = ({ summaryTableData }) => {
-  console.log("summary table data: ", summaryTableData)
+  // console.log("summary table data: ", summaryTableData)
   const data = useMemo(() => summaryTableData, []);
 
   const columns = [
