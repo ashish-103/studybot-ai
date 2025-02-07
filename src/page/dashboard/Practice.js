@@ -15,6 +15,9 @@ import ReadingQuestions from "../../components/ReadingQuestions";
 import { useModal } from "../../context/ModalProvider";
 import ListeningQuestions from "../../components/ListeningQuestions";
 import WritingQuestions from "../../components/WritingQuestions";
+import { WordCounter } from "../../components/WordCounter";
+import { UploadFile } from "../../components/UploadFile";
+import { TextArea } from "../../components/TextArea";
 
 export default function Practice() {
   const navigate = useNavigate();
@@ -458,10 +461,11 @@ export default function Practice() {
                     )}
                   </div>
                   {/* Questions Sections ends */}
-
+                  {console.log(user.plan_name)}
                   {/* Answers Section  starts */}
                   {allQuestions[currentQuestion] && (
                     <div className="flex flex-wrap nter items-center sm:justify-start gap-5">
+
                       {user.plan_name === "Free Plan" ? (
                         <textarea
                           className="w-[900px] h-[170px] mt-10 appearance-none text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
@@ -489,37 +493,8 @@ export default function Practice() {
                         // }}
                         />
                       )}
-                      <div className="hidden">
-                        <svg
-                          onClick={() => {
-                            const item = document.getElementById("addFile");
-                            item.click();
-                          }}
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="size-6 cursor-pointer"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15"
-                          />
-                        </svg>
-                        <input
-                          id="addFile"
-                          type="file"
-                          required
-                          className="hidden"
-                          onChange={(e) => {
-                            uploadFile(e.target.files[0]);
-                          }}
-                        />
-                      </div>
-                      <div className="my-4">Words: {allQuestions[currentQuestion].answer.trim().split(/\s+/).filter((word) => word.length > 0).length}</div>
-
+                      <UploadFile display={'hidden'} file={uploadFile} />
+                      <WordCounter text={allQuestions[currentQuestion].answer} />
                     </div>
                   )}
                   {/* Answers Section ends */}
