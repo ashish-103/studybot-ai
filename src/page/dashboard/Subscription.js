@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // import { apiCall } from "../../api/login";
 import PaymentHistoryData from "./PaymentHistory";
-import ContactUsModal from "../../components/ContactUsMoodal";
+import ContactUsModal from "../../components/ContactUsModal";
 import UpgradePlan from "../../components/UpgradePlan/UpgradePlan";
 import Plans from "../../data/plansData";
 
