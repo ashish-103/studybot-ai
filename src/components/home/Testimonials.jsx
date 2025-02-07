@@ -84,10 +84,10 @@ export default function Testimonials() {
               className="bg-white -ml-[120px]"
               speed={30}
             >
-              {arr1.map((item, index) => (
+              {arr1.map((item) => (
                 <TestimonialCard
                   // key={`${item}testimonial1`}
-                  key={index}
+                  key={item.clientName}
                   clientImage={person}
                   clientName={item.clientName}
                   clientRole={item.clientRole}
@@ -101,10 +101,10 @@ export default function Testimonials() {
               className="hidden md:block ml-[180px]"
               speed={30}
             >
-              {arr2.map((item, index) => (
+              {arr2.map((item) => (
                 <TestimonialCard
                   // key={`${item}testimonial2`}
-                  key={index}
+                  key={item.clientName}
                   clientImage={person}
                   clientName={item.clientName}
                   clientRole={item.clientRole}
