@@ -80,14 +80,13 @@ export function useFetchExams() {
       setDisplayData(data);
     }
   }, [data, difficulty]);
-
-
   return {
     data,
     displayData,
     currentData,
     totalPages,
     itemsPerPage,
+    difficulty,
     setDisplayData,
     setCurrentData,
     setTotalPages,

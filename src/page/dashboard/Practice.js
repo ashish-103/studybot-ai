@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { PulseLoader } from "react-spinners";
 import { UserContext } from "../../context/userContext";
@@ -14,9 +14,9 @@ import ReadingQuestions from "../../components/ReadingQuestions";
 import ListeningQuestions from "../../components/ListeningQuestions";
 import WritingQuestions from "../../components/WritingQuestions";
 import { usePerformanceData } from "../../context/performanceContext";
-import { UploadFile } from "../../components/ResubaleComponents/UploadFile";
-import { WordCounter } from "../../components/ResubaleComponents/WordCounter";
-import { TextArea } from "../../components/ResubaleComponents/TextArea";
+import { UploadFile } from "../../components/UploadFile";
+import { WordCounter } from "../../components/WordCounter";
+import { TextArea } from "../../components/TextArea";
 import { NextButton } from "../../components/ResubaleComponents/NextButton";
 import { PrevButton } from "../../components/ResubaleComponents/PrevButton";
 import { BackButton } from "../../components/ResubaleComponents/BackButton";
@@ -29,6 +29,8 @@ export default function Practice() {
 
   const { user } = useContext(UserContext);
   const { setPerformanceData } = usePerformanceData();
+  const { startTime, endTime } = useFetchServerTime();
+
 
   const [examType, setExamType] = useState(null);
   const [allQuestions, setAllQuestions] = useState([]);
@@ -37,8 +39,6 @@ export default function Practice() {
   // const [type, setType] = useState("hard");
   const [exam_id, setExam_id] = useState("");
   const [barProgress, setBarProgress] = useState(0);
-  // const [startTime, setStartTime] = useState("");
-  // const [endTime, setEndTime] = useState("");
   const [loading, setLoading] = useState({
     status: false,
     text: "",
@@ -63,9 +63,6 @@ export default function Practice() {
     },
   });
 
-  const { startTime, endTime } = useFetchServerTime();
-
-  // const fetchCalled = useRef(false);
   const closeModal = () => {
     setIsOpen(false)
   }
@@ -87,8 +84,9 @@ export default function Practice() {
         // console.log("sections", sections);
         setQuestionsList(sections)
         setCurrentQuestion(0)
-        console.log('question', allQuestions)
+        console.log('question', questionsList)
       } else {
+
         const response = (await apiCall.get(`get_questions?exam_id=${state.exam_id}&exam_name=${state.task_type}`)).data;
         setQuestionsList(response.questionData);
       }
@@ -100,6 +98,50 @@ export default function Practice() {
       console.log("error fetching question: ", error);
     }
   };
+
+  useEffect(() => {
+    if (!isOpen) {
+      if (state) {
+        getQuestions();
+      } else {
+        navigate("/dashboard/tests");
+      }
+    }
+  }, [isOpen, navigate]);
+
+  useEffect(() => {
+    if (questionsList && !isOpen) {
+      const progress = Math.floor(
+        (currentQuestion / questionsList.length) * 100
+      );
+      // const progress =
+      //   currentQuestion === allQuestions.length - 1
+      //     ? 100
+      //     : Math.floor((currentQuestion / allQuestions.length) * 100);
+      setBarProgress(progress < 0 ? 0 : progress);
+      // console.log("progress: ", progress);
+    }
+  }, [questionsList, questionsList.length, currentQuestion, isOpen]);
+
+  const disableKeys = (e) => {
+    // Block F12, Ctrl+U, and Ctrl+I
+    if (
+      e.key === "F12" ||
+      (e.ctrlKey && (e.key === "u" || e.key === "i")) // Ctrl+U or Ctrl+I
+    ) {
+      e.preventDefault();
+    }
+  };
+
+  useEffect(() => {
+    if (!isOpen) {
+      document.addEventListener("keydown", disableKeys);
+      return () => {
+        document.removeEventListener("keydown", disableKeys);
+      };
+    }
+  }, [isOpen]);
+
 
 
   const uploadFile = async (file) => {
@@ -116,9 +158,9 @@ export default function Practice() {
       }).then((data) => data.json());
 
       // console.log("Uploaded file text: ", response.text);
-      const questions = Array.from(allQuestions);
+      const questions = Array.from(questionsList);
       questions[currentQuestion].answer = response.text;
-      setAllQuestions(questions);
+      setQuestionsList(questions);
     } catch (error) {
       console.log("error fetching question: ", error);
     }
@@ -190,20 +232,13 @@ export default function Practice() {
         return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
       };
       let total_time;
-      // console.log("start time: ", startTime);
-      // console.log("starting time: ", startingTime);
-      // console.log("ending time: ", endingTime);
       if (startingTime && endingTime) {
         const time_elapsed = endTime - startTime;
-        // const time_elapsed = endingTime - startingTime;
         total_time = formatTime(time_elapsed);
       } else {
         const current_time = new Date().getTime();
         const time_elapsed = current_time - startTime;
-        // console.log("current time: ", current_time);
-        // console.log("time elapsed: ", time_elapsed);
         total_time = formatTime(time_elapsed);
-        // console.log("total time: ", total_time);
       }
       if (state.set_name.includes('exam_set')) {
         console.log(answers);
@@ -219,13 +254,13 @@ export default function Practice() {
 
         let data;
         if (state.task_type === "task1") {
-          data = allQuestions.map(({ question, answer, attachments }) => ({
+          data = questionsList.map(({ question, answer, attachments }) => ({
             question,
             answer,
             image_url: attachments[0],
           }));
         } else {
-          data = allQuestions.map(({ question, answer }) => ({
+          data = questionsList.map(({ question, answer }) => ({
             question,
             answer,
           }));
@@ -238,15 +273,15 @@ export default function Practice() {
           user_id: user.userid,
         };
         console.log(evaluateBody)
-        // console.log("evaluate body: ", evaluateBody);
-        // const response = (
-        //   await apiCall.post("evaluate", JSON.stringify(evaluateBody))
-        // ).data;
-        // const redirectedRoute = response.evaluation_id
-        //   ? `/dashboard/performanceAnalytics?evaluationid=${response.evaluation_id}`
-        //   : "/dashboard/tests/";
-        // navigate(redirectedRoute);
-        // console.log(response, "response");
+        console.log("evaluate body: ", evaluateBody);
+        const response = (
+          await apiCall.post("evaluate", JSON.stringify(evaluateBody))
+        ).data;
+        const redirectedRoute = response.evaluation_id
+          ? `/dashboard/performanceAnalytics?evaluationid=${response.evaluation_id}`
+          : "/dashboard/tests/";
+        navigate(redirectedRoute);
+        console.log(response, "response");
 
       }
     } catch (error) {
@@ -257,89 +292,13 @@ export default function Practice() {
     setLoading({ status: false, text: "" });
   };
 
-  useEffect(() => {
-    if (!isOpen) {
-      if (state) {
-        getQuestions();
-      } else {
-        navigate("/dashboard/tests");
-      }
-    }
-  }, [isOpen, navigate]);
-
-  useEffect(() => {
-    if (questionsList && !isOpen) {
-      const progress = Math.floor(
-        (currentQuestion / questionsList.length) * 100
-      );
-      // const progress =
-      //   currentQuestion === allQuestions.length - 1
-      //     ? 100
-      //     : Math.floor((currentQuestion / allQuestions.length) * 100);
-      setBarProgress(progress < 0 ? 0 : progress);
-      // console.log("progress: ", progress);
-    }
-  }, [questionsList, questionsList.length, currentQuestion, isOpen]);
-
-  // useEffect(() => {
-  //   if (!isOpen) {
-  //     const fetchServerTime = async () => {
-  //       try {
-  //         const response = await apiCall.get(`get_time?exam_id=${state.exam_id}`);
-  //         const data = response.data;
-  //         const currentTime = new Date().getTime();
-  //         const serverTime = new Date(data.current_time).getTime();
-
-  //         const oneHour = 60 * 60 * 1000;
-  //         const targetEndTime = currentTime + oneHour;
-  //         setStartTime(currentTime);
-  //         setEndTime(targetEndTime);
-  //       } catch (error) {
-  //         console.error("Error fetching server time:", error);
-  //       }
-  //     };
-  //     if (!fetchCalled.current) {
-  //       fetchServerTime();
-  //       fetchCalled.current = true;
-  //     }
-  //   }
-  // }, [isOpen]);
-
-
-  useEffect(() => {
-    if (!isOpen) {
-      console.log("start time: ", startTime);
-    }
-  }, [startTime, isOpen]);
-
-  const disableKeys = (e) => {
-    // Block F12, Ctrl+U, and Ctrl+I
-    if (
-      e.key === "F12" ||
-      (e.ctrlKey && (e.key === "u" || e.key === "i")) // Ctrl+U or Ctrl+I
-    ) {
-      e.preventDefault();
-    }
-  };
-
-  useEffect(() => {
-    if (!isOpen) {
-      document.addEventListener("keydown", disableKeys);
-      return () => {
-        document.removeEventListener("keydown", disableKeys);
-      };
-    }
-  }, [isOpen]);
-
   const handleAnswerupdate = (section, sectionAnswers) => {
     setAnswers((prev) => ({
       ...prev,
       [section]: sectionAnswers,
     }));
   }
-  // const handleSubmit = () => {
-  //   console.log(answers);
-  // }
+
 
   return (
     <div>
@@ -367,14 +326,14 @@ export default function Practice() {
                 />
               )}
             </div>
-            {questionsList && (
-              <div className="flex justify-end px-8 pt-2">
-                {examType?.includes('exam_set') ? `Total Section:  ${allQuestions.length}` : `Total Questions: ${allQuestions.length}`}
-              </div>
-            )}
+            <div className="flex justify-end px-8 pt-2">
+              {examType ? `Total Section: ` : `Total Questions: `}
+              {`${questionsList.length}`}
+            </div>
 
-            {/* Progressbar */}
+
             <div className="px-4 py-3  md:py-6 md:px-10 overflow-y-auto">
+              {/* Progressbar */}
               {questionsList && (
                 <ProgressBar
                   completed={barProgress}
