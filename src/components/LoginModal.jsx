@@ -84,16 +84,16 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
       loginData.append("email", formData.email);
       loginData.append("password", formData.password);
       try {
-        const response = await apiCall.post("login", loginData);
+        const { data } = await apiCall.post("login", loginData);
         setIsLoading(false); // Stop loading
-        if (response.data.message === "Logged in successfully.") {
+        if (data.message === "Logged in successfully.") {
           const result = {
-            email: response.data.email,
-            token: response.data.token,
-            name: response.data.username,
-            userid: response.data.userid,
-            plan_name: response.data.plan_name,
-            plan_amount: response.data.plan_amount,
+            email: data.email,
+            token: data.token,
+            name: data.username,
+            userid: data.userid,
+            plan_name: data.plan_name,
+            plan_amount: data.plan_amount,
           };
           localStorage.setItem("user", JSON.stringify(result));
           clearFormData();
@@ -101,14 +101,14 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
             window.location.href = "dashboard/tests";
           }, 300);
           toast.success("Logged in successfully!");
-        } else if (response.data.message === "Email already exists") {
-          toast.error(response.data.message);
+        } else if (data.message === "Email already exists") {
+          toast.error(data.message);
         } else {
           toast.error("An error occurred while creating account.");
         }
       } catch (error) {
-        console.error("Request failed", error.response.data.message);
-        toast.error(error.response.data.message);
+        console.error("Request failed", error.data.message);
+        toast.error(error.data.message);
         setIsLoading(false); // Stop loading
       }
     }

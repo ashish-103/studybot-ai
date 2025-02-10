@@ -199,14 +199,14 @@ export default function Account() {
     if (validateForm()) {
       try {
         // console.log('formdata',formData)
-        const response = await apiCall.post("https://studybot.zapto.org/update-profile", formData);
+        const {data} = await apiCall.post("https://studybot.zapto.org/update-profile", formData);
         // console.log('response', response)
-        if (response.status === 200) {
-          toast.success(response.data.message);
+        if (data) {
+          toast.success(data.message);
           setIsEditing(false);
           refetch();
         } else {
-          toast.error(response.data.message || "Failed to update profile.");
+          toast.error(data.message || "Failed to update profile.");
         }
       } catch (error) {
         console.error("Error updating profile:", error);
@@ -215,7 +215,7 @@ export default function Account() {
     }
   };
 
-  const handlePasswordSubmit = async (e) => {
+  const onPasswordSave = async (e) => {
     e.preventDefault();
     if (validatePasswords()) {
       try {
@@ -530,7 +530,7 @@ export default function Account() {
                   <div className='flex justify-between items-center gap-4'>
                     <button
                       className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
-                      onClick={handlePasswordSubmit}
+                      onClick={onPasswordSave}
                     >
                       Save
                     </button>

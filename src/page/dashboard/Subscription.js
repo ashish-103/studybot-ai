@@ -1,18 +1,16 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import starIcon from "../../assets/images/starticon.svg";
-// import upArrow from "../../assets/images/upArrow.png";
 import Billing from "../../assets/images/Billing.png";
 import PaymentHistory from "../../assets/images/payment_history.png";
 import Candidate from "../../assets/images/candidate.png";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// import { apiCall } from "../../api/login";
+import { ErrorMessage } from "../../components/ResubaleComponents/ErrorMessage";
 import PaymentHistoryData from "./PaymentHistory";
 import ContactUsModal from "../../components/ContactUsModal";
 import UpgradePlan from "../../components/UpgradePlan/UpgradePlan";
 import Plans from "../../data/plansData";
-import { ErrorMessage } from "../../components/ResubaleComponents/ErrorMessage";
 
 const Subscription = () => {
   const user_id = localStorage.getItem("user");
@@ -120,15 +118,6 @@ const Subscription = () => {
       .catch((error) => console.error(error));
   };
 
-  // const getData = async () => {
-  //   try {
-  //     const response = await apiCall.get("plans");
-  //     const data = response.data;
-  //     setData(data);
-  //   } catch (error) {
-  //     console.log("error fetching question: ", error);
-  //   }
-  // };
   useEffect(() => {
     setData(Plans);
   }, []);

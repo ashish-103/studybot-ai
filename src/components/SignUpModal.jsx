@@ -118,23 +118,23 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
       signupData.append("username", formData.username);
       signupData.append("re_password", formData.re_password);
       try {
-        const response = await apiCall.post("signup", signupData);
+        const { data } = await apiCall.post("signup", signupData);
         setIsLoading(false);
-        if (response.data.message === "Account created") {
-          toast.success(response.data.message);
+        if (data.message === "Account created") {
+          toast.success(data.message);
           const result = {
-            email: response.data.email,
-            token: response.data.token,
-            name: response.data.username,
-            userid: response.data.userid,
-            plan_name: response.data.plan_name,
-            plan_amount: response.data.plan_amount,
+            email: data.email,
+            token: data.token,
+            name: data.username,
+            userid: data.userid,
+            plan_name: data.plan_name,
+            plan_amount: data.plan_amount,
           };
           localStorage.setItem("user", JSON.stringify(result));
           await sendWelcomeEmail(formData.email); // Helper function for welcome email
           clearFormData();
         } else {
-          toast.error(response.data.message || "Signup failed.");
+          toast.error(data.message || "Signup failed.");
         }
       } catch (error) {
         const errorMsg =
@@ -153,10 +153,10 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
     e.preventDefault();
     if (validate()) {
       try {
-        const data = { email: formData.email };
-        const response = await apiCall.post("generate-otp1", data);
-        if (response.data.message === `OTP sent to ${formData.email}`) {
-          toast.success(response.data.message);
+        const email = { email: formData.email };
+        const { data } = await apiCall.post("generate-otp1", email);
+        if (data.message === `OTP sent to ${formData.email}`) {
+          toast.success(data.message);
           setShowOtpSignup(true); // Show OTP input field
         }
       } catch (error) {

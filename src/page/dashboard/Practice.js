@@ -33,7 +33,6 @@ export default function Practice() {
 
 
   const [examType, setExamType] = useState(null);
-  const [allQuestions, setAllQuestions] = useState([]);
   const [questionsList, setQuestionsList] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   // const [type, setType] = useState("hard");
@@ -74,21 +73,21 @@ export default function Practice() {
       });
       setExam_id(state.exam_id);
       if (state.set_name.includes('exam_set')) {
-        // console.log(examType)
+
         setExamType(state.set_name)
-        // console.log(state.set_name)
-        const response = (await apiCall.get(`get_questions11/${state.set_name}`)).data;
-        console.log('api response', response.writing.data.task1)
-        // console.log('writing', response.writing)
-        const sections = [response.reading, response.listening, response.writing.data.task1, response.writing.data.task2]
-        // console.log("sections", sections);
+        const { data } = await apiCall.get(`get_questions11/${state.set_name}`)
+        const { reading, listening, writing } = data;
+
+        // console.log('api response', data)
+        const sections = [reading, listening, writing.data.task1, writing.data.task2]
         setQuestionsList(sections)
         setCurrentQuestion(0)
         console.log('question', questionsList)
+
       } else {
 
-        const response = (await apiCall.get(`get_questions?exam_id=${state.exam_id}&exam_name=${state.task_type}`)).data;
-        setQuestionsList(response.questionData);
+        const { data } = await apiCall.get(`get_questions?exam_id=${state.exam_id}&exam_name=${state.task_type}`);
+        setQuestionsList(data.questionData);
       }
       setLoading({
         status: false,

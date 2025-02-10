@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import SummaryBarChart from "../SummaryBarChart";
 import { AnalyticsContext } from "../../context/analyticsContext";
-import { apiCall } from "../../api/login";
 
 export default function QuestionDistribution() {
   // const { summaryData } = useContext(AnalyticsContext);

@@ -11,10 +11,10 @@ export const login = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await apiCall.post("login", { email, password });
-      console.log(response, "response");
+      const { data } = await apiCall.post("login", { email, password });
+      console.log(data, "response");
 
-      const { token, userID, username, plan_name, plan_amount } = response.data;
+      const { token, userID, username, plan_name, plan_amount } = data;
       const user = { email, userID, username, plan_name, plan_amount };
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("token", token);
