@@ -1,4 +1,5 @@
 import React from "react";
+import { WordCounter } from "./WordCounter";
 
 export default function WritingQuestions({ writingData, onAnswerChange, answers, q }) {
 
@@ -31,6 +32,7 @@ export default function WritingQuestions({ writingData, onAnswerChange, answers,
             value={answers[task.question]?.answer || ""}
             onChange={(e) => handleAnswerChange(task.question, e.target.value, task.attachments)}
           />
+          <WordCounter text={answers[task.question]?.answer} />
         </div>
       ))}
     </div>

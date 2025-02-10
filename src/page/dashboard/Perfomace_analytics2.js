@@ -1,32 +1,48 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { usePerformanceData } from "../../context/performanceContext";
+import { useNavigate } from "react-router-dom";
 
-const PerformanceAnalytics2 = ({ data }) => {
+export default function PerformanceAnalytics2() {
+  console.log("performanceAnalytics")
+  const { data } = usePerformanceData();
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    console.log('data', data)
+    if (data === null) {
+      navigate("/dashboard/tests");
+    }
+  }, [data, navigate]);
+
+  if (!data) {
+    <p>Loading...</p>
+  }
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="max-w-4xl mx-auto bg-white p-6 shadow-lg rounded-lg">
+    <div className="p-6  min-h-screen">
+      <div className=" w-full rounded-lg">
         <h1 className="text-2xl font-bold mb-4">IELTS Test Results</h1>
 
         {/* Listening Section */}
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold">Listening</h2>
+        <section className="mb-6 shadow-lg bg-white p-6 w-full rounded-md">
+          <h2 className="text-2xl font-semibold">Listening</h2>
           <p><strong>Band Score:</strong> {data.listening.band_score}</p>
           <p><strong>Correct Answers:</strong> {data.listening.correct_count}</p>
           <p><strong>Description:</strong> {data.listening.description.description}</p>
           <p><strong>Skill Level:</strong> {data.listening.description.skill_level}</p>
-        </div>
+        </section>
 
         {/* Reading Section */}
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold">Reading</h2>
+        <section className="mb-6 shadow-lg bg-white p-6 w-full rounded-md">
+          <h2 className="text-2xl font-semibold">Reading</h2>
           <p><strong>Band Score:</strong> {data.reading.band_score}</p>
           <p><strong>Correct Answers:</strong> {data.reading.correct_count}</p>
           <p><strong>Description:</strong> {data.reading.description.description}</p>
           <p><strong>Skill Level:</strong> {data.reading.description.skill_level}</p>
-        </div>
+        </section>
 
         {/* Writing Section */}
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold">Writing</h2>
+        <section className="mb-6 shadow-lg bg-white p-6 w-full rounded-md">
+          <h2 className="text-2xl font-semibold">Writing</h2>
           {data.writing.map((entry, index) => (
             <div key={index} className="mb-4 p-4 bg-gray-50 rounded-lg">
               <h3 className="text-lg font-semibold">Question {index + 1}</h3>
@@ -44,10 +60,8 @@ const PerformanceAnalytics2 = ({ data }) => {
               )}
             </div>
           ))}
-        </div>
+        </section>
       </div>
     </div>
   );
 };
-
-export default PerformanceAnalytics2;

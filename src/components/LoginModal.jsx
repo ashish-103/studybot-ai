@@ -14,6 +14,7 @@ import { apiCall } from "../api/login";
 import { useSelector } from "react-redux";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { ErrorMessage } from "./ResubaleComponents/ErrorMessage";
 
 // import { UserContext } from "../context/userContext";
 
@@ -190,11 +191,7 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
                                     placeholder="Email"
                                   />
 
-                                  {errors.email && (
-                                    <div className="error-message text-red-500">
-                                      {errors.email}
-                                    </div>
-                                  )}
+                                  {errors.email && <ErrorMessage message={errors.email} />}
                                 </div>
                                 <div className="col-sm-6 col-md-12 mb-2">
                                   <div className="mb-4">
@@ -228,11 +225,7 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
                                         )}
                                       </button>
                                     </div>
-                                    {errors.password && (
-                                      <div className="error-message text-red-500">
-                                        {errors.password}
-                                      </div>
-                                    )}
+                                    {errors.password && <ErrorMessage message={errors.password} />}
                                   </div>
                                 </div>
                                 <div className="text-end">

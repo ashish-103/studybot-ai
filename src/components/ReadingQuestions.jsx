@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 export default function ReadingQuestions({ passages, onAnswerChange, answers = {} }) {
   const prevAnswersRef = useRef();

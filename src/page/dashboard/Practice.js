@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useContext, useEffect, useState } from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
-import Button from "../../components/ResubaleComponents/Button";
-import leftArrow from "../../assets/images/leftArrow.png";
 import { PulseLoader } from "react-spinners";
 import { UserContext } from "../../context/userContext";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Timer from "../../components/ui/Timer";
 import { apiCall } from "../../api/login";
 import { toast } from "react-toastify";
@@ -14,8 +13,14 @@ import Modal from "../../components/Gmodal";
 import ReadingQuestions from "../../components/ReadingQuestions";
 import ListeningQuestions from "../../components/ListeningQuestions";
 import WritingQuestions from "../../components/WritingQuestions";
-import { WordCounter } from "../../components/WordCounter";
+import { usePerformanceData } from "../../context/performanceContext";
 import { UploadFile } from "../../components/UploadFile";
+import { WordCounter } from "../../components/WordCounter";
+import { TextArea } from "../../components/TextArea";
+import { NextButton } from "../../components/ResubaleComponents/NextButton";
+import { PrevButton } from "../../components/ResubaleComponents/PrevButton";
+import { BackButton } from "../../components/ResubaleComponents/BackButton";
+import { useFetchServerTime } from "../../hooks/useFetchServerTime";
 
 export default function Practice() {
   const navigate = useNavigate();
@@ -23,15 +28,17 @@ export default function Practice() {
   const { state } = location;
 
   const { user } = useContext(UserContext);
+  const { setPerformanceData } = usePerformanceData();
+  const { startTime, endTime } = useFetchServerTime();
+
 
   const [examType, setExamType] = useState(null);
   const [allQuestions, setAllQuestions] = useState([]);
+  const [questionsList, setQuestionsList] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   // const [type, setType] = useState("hard");
   const [exam_id, setExam_id] = useState("");
   const [barProgress, setBarProgress] = useState(0);
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
   const [loading, setLoading] = useState({
     status: false,
     text: "",
@@ -56,7 +63,6 @@ export default function Practice() {
     },
   });
 
-  const fetchCalled = useRef(false);
   const closeModal = () => {
     setIsOpen(false)
   }
@@ -76,22 +82,13 @@ export default function Practice() {
         // console.log('writing', response.writing)
         const sections = [response.reading, response.listening, response.writing.data.task1, response.writing.data.task2]
         // console.log("sections", sections);
-        setAllQuestions(sections)
+        setQuestionsList(sections)
         setCurrentQuestion(0)
-        console.log('question', allQuestions)
+        console.log('question', questionsList)
       } else {
-        const response = (await apiCall.get(`get_questions?exam_id=${state.exam_id}&exam_name=${state.task_type}`)).data;
-        const questionsList = Array.from(response.questionData);
-        // console.log("All questions: ", questionsList);
 
-        for (let i = 0; i < questionsList.length; i++) {
-          questionsList[i] = {
-            ...questionsList[i],
-            answer: "",
-          };
-        }
-        // console.log("All questions(10): ", questionsList);
-        setAllQuestions(questionsList);
+        const response = (await apiCall.get(`get_questions?exam_id=${state.exam_id}&exam_name=${state.task_type}`)).data;
+        setQuestionsList(response.questionData);
       }
       setLoading({
         status: false,
@@ -101,6 +98,50 @@ export default function Practice() {
       console.log("error fetching question: ", error);
     }
   };
+
+  useEffect(() => {
+    if (!isOpen) {
+      if (state) {
+        getQuestions();
+      } else {
+        navigate("/dashboard/tests");
+      }
+    }
+  }, [isOpen, navigate]);
+
+  useEffect(() => {
+    if (questionsList && !isOpen) {
+      const progress = Math.floor(
+        (currentQuestion / questionsList.length) * 100
+      );
+      // const progress =
+      //   currentQuestion === allQuestions.length - 1
+      //     ? 100
+      //     : Math.floor((currentQuestion / allQuestions.length) * 100);
+      setBarProgress(progress < 0 ? 0 : progress);
+      // console.log("progress: ", progress);
+    }
+  }, [questionsList, questionsList.length, currentQuestion, isOpen]);
+
+  const disableKeys = (e) => {
+    // Block F12, Ctrl+U, and Ctrl+I
+    if (
+      e.key === "F12" ||
+      (e.ctrlKey && (e.key === "u" || e.key === "i")) // Ctrl+U or Ctrl+I
+    ) {
+      e.preventDefault();
+    }
+  };
+
+  useEffect(() => {
+    if (!isOpen) {
+      document.addEventListener("keydown", disableKeys);
+      return () => {
+        document.removeEventListener("keydown", disableKeys);
+      };
+    }
+  }, [isOpen]);
+
 
 
   const uploadFile = async (file) => {
@@ -117,9 +158,9 @@ export default function Practice() {
       }).then((data) => data.json());
 
       // console.log("Uploaded file text: ", response.text);
-      const questions = Array.from(allQuestions);
+      const questions = Array.from(questionsList);
       questions[currentQuestion].answer = response.text;
-      setAllQuestions(questions);
+      setQuestionsList(questions);
     } catch (error) {
       console.log("error fetching question: ", error);
     }
@@ -148,15 +189,24 @@ export default function Practice() {
   //   }
   // };
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (question, answer) => {
     // setAllAnswers
-    const answers = Array.from(allQuestions);
-    answers[currentQuestion].answer = event.target.value;
-    setAllQuestions(answers);
-  };
+    // const answers = Array.from(allQuestions);
+    // answers[currentQuestion].answer = event.target.value;
+    // setAllQuestions(answers);
+    setAnswers((prev) => ({
+      ...prev,
+      writing: {
+        ...prev.writing,
+        [question]: answer, // Save answer under question ID
+      },
+    }));
+  }
+
+  const lastQuestion = questionsList.length - 1;
 
   const handleNextQuestion = () => {
-    if (currentQuestion < allQuestions.length - 1) {
+    if (currentQuestion < lastQuestion) {
       setCurrentQuestion(currentQuestion + 1);
     }
   };
@@ -182,20 +232,13 @@ export default function Practice() {
         return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
       };
       let total_time;
-      // console.log("start time: ", startTime);
-      // console.log("starting time: ", startingTime);
-      // console.log("ending time: ", endingTime);
       if (startingTime && endingTime) {
         const time_elapsed = endTime - startTime;
-        // const time_elapsed = endingTime - startingTime;
         total_time = formatTime(time_elapsed);
       } else {
         const current_time = new Date().getTime();
         const time_elapsed = current_time - startTime;
-        // console.log("current time: ", current_time);
-        // console.log("time elapsed: ", time_elapsed);
         total_time = formatTime(time_elapsed);
-        // console.log("total time: ", total_time);
       }
       if (state.set_name.includes('exam_set')) {
         console.log(answers);
@@ -204,33 +247,33 @@ export default function Practice() {
           await apiCall.post(`evaluate_exam1111`, JSON.stringify(answers))
         ).data;
         console.log(response);
-        // setPerformanceData(response)
-
-        // response && navigate("/dashboard/performanceAnalytics2")
+        setPerformanceData(response)
+        navigate("/dashboard/performanceAnalytics2")
 
       } else {
 
         let data;
         if (state.task_type === "task1") {
-          data = allQuestions.map(({ question, answer, attachments }) => ({
+          data = questionsList.map(({ question, answer, attachments }) => ({
             question,
             answer,
             image_url: attachments[0],
           }));
         } else {
-          data = allQuestions.map(({ question, answer }) => ({
+          data = questionsList.map(({ question, answer }) => ({
             question,
             answer,
           }));
         }
         const evaluateBody = {
-          questions_answers: data,
+          questions_answers: answers.writing,
           task_type: state.task_type,
           timer: total_time,
           exam_id: state.exam_id,
           user_id: user.userid,
         };
-        // console.log("evaluate body: ", evaluateBody);
+        console.log(evaluateBody)
+        console.log("evaluate body: ", evaluateBody);
         const response = (
           await apiCall.post("evaluate", JSON.stringify(evaluateBody))
         ).data;
@@ -238,7 +281,7 @@ export default function Practice() {
           ? `/dashboard/performanceAnalytics?evaluationid=${response.evaluation_id}`
           : "/dashboard/tests/";
         navigate(redirectedRoute);
-        // console.log(response, "response");
+        console.log(response, "response");
 
       }
     } catch (error) {
@@ -249,117 +292,17 @@ export default function Practice() {
     setLoading({ status: false, text: "" });
   };
 
-  useEffect(() => {
-    if (!isOpen) {
-      if (state) {
-        getQuestions();
-      } else {
-        navigate("/dashboard/tests");
-      }
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (allQuestions && !isOpen) {
-      const progress = Math.floor(
-        (currentQuestion / allQuestions.length) * 100
-      );
-      // const progress =
-      //   currentQuestion === allQuestions.length - 1
-      //     ? 100
-      //     : Math.floor((currentQuestion / allQuestions.length) * 100);
-      setBarProgress(progress < 0 ? 0 : progress);
-      // console.log("progress: ", progress);
-    }
-  }, [allQuestions, allQuestions.length, currentQuestion, isOpen]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      const fetchServerTime = async () => {
-        try {
-          const response = await apiCall.get(`get_time?exam_id=${state.exam_id}`);
-          const data = response.data;
-          const currentTime = new Date().getTime();
-          const serverTime = new Date(data.current_time).getTime();
-
-          const oneHour = 60 * 60 * 1000;
-          const targetEndTime = currentTime + oneHour;
-          setStartTime(currentTime);
-          setEndTime(targetEndTime);
-        } catch (error) {
-          console.error("Error fetching server time:", error);
-        }
-      };
-      if (!fetchCalled.current) {
-        fetchServerTime();
-        fetchCalled.current = true;
-      }
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      console.log("start time: ", startTime);
-    }
-  }, [startTime, isOpen]);
-
-  const disableKeys = (e) => {
-    // Block F12, Ctrl+U, and Ctrl+I
-    if (
-      e.key === "F12" ||
-      (e.ctrlKey && (e.key === "u" || e.key === "i")) // Ctrl+U or Ctrl+I
-    ) {
-      e.preventDefault();
-    }
-  };
-
-  useEffect(() => {
-    if (!isOpen) {
-      document.addEventListener("keydown", disableKeys);
-      return () => {
-        document.removeEventListener("keydown", disableKeys);
-      };
-    }
-  }, [isOpen]);
-
   const handleAnswerupdate = (section, sectionAnswers) => {
     setAnswers((prev) => ({
       ...prev,
       [section]: sectionAnswers,
     }));
   }
-  // const handleSubmit = () => {
-  //   console.log(answers);
-  // }
 
 
   return (
     <div>
-      <div>
-        {currentQuestion !== 1 && (
-          <Link
-            to="/dashboard/practice"
-            className="inline-flex items-center border border-[#0AA6D7]-300 px-3 py-1.5 rounded-md text-[#0AA6D7] hover:bg-indigo-50"
-            onClick={handleOpenModal}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="h-6 w-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M7 16l-4-4m0 0l4-4m-4 4h18"
-              ></path>
-            </svg>
-            <span className="ml-1 font-bold text-lg">Back</span>
-          </Link>
-        )}
-      </div>
+      {currentQuestion !== 1 && <BackButton handleClick={handleOpenModal} />}
       <div
         className='bg-white rounded-lg mx-4 md:mx-auto max-w-[900px] border-2 border-[#E4F9FF] my-8'
         style={{ boxShadow: "0.2px 0px 4px 4px rgb(122 219 249)" }}
@@ -383,15 +326,15 @@ export default function Practice() {
                 />
               )}
             </div>
-            {allQuestions && (
-              <div className="flex justify-end px-8 pt-2">
-                {examType?.includes('exam_set') ? `Total Section:  ${allQuestions.length}` : `Total Questions: ${allQuestions.length}`}
-              </div>
-            )}
+            <div className="flex justify-end px-8 pt-2">
+              {examType ? `Total Section: ` : `Total Questions: `}
+              {`${questionsList.length}`}
+            </div>
 
-            {/* Progressbar */}
-            <div className="px-8 py-6 md:px-10 overflow-y-auto">
-              {allQuestions && (
+
+            <div className="px-4 py-3  md:py-6 md:px-10 overflow-y-auto">
+              {/* Progressbar */}
+              {questionsList && (
                 <ProgressBar
                   completed={barProgress}
                   bgColor="#0AA6D7"
@@ -408,115 +351,61 @@ export default function Practice() {
                   <ReadingQuestions
                     answers={answers.reading}
                     onAnswerChange={(answers) => handleAnswerupdate('reading', answers)}
-                    passages={allQuestions[0].passages[0]} />}
+                    passages={questionsList[0].passages[0]} />}
                 {currentQuestion === 1 &&
                   <ListeningQuestions
                     answers={answers.listening}
                     onAnswerChange={(answers) => handleAnswerupdate('listening', answers)}
-                    listeningData={allQuestions[1]} />}
+                    listeningData={questionsList[1]} />}
                 {currentQuestion === 2 &&
                   <WritingQuestions
                     answers={answers.writing}
                     onAnswerChange={(answers) => handleAnswerupdate('writing', answers)}
-                    writingData={allQuestions[2]}
+                    writingData={questionsList[2]}
                     q={currentQuestion}
                   />}
                 {currentQuestion === 3 &&
                   <WritingQuestions
                     answers={answers.writing}
                     onAnswerChange={(answers) => handleAnswerupdate('writing', answers)}
-                    writingData={allQuestions[3]}
+                    writingData={questionsList[3]}
                     q={currentQuestion}
                   />}
               </> :
                 <div>
-                  {/* Questions Section starts */}
-                  <div className=" ">
-                    <div className="flex justify-between py-5 items-center">
-                      <h2>Question: {currentQuestion + 1}</h2>
-                    </div>
-                    {allQuestions && allQuestions.length > currentQuestion && (
-                      <div>
-                        <p>{allQuestions[currentQuestion].question}</p>
-                        {"attachments" in allQuestions[currentQuestion] && (
-                          <div className="flex flex-wrap">
-                            {allQuestions[currentQuestion].attachments.map(
-                              (item, index) => (
-                                <img
-                                  src={`${item}`}
-                                  alt={`attachment${index}`}
-                                  className={`${allQuestions[currentQuestion].attachments
-                                    .length > 1
-                                    ? "lg:w-1/2"
-                                    : "w-2/3"
-                                    } pt-5 mx-auto`}
-                                />
-                              )
-                            )}
-                          </div>
-                        )}
+                  {questionsList.slice(currentQuestion, currentQuestion + 1).map((q, index) => (
+                    <>
+                      <div className="flex justify-between py-5 items-center">
+                        <h2>Question: {currentQuestion + 1}</h2>
                       </div>
-                    )}
-                  </div>
+                      <div>
+                        <p>{q.question}</p>
+                        <div className="flex flex-wrap">
+                          {q.attachments && q.attachments.map((x, i) =>
+                          (<img
+                            src={`${x}`}
+                            alt={`attachment${i}`}
+                            className={`${q.attachments.length > 1 ? "lg:w-1/2" : "w-2/3"} pt-5 mx-auto`}
+                          />)
+                          )}
+                          <div className="flex flex-wrap nter items-center sm:justify-start gap-5">
+                            <TextArea value={answers.writing[q.question]} plan={user.plan_name} q={q.question} onChange={handleInputChange} />
+                            <UploadFile display={'hidden'} file={uploadFile} />
+                            <WordCounter text={answers.writing[q.question]} />
+                          </div>
+                        </div>
+                      </div>
+                    </>))}
                   {/* Questions Sections ends */}
-                  {console.log(user.plan_name)}
-                  {/* Answers Section  starts */}
-                  {allQuestions[currentQuestion] && (
-                    <div className="flex flex-wrap nter items-center sm:justify-start gap-5">
-
-                      {user.plan_name === "Free Plan" ? (
-                        <textarea
-                          className="w-[900px] h-[170px] mt-10 appearance-none text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
-                          type="search"
-                          spellCheck={false}
-                          name="q"
-                          placeholder="Answer :"
-                          value={allQuestions[currentQuestion].answer || ""}
-                          onChange={handleInputChange}
-                        />
-                      ) : (
-                        <textarea
-                          className="w-[900px] h-[170px] mt-10 appearance-none text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
-                          type="search"
-                          spellCheck={false}
-                          name="q"
-                          placeholder="Answer :"
-                          value={allQuestions[currentQuestion].answer || ""}
-                          onChange={handleInputChange}
-                        // onPaste={(event) => {
-                        //   event.preventDefault();
-                        //   const pastedText =
-                        //     event.clipboardData.getData("text/plain");
-                        //   pastedText.replace(/[^a-zA-Z0-9 ]/g, "");
-                        // }}
-                        />
-                      )}
-                      <UploadFile display={'hidden'} file={uploadFile} />
-                      <WordCounter text={allQuestions[currentQuestion].answer} />
-                    </div>
-                  )}
-                  {/* Answers Section ends */}
-                </div>
+                </div >
               }
 
               {/* Next and Prev Buttons starts*/}
               <div className="flex justify-between items-center">
                 <div className="relative">
-                  <div
-                    className={`items-center justify-center bg-white border-2 pr-2 border-[#E4F9FF] text-[#0AA6D7] ${currentQuestion === 0 ? "hidden" : "flex"
-                      }`}
-                  >
-                    <img src={leftArrow} className="w-6 h-6" alt="leftarrow" />
-                    <Button
-                      label="Prev"
-                      type="button"
-                      className="px-0"
-                      onClick={handlePrevQuestion}
-                      disabled={currentQuestion === 0}
-                    />
-                  </div>
+                  <PrevButton currentQuestion={currentQuestion} handleClick={handlePrevQuestion} handleDisabled={currentQuestion === 0} />
                 </div>
-                {currentQuestion === allQuestions.length - 1 ? (
+                {currentQuestion === lastQuestion ? (
                   <button
                     className="bg-[#0AA6D7] text-white px-4 py-1 rounded-lg"
                     onClick={handleSubmit}
@@ -524,24 +413,10 @@ export default function Practice() {
                     Submit
                   </button>
                 ) : (
-                  <div className="flex items-center justify-center bg-white border-2 pl-2 border-[#E4F9FF] text-[#0AA6D7]">
-                    <Button
-                      label="Next"
-                      type="button"
-                      className="px-0"
-                      onClick={handleNextQuestion}
-                      disabled={currentQuestion === allQuestions.length - 1}
-                    />
-                    <img
-                      src={leftArrow}
-                      className="w-6 rotate-180 h-6"
-                      alt="right arrow"
-                    />
-                  </div>
+                  <NextButton handleClick={handleNextQuestion} handleDisabled={currentQuestion === lastQuestion} />
                 )}
               </div>
               {/* Next and Prev Buttons ends*/}
-
             </div>
           </>
         )}

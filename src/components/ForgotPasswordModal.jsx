@@ -9,6 +9,7 @@ import loginImage from "../images/login2.png";
 import { Link, useNavigate } from 'react-router-dom';
 import { apiCall } from "../api/login";
 import { toast } from 'react-toastify';
+import { ErrorMessage } from './ResubaleComponents/ErrorMessage';
 
 export default function ForgotPasswordModal({ activeModal, closeModal }) {
   const [open, setOpen] = useState(true);
@@ -120,11 +121,7 @@ export default function ForgotPasswordModal({ activeModal, closeModal }) {
                                   placeholder="Email"
                                 />
 
-                                {errors.email && (
-                                  <div className="error-message text-red-500">
-                                    {errors.email}
-                                  </div>
-                                )}
+                                {errors.email && <ErrorMessage message={errors.email} />}
                               </div>
                               {isLoading ? (
                                 <button
