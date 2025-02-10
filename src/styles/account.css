@@ -37,8 +37,7 @@
   font-weight: 600;
 }
 
-
-input {
+.account input {
   font-size: 1.2rem;
   outline: 1px solid royalblue;
   border-radius: 5px;

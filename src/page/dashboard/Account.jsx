@@ -1,29 +1,33 @@
-import React, { useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useRef, useState } from 'react'
 import "./../../styles/account.css"
 import edit from "./../../images/icons/edit.png"
-import { apiCall } from '../../api/login'
-import { ChangePassword } from './ChangePassword'
 import { UpdataPassword } from '../../components/UpdataPassword'
 import { toast } from 'react-toastify'
+import useFetchProfile from '../../hooks/useFetchProfile'
+import useProfileImage from '../../hooks/useProfileImage'
+import { apiCall } from '../../api/login'
 
 export default function Account() {
   const user = localStorage.getItem('user')
   const { userid } = JSON.parse(user)
+  const divRef = useRef(null);
 
+  const {
+    email,
+    bio,
+    first_name,
+    last_name,
+    country,
+    city,
+    postal_code,
+    phone
+  } = useFetchProfile();
+
+  const [formData, setFormData] = useState(null);
   const [isEditing, setIsEditing] = useState(false)
   const [isPassEditing, setIsPassEditing] = useState(false)
   const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({
-    firstName: "Rafiqur",
-    lastName: "Rahman",
-    email: "rafiqurrahman51@gmail.com",
-    phone: "9123456789",
-    bio: "Team Manager",
-    country: 'United Kingdom',
-    cityState: "Leeds, East London",
-    pincode: "235423",
-    taxId: 'AS45645756',
-  });
   const [passErrors, setPassErrors] = useState({})
   const [passwords, setPasswords] = useState({
     userId: userid,
@@ -32,7 +36,41 @@ export default function Account() {
     confirmPassword: '',
   })
 
+  const {
+    preview,
+    showMenu,
+    fileInputRef,
+    handleFileChange,
+    handleImageClick,
+    handleRemoveImage,
+    openFilePicker,
+  } = useProfileImage();
 
+  // update intial formdata from useFetchProfile hoook.
+  useEffect(() => {
+    if (first_name || last_name || email) { // Check if data is available
+      setFormData({
+        userId: userid || "",
+        firstName: first_name || "",
+        lastName: last_name || "",
+        email: email || "",
+        phone: phone || "",
+        bio: bio || "",
+        country: country || "",
+        city: city || "",
+        postal_code: postal_code || "",
+      });
+    }
+  }, [first_name, last_name, email, phone, bio, country, city, postal_code]);
+
+  // scrollIntoView  password fields.
+  useEffect(() => {
+    if (isPassEditing && divRef.current) {
+      divRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, []);
+
+  // validate Form
   const validateForm = () => {
     const newErrors = {};
     // First Name and Last Name validation
@@ -53,11 +91,11 @@ export default function Account() {
 
     // Phone validation: 10 digits + country code
     const phoneRegex = /^\d{10}$/;
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required.";
-    } else if (!phoneRegex.test(formData.phone)) {
+
+    if (formData.phone.trim() && !phoneRegex.test(formData.phone)) {
       newErrors.phone = "Invalid phone number format.";
     }
+
     // Bio validation
     if (!formData.bio.trim()) {
       newErrors.bio = "Bio is required.";
@@ -69,20 +107,21 @@ export default function Account() {
     }
 
     // City/State validation
-    if (!formData.cityState.trim()) {
-      newErrors.cityState = "City and State are required.";
+    if (!formData.city.trim()) {
+      newErrors.city = "City is required.";
     }
 
     // Postal Code validation: Exactly 6 digits
     const postalCodeRegex = /^\d{6}$/;
-    if (!formData.pincode.trim()) {
-      newErrors.pincode = "Postal code is required.";
-    } else if (!postalCodeRegex.test(formData.pincode)) {
-      newErrors.pincode = "Postal code must be exactly 6 digits.";
+    if (!formData.postal_code.trim()) {
+      newErrors.postal_code = "Pin code is required.";
+    } else if (!postalCodeRegex.test(formData.postal_code)) {
+      newErrors.postal_code = "Pin code must be exactly 6 digits.";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
+
   const validatePasswords = () => {
     const passErrors = {};
     const passwordRegex =
@@ -105,6 +144,8 @@ export default function Account() {
     setPassErrors(passErrors);
     return Object.keys(passErrors).length === 0;
   }
+
+  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -112,6 +153,7 @@ export default function Account() {
       [name]: value,
     }));
   };
+
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
     setPasswords((prevData) => ({
@@ -119,20 +161,19 @@ export default function Account() {
     }))
   }
 
+  // Toggle Edit form.
   const onEdit = (e) => {
     e.preventDefault();
-    if (isEditing) {
-      if (validateForm()) {
-        setIsEditing(false);
-      } else {
-        console.log("Errors in Personal Info form:", errors);
-      }
-    } else {
-      setIsEditing(true);
-    }
+    setIsEditing(!isEditing);
   };
+
   const onPassEdit = (e) => {
     e.preventDefault();
+    setTimeout(() => {
+      if (divRef.current) {
+        divRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 100);
     if (isPassEditing) {
       if (validateForm()) {
         handlePasswordSubmit(e)
@@ -145,18 +186,38 @@ export default function Account() {
     }
   }
 
-
-  const handleSubmit = (e) => {
+  // Cancel Buttons starts
+  const onPassCancel = (e) => {
     e.preventDefault();
-    console.log('password', passwords)
-    // if (validateForm()) {
-    //   // alert("Form submitted successfully!");
-    //   console.log("Form Data:", formData);
-    // } else {
-    //   console.log('error', errors);
-    //   // alert("Form contains errors. Please fix them.");
-    //   return;
-    // };
+    setIsPassEditing(false);
+    setPassErrors({})
+  }
+  const onCancel = (e) => {
+    e.preventDefault();
+    setIsEditing(false);
+    setErrors({})
+  }
+  // Cancel Buttons ends
+
+  // Submit form and password.
+  const onSave = async (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      try {
+        // console.log('formdata',formData)
+        const response = await apiCall.post("https://studybot.zapto.org/update-profile", formData);
+        console.log('response', response)
+        if (response.status === 200) {
+          toast.success(response.data.message);
+          setIsEditing(false);
+        } else {
+          toast.error(response.data.message || "Failed to update profile.");
+        }
+      } catch (error) {
+        console.error("Error updating profile:", error);
+        toast.error("Something went wrong. Please try again.");
+      }
+    }
   };
 
   const handlePasswordSubmit = async (e) => {
@@ -180,49 +241,99 @@ export default function Account() {
           redirect: "follow",
         };
 
-        fetch("https://studybot.zapto.org/change-password", requestOptions)
-          .then((response) => response.json())
-          .then((result) => {
-            if (result.message !== 'Old password is incorrect.') {
-              toast.success(result.message);
-              setIsPassEditing(false);
+        const response = await fetch("https://studybot.zapto.org/change-password", requestOptions)
+        const result = await response.json();
+        console.log('resul', result);
 
-            } else {
-              toast.error(result.message)
-            }
-          })
-          .catch((error) => console.error(error));
+        if (result.message !== 'Old password is incorrect.') {
+          toast.success(result.message);
+          setIsPassEditing(false);
+        } else {
+          toast.error(result.message)
+        }
+
       } catch (error) {
-        // toast.error(error)
         console.log(error)
       }
     }
   };
 
   return (
-    <main className=''>
-      <h1 className='text-2xl font-semibold'>My Account</h1>
+    <main className='account'>
+      <h1 className='text-2xl font-semibold'>My Profile</h1>
       <section className='updateprofile_container  flex gap-4 justify-center items-center
-      sm:justify-between
+      sm:justify-between relative
       '>
-        <div className='flex flex-col sm:flex-row gap-8 justify-center items-center'>
-          <div className='profile-img overflow-hidden'>
-            <img className='w-28' src="https://www.profilebakery.com/wp-content/uploads/2024/03/professional-headshot-with-dark-gray-background-blue-suit.jpg" alt="profile-image" />
+        <div className='flex flex-col sm:flex-row gap-8 justify-center items-center '>
+          <div className='profile-img overflow-hidden  min-w-28 min-h-28 max-w-32 max-h-32'>
+            <img
+              src={preview || "https://placehold.co/150?text=Profile Photo"} // Default Placeholder
+              alt="Profile"
+              className="rounded-full object-cover border cursor-pointer"
+              onClick={handleImageClick}
+            />
+            {/* hidden input */}
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              className="hidden"
+            />
+
+            {showMenu && (
+              <div className="absolute top-32 left-4  w-34 bg-white shadow-md rounded-md flex gap-4 ">
+                <button
+                  className="w-full p-2 text-sm  text-blue-500 hover:bg-gray-100"
+                  onClick={openFilePicker}
+                >
+                  Upload
+                </button>
+                {preview && (
+                  <button
+                    className="w-full px-2 py-1 text-sm  text-red-500 hover:bg-gray-100"
+                    onClick={handleRemoveImage}
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            )}
           </div>
           <div className='font-semibold'>
             {/* data should be dynamic */}
-            <h2 className=' text-2xl'>Rafiqur Rahman</h2>
-            <p className='text-gray-500  text-xl'>Team Manager</p>
-            <p className='text-gray-400 text-base '>Leeds, United Kingdom</p>
+            <h2 className=' text-2xl'>{`${first_name} ${last_name}`}</h2>
+            <p className='text-gray-500  text-xl'>{bio}</p>
+            <p className='text-gray-400 text-base '>{`${city}, ${country}`}</p>
           </div>
         </div>
-        <button className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
-          onClick={onEdit} >
-          {isEditing ? "Save" : (<>
-            Edit
-            <img className='w-5' src={edit} alt="" />
-          </>)}
-        </button>
+        <div className=''
+        >
+          {isEditing ? (
+
+            <div className='flex justify-between items-center gap-4'>
+              <button
+                className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
+                onClick={onSave}
+              >
+                Save
+              </button>
+              <button
+                className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
+                onClick={onCancel}
+              >
+                Cancel
+              </button>
+            </div>
+
+          ) : (
+            <button className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
+              onClick={onEdit}>
+              Edit
+              <img className='w-5' src={edit} alt="" />
+            </button>
+          )}
+        </div>
       </section>
 
       <section className='updateprofile_container '>
@@ -247,7 +358,7 @@ export default function Account() {
                     )}
                   </>
                 ) : (
-                  <p>{formData.firstName}</p>
+                  <p>{first_name}</p>
                 )}
               </li>
               <li>
@@ -267,7 +378,7 @@ export default function Account() {
                     )}
                   </>
                 ) : (
-                  <p>{formData.lastName}</p>
+                  <p>{last_name}</p>
                 )}
               </li>
               <li>
@@ -286,7 +397,7 @@ export default function Account() {
                     )}
                   </>
                 ) : (
-                  <p>{formData.email}</p>
+                  <p>{email}</p>
                 )}
               </li>
               <li>
@@ -305,7 +416,7 @@ export default function Account() {
                     )}
                   </>
                 ) : (
-                  <p>{formData.phone}</p>
+                  <p>{phone}</p>
                 )}
               </li>
               <li>
@@ -324,7 +435,7 @@ export default function Account() {
                     )}
                   </>
                 ) : (
-                  <p>{formData.bio}</p>
+                  <p>{bio}</p>
                 )}
               </li>
             </ul>
@@ -353,26 +464,26 @@ export default function Account() {
                     )}
                   </>
                 ) : (
-                  <p>{formData.country}</p>
+                  <p>{country}</p>
                 )}
               </li>
               <li>
-                <p>City/State</p>
+                <p>City</p>
                 {isEditing ? (
                   <>
                     <input
                       type="text"
-                      name="cityState"
-                      value={formData.cityState}
+                      name="city"
+                      value={formData.city}
                       onChange={handleInputChange}
-                    /> {errors.cityState && (
+                    /> {errors.city && (
                       <div className="error-message text-red-500">
-                        {errors.cityState}
+                        {errors.city}
                       </div>
                     )}
                   </>
                 ) : (
-                  <p>{formData.cityState}</p>
+                  <p>{city}</p>
                 )}
               </li>
               <li>
@@ -381,17 +492,17 @@ export default function Account() {
                   <>
                     <input
                       type="text"
-                      name="pincode"
-                      value={formData.pincode}
+                      name="postal_code"
+                      value={formData.postal_code}
                       onChange={handleInputChange}
                     />
                     {errors.pincode && (
                       <div className="error-message text-red-500">
-                        {errors.pincode}
+                        {errors.postal_code}
                       </div>)}
                   </>
                 ) : (
-                  <p>{formData.pincode}</p>
+                  <p>{postal_code}</p>
                 )}
               </li>
             </ul>
@@ -407,7 +518,7 @@ export default function Account() {
           <div className='w-full'>
             <h2 className='text-xl font-bold mb-4'>Settings</h2>
             <ul className='flex justify-between items-start'>
-              <li className=''>
+              <li className='' ref={divRef}>
                 <p className='text-base font-semibold text-[#7f7e7e]'>Password</p>
                 {isPassEditing ? (
                   <>
@@ -421,22 +532,22 @@ export default function Account() {
                   <p className='font-semibold text-[1.2rem]'>********</p>
                 )}
               </li>
+              
               <li className='flex gap-4'>
-                {
-                  isPassEditing && <button
-                    className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
-                    onClick={() => { setIsPassEditing(false) }}
-                  >
-                    Cancel
-                  </button>
-                }
                 <button
                   className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
                   onClick={onPassEdit}
                 >
                   {isPassEditing ? "Save" : "Change Password"}
                 </button>
-
+                {
+                  isPassEditing && <button
+                    className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
+                    onClick={onPassCancel}
+                  >
+                    Cancel
+                  </button>
+                }
               </li>
             </ul>
           </div>
