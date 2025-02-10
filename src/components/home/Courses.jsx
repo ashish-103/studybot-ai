@@ -195,7 +195,7 @@ export default function Courses() {
                 <div>
                   <div
                     className={`rounded-xl shadow-courses m-2 h-full my-6`}
-                    key={`coursecard${index}`}
+                    key={index}
                   >
                     <div className="p-3">
                       <img

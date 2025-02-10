@@ -23,7 +23,6 @@ export default function Account() {
     city,
     postal_code,
     phone,
-    profile_photo_url
   } = profile || {};
 
   const [formData, setFormData] = useState(null);
@@ -135,8 +134,8 @@ export default function Account() {
     }
     if (!passwords.newPassword) {
       passErrors.newPassword = "Password is required";
-    } else if (!passwordRegex.test(passwords.oldPassword)) {
-      passErrors.oldPassword = "Password must be at least 8 characters, include an uppercase, a lowercase, a number, and a special character.";
+    } else if (!passwordRegex.test(passwords.newPassword)) {
+      passErrors.newPassword = "Password must be at least 8 characters, include an uppercase, a lowercase, a number, and a special character.";
     }
     if (!passwords.confirmPassword) {
       passErrors.confirmPassword = "Confirm Password is required";
@@ -176,21 +175,14 @@ export default function Account() {
         divRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     }, 100);
-    if (isPassEditing) {
-      if (validateForm()) {
-        handlePasswordSubmit(e)
-        setPasswords({})
-      } else {
-        console.log("Errors in Personal Info form:", errors);
-      }
-    } else {
-      setIsPassEditing(true);
-    }
+
+      setIsPassEditing(!isPassEditing);
   }
 
   // Cancel Buttons starts
   const onPassCancel = (e) => {
     e.preventDefault();
+    setPasswords({})
     setIsPassEditing(false);
     setPassErrors({})
   }
@@ -246,7 +238,6 @@ export default function Account() {
 
         const response = await fetch("https://studybot.zapto.org/change-password", requestOptions)
         const result = await response.json();
-        console.log('resul', result);
 
         if (result.message !== 'Old password is incorrect.') {
           toast.success(result.message);
@@ -304,9 +295,9 @@ export default function Account() {
           </form>
           <div className='font-semibold'>
             {/* data should be dynamic */}
-            <h2 className=' text-2xl'>{`${first_name} ${last_name}`}</h2>
-            <p className='text-gray-500  text-xl'>{bio}</p>
-            <p className='text-gray-400 text-base '>{`${city}, ${country}`}</p>
+            <h2 className=' text-2xl'>{`${formData?.firstName} ${formData?.lastName}`}</h2>
+            <p className='text-gray-500  text-xl'>{formData?.bio}</p>
+            <p className='text-gray-400 text-base '>{`${formData?.city}, ${formData?.country}`}</p>
           </div>
         </div>
         <div className=''
@@ -514,9 +505,7 @@ export default function Account() {
       </section>
 
       <section className='updateprofile_container ' >
-        <form className='flex gap-4 justify-between items-start'
-          onSubmit={handlePasswordSubmit}
-        >
+        <form className='flex gap-4 justify-between items-start'>
           <div className='w-full'>
             <h2 className='text-xl font-bold mb-4'>Settings</h2>
             <ul className='flex justify-between items-start'>
@@ -536,20 +525,30 @@ export default function Account() {
               </li>
 
               <li className='flex gap-4'>
-                <button
-                  className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
-                  onClick={onPassEdit}
-                >
-                  {isPassEditing ? "Save" : "Change Password"}
-                </button>
-                {
-                  isPassEditing && <button
-                    className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
-                    onClick={onPassCancel}
-                  >
-                    Cancel
+                {isPassEditing ? (
+
+                  <div className='flex justify-between items-center gap-4'>
+                    <button
+                      className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
+                      onClick={handlePasswordSubmit}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
+                      onClick={onPassCancel}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+
+                ) : (
+                  <button className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
+                    onClick={onPassEdit}>
+                    Change Password
+                    <img className='w-5' src={edit} alt="" />
                   </button>
-                }
+                )}
               </li>
             </ul>
           </div>

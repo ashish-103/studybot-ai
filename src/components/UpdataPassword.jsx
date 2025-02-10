@@ -8,7 +8,9 @@ export const UpdataPassword = ({ handleChange, passwords, errors }) => {
       <input type="text"
         name='oldPassword'
         value={passwords.oldPassword}
-        onChange={handleChange} />
+        onChange={handleChange}
+        className='w-fit'
+      />
       {errors.oldPassword && (
         <div className="error-message text-red-500">
           {errors.oldPassword}
@@ -19,7 +21,9 @@ export const UpdataPassword = ({ handleChange, passwords, errors }) => {
       <input type="text"
         name='newPassword'
         value={passwords.newPassword}
-        onChange={handleChange} />
+        onChange={handleChange}
+        className='w-fit'
+      />
       {errors.newPassword && (
         <div className="error-message text-red-500">
           {errors.newPassword}
@@ -30,7 +34,9 @@ export const UpdataPassword = ({ handleChange, passwords, errors }) => {
       <input type="text"
         name='confirmPassword'
         value={passwords.confirmPassword}
-        onChange={handleChange} />
+        onChange={handleChange}
+        className='w-fit'
+      />
       {errors.confirmPassword && (
         <div className="error-message text-red-500">
           {errors.confirmPassword}
