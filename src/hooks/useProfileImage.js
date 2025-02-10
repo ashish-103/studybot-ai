@@ -1,25 +1,59 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import uploadingImage from "../assets/uploading.gif"
 
 const useProfileImage = () => {
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const [profileImage, setProfileImage] = useState("https://placehold.co/150?text=Profile Photo");
   const [showMenu, setShowMenu] = useState(false);
+  // const [imageUpdated, setImageUpdated] = useState(false)
   const fileInputRef = useRef(null);
+  const user = localStorage.getItem('user');
+  const { userid } = JSON.parse(user)
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      try {
+        const response = await fetch(`https://studybot.zapto.org/get-profile?userId=${userid}`);
+        if (response.ok) {
+          const data = await response.json();
+          setProfileImage(data?.profile_photo_url || "https://placehold.co/150?text=Profile Photo");
+        }
+      } catch (error) {
+        console.error("Error fetching profile image:", error);
+      }
+    };
+
+    fetchProfileImage();
+  }, [userid]);
 
   // Handle file selection
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setImage(file);
-      const reader = new FileReader();
-      reader.onloadend = () => setPreview(reader.result);
-      reader.readAsDataURL(file);
-      setShowMenu(false);
+  const uploadProfileImage = async () => {
+    try {
+      setProfileImage(uploadingImage)
+      const file = fileInputRef.current.files[0];
+      const formData = new FormData();
+      formData.append("userId", userid)
+      formData.append("profile_photo", file)
+      const response = await fetch('https://studybot.zapto.org/upload-profile', {
+        method: 'POST',
+        body: formData
+      })
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('data', data);
+        setProfileImage(data?.profile_photo_url);
+        // setImageUpdated(!imageUpdated)
+      }
+      setShowMenu(false)
+    } catch (error) {
+      console.error(error);
+      setProfileImage("https://placehold.co/150?text=Profile Photo");
     }
   };
 
   // Open file input when clicking on "Change Photo"
-  const openFilePicker = () => {
+  const openFilePicker = (e) => {
+    e.preventDefault();
     fileInputRef.current.click();
   };
 
@@ -30,17 +64,14 @@ const useProfileImage = () => {
 
   // Remove Image
   const handleRemoveImage = () => {
-    setImage(null);
-    setPreview(null);
     setShowMenu(false);
   };
 
   return {
-    image,
-    preview,
+    profileImage,
     showMenu,
     fileInputRef,
-    handleFileChange,
+    uploadProfileImage,
     handleImageClick,
     handleRemoveImage,
     openFilePicker,

@@ -13,6 +13,7 @@ export default function Account() {
   const { userid } = JSON.parse(user)
   const divRef = useRef(null);
 
+  const { profile, refetch } = useFetchProfile();
   const {
     email,
     bio,
@@ -21,8 +22,9 @@ export default function Account() {
     country,
     city,
     postal_code,
-    phone
-  } = useFetchProfile();
+    phone,
+    profile_photo_url
+  } = profile || {};
 
   const [formData, setFormData] = useState(null);
   const [isEditing, setIsEditing] = useState(false)
@@ -37,10 +39,10 @@ export default function Account() {
   })
 
   const {
-    preview,
+    profileImage,
     showMenu,
     fileInputRef,
-    handleFileChange,
+    uploadProfileImage,
     handleImageClick,
     handleRemoveImage,
     openFilePicker,
@@ -61,7 +63,7 @@ export default function Account() {
         postal_code: postal_code || "",
       });
     }
-  }, [first_name, last_name, email, phone, bio, country, city, postal_code]);
+  }, [first_name, last_name, email, phone, bio, country, city, postal_code, profileImage]);
 
   // scrollIntoView  password fields.
   useEffect(() => {
@@ -206,10 +208,11 @@ export default function Account() {
       try {
         // console.log('formdata',formData)
         const response = await apiCall.post("https://studybot.zapto.org/update-profile", formData);
-        console.log('response', response)
+        // console.log('response', response)
         if (response.status === 200) {
           toast.success(response.data.message);
           setIsEditing(false);
+          refetch();
         } else {
           toast.error(response.data.message || "Failed to update profile.");
         }
@@ -265,9 +268,9 @@ export default function Account() {
       sm:justify-between relative
       '>
         <div className='flex flex-col sm:flex-row gap-8 justify-center items-center '>
-          <div className='profile-img overflow-hidden  min-w-28 min-h-28 max-w-32 max-h-32'>
+          <form className='profile-img overflow-hidden  min-w-28 min-h-28 max-w-32 max-h-32'>
             <img
-              src={preview || "https://placehold.co/150?text=Profile Photo"} // Default Placeholder
+              src={profileImage} // Default Placeholder
               alt="Profile"
               className="rounded-full object-cover border cursor-pointer"
               onClick={handleImageClick}
@@ -277,7 +280,7 @@ export default function Account() {
               type="file"
               accept="image/*"
               ref={fileInputRef}
-              onChange={handleFileChange}
+              onChange={uploadProfileImage}
               className="hidden"
             />
 
@@ -289,17 +292,16 @@ export default function Account() {
                 >
                   Upload
                 </button>
-                {preview && (
-                  <button
-                    className="w-full px-2 py-1 text-sm  text-red-500 hover:bg-gray-100"
-                    onClick={handleRemoveImage}
-                  >
-                    Remove
-                  </button>
-                )}
+
+                <button
+                  className="w-full px-2 py-1 text-sm  text-red-500 hover:bg-gray-100"
+                  onClick={handleRemoveImage}
+                >
+                  Cancel
+                </button>
               </div>
             )}
-          </div>
+          </form>
           <div className='font-semibold'>
             {/* data should be dynamic */}
             <h2 className=' text-2xl'>{`${first_name} ${last_name}`}</h2>
@@ -532,7 +534,7 @@ export default function Account() {
                   <p className='font-semibold text-[1.2rem]'>********</p>
                 )}
               </li>
-              
+
               <li className='flex gap-4'>
                 <button
                   className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'

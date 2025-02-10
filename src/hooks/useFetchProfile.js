@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { apiCall } from "../api/login";
 
 function useFetchProfile() {
@@ -7,17 +7,24 @@ function useFetchProfile() {
 
   const [profile, setProfile] = useState({});
 
-  const getProfileData = async () => {
-    const { data } = await apiCall.get(`get-profile?userId=${userid}`);
-    setProfile(data);
-    // console.log('data', data);
-  }
+  const getProfileData = useCallback(async () => {
+    try {
+      if (!userid) return;
+
+      const { data } = await apiCall.get(`get-profile?userId=${userid}`);
+      setProfile(data);
+      console.log('data', data);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }, [userid])
 
 
   useEffect(() => {
     getProfileData();
-  }, [])
+  }, [getProfileData])
 
-  return profile;
+  return {profile, refetch: getProfileData};
 }
 export default useFetchProfile;
