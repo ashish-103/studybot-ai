@@ -1,13 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Home from "./page/Home";
-import Examdetail from "./page/ExamDetails";
 // import Login from "./page/Login";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-// import { useContext } from "react";
-import { UserProvider } from "./context/userContext";
 import DashboardLayout from "./layout/DashboardLayout";
+// import { useContext } from "react";
 import DashboardHome from "./page/dashboard/DashboardHome";
 import AttemptedTests from "./page/dashboard/AttemptedTests";
 import Practice from "./page/dashboard/Practice";
@@ -17,18 +14,23 @@ import ExploreTests from "./page/dashboard/ExploreTests";
 import Settings from "./page/dashboard/Settings";
 import Account from "./page/dashboard/Account";
 import Help from "./page/dashboard/Help";
-
-import { ExamResultsProvider } from "./context/analyticsContext";
 import Subscription from "./page/dashboard/Subscription";
-import ProtectedRoute from "./components/ProtectedRoute";
-import PrivacyPolicy from "./page/PrivacyPolicy";
-import TermsAndConditions from "./page/TermsAndConditions";
-import UserPolicy from "./page/UserPolicy";
 import Guidelines from "./page/dashboard/Guidelines";
-import NewPassword from "./page/NewPassword";
-import { ModalProvider } from "./context/ModalProvider";
 import PerformanceAnalytics2 from "./page/dashboard/Perfomace_analytics2";
+
+import PrivacyPolicy from "./page/PrivacyPolicy";
+import UserPolicy from "./page/UserPolicy";
+import Home from "./page/Home";
+import TermsAndConditions from "./page/TermsAndConditions";
+import NewPassword from "./page/NewPassword";
+import Examdetail from "./page/ExamDetails";
+
+import ProtectedRoute from "./components/ProtectedRoute";
+
+import { UserProvider } from "./context/userContext";
+import { ModalProvider } from "./context/ModalProvider";
 import { PerformanceDataProvider } from "./context/performanceContext";
+import { ExamResultsProvider } from "./context/analyticsContext";
 
 const clientId =
   "483619648597-giknf43p085748h88hjebe5f7vm3be42.apps.googleusercontent.com";
@@ -42,7 +44,6 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="home" element={<Home />} />
-              <Route path="*" element={<Home />} />
               <Route path="privacy-policy" element={<PrivacyPolicy />} />
               <Route path="terms-conditions" element={<TermsAndConditions />} />
               <Route path="user-policy" element={<UserPolicy />} />
@@ -90,6 +91,7 @@ export default function App() {
                 {/* <Route path="account/update-profile" element={<UpdateProfile />} /> */}
                 <Route path="subscription" element={<Subscription />} />
                 <Route path="help" element={<Help />} />
+                <Route path="*" element={<Home />} />
               </Route>
             </Routes>
           </BrowserRouter>

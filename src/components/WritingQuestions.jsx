@@ -1,5 +1,5 @@
 import React from "react";
-import { WordCounter } from "./WordCounter";
+import WordCounter from "./WordCounter";
 
 export default function WritingQuestions({ writingData, onAnswerChange, answers, q }) {
 

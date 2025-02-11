@@ -2,7 +2,7 @@ import React from 'react'
 import Button from './Button'
 import leftArrow from "../../assets/images/leftArrow.png";
 
-export const NextButton = ({ handleClick, handleDisabled }) => {
+export default function NextButton ({ handleClick, handleDisabled }) {
   return (
     <div className="flex items-center justify-center bg-white border-2 pl-2 border-[#E4F9FF] text-[#0AA6D7]">
       <Button
