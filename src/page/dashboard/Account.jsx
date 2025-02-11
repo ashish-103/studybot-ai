@@ -1,14 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react'
-import "./../../styles/account.css"
-import edit from "./../../images/icons/edit.png"
-import { UpdataPassword } from '../../components/UpdataPassword'
 import { toast } from 'react-toastify'
-import useFetchProfile from '../../hooks/useFetchProfile'
 import { apiCall } from '../../api/login'
-import ProfileImage from '../../components/ProfileImage'
+
+import useFetchProfile from '../../hooks/useFetchProfile'
 import usePasswordValidation from '../../hooks/usePasswordValidation'
 import useProfileFormValidation from '../../hooks/useProfileFormValidation'
+
+import UpdataPassword from '../../components/UpdataPassword'
+import ProfileImage from '../../components/ProfileImage'
+import SaveButton from '../../components/ResubaleComponents/SaveButton'
+import CancelButton from '../../components/ResubaleComponents/CancelButton'
+import EditButton from '../../components/ResubaleComponents/EditButton'
+import EditableField from '../../components/ResubaleComponents/EditableField'
+
+import "./../../styles/account.css"
 
 export default function Account() {
   const user = localStorage.getItem('user')
@@ -142,16 +148,16 @@ export default function Account() {
           ...formData,
           userId: userid
         }
-        console.log('formdata', updatedProfile)
-        // const { data } = await apiCall.post("https://studybot.zapto.org/update-profile", updatedProfile);
-        // // console.log('response', response)
-        // if (data) {
-        //   toast.success(data.message);
-        //   setIsEditing(false);
-        //   refetch();
-        // } else {
-        //   toast.error(data.message || "Failed to update profile.");
-        // }
+        // console.log('formdata', updatedProfile)
+        const { data } = await apiCall.post("https://studybot.zapto.org/update-profile", updatedProfile);
+        // console.log('response', response)
+        if (data) {
+          toast.success(data.message);
+          setIsEditing(false);
+          refetch();
+        } else {
+          toast.error(data.message || "Failed to update profile.");
+        }
       } catch (error) {
         console.error("Error updating profile:", error);
         toast.error("Something went wrong. Please try again.");
@@ -214,6 +220,7 @@ export default function Account() {
   return (
     <main className='account'>
       <h1 className='text-2xl font-semibold'>My Profile</h1>
+      {/* Main Header */}
       <section className='updateprofile_container  flex gap-4 justify-center items-center
       sm:justify-between relative
       '>
@@ -229,58 +236,32 @@ export default function Account() {
         </div>
         <div className=''
         >
-          {isEditing ? (
-
-            <div className='flex justify-between items-center gap-4'>
-              <button
-                className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
-                onClick={onSave}
-              >
-                Save
-              </button>
-              <button
-                className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
-                onClick={onCancel}
-              >
-                Cancel
-              </button>
-            </div>
-
-          ) : (
-            <button className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
-              onClick={onEdit}>
-              Edit
-              <img className='w-5' src={edit} alt="" />
-            </button>
-          )}
+          {
+            isEditing ?
+              <div className='flex justify-between items-center gap-4'>
+                <SaveButton onClick={onSave} />
+                <CancelButton onClick={onCancel} />
+              </div>
+              :
+              <EditButton onClick={onEdit} text={"Edit"} />}
         </div>
       </section>
 
+      {/* Personal Information Section */}
       <section className='updateprofile_container '>
         <form className='flex gap-4 justify-between items-start'>
-          <div className='w-4/5'>
+          <div className='md:w-4/5'>
             <h2 className='text-xl font-bold mb-4'>Personal Information</h2>
             <ul className='profile_ul flex-col sm:flex-row  sm:gap-4'>
               {PersonalInfoFields.map(([key, value]) => (
                 <li className='relative'>
                   <p>{formatKey(key)}</p>
-                  {isEditing ? (
-                    <>
-                      <input
-                        type="text"
-                        name={key}
-                        value={value}
-                        onChange={handleInputChange}
-                      />
-                      {errors?.[key] && (
-                        <div className="error-message text-red-500 absolute top-14 left-0">
-                          {errors?.[key]}
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <p>{value}</p>
-                  )}
+                  {
+                    isEditing ?
+                      <EditableField name={key} value={value} onChange={handleInputChange} errors={errors} />
+                      :
+                      <p>{value}</p>
+                  }
                 </li>
               ))}
             </ul>
@@ -288,39 +269,29 @@ export default function Account() {
         </form>
       </section>
 
+      {/* Address Section */}
       <section className='updateprofile_container  '>
         <form className='flex gap-4 justify-between items-start'>
-          <div className='w-4/5'>
+          <div className='md:w-4/5'>
             <h2 className='text-xl font-bold mb-4'>Address</h2>
             <ul className='profile_ul flex-col sm:flex-row '>
               {addressFields.map(([key, value]) => (
                 <li className='relative'>
                   <p>{formatKey(key)}</p>
-                  {isEditing ? (
-                    <>
-                      <input
-                        type="text"
-                        name={key}
-                        value={value}
-                        onChange={handleInputChange}
-                      />
-                      {errors?.[key] && (
-                        <div className="error-message text-red-500 absolute top-14 left-0">
-                          {errors?.[key]}
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <p>{value}</p>
-                  )}
+                  {
+                    isEditing ?
+                      <EditableField name={key} value={value} onChange={handleInputChange} errors={errors} />
+                      :
+                      <p>{value}</p>
+                  }
                 </li>
               ))}
             </ul>
           </div>
         </form>
-
       </section>
 
+      {/* Setting Section */}
       <section className='updateprofile_container ' >
         <form className='flex gap-4 justify-between items-start'>
           <div className='w-full'>
@@ -328,44 +299,28 @@ export default function Account() {
             <ul className='flex justify-between items-start'>
               <li className='' ref={divRef}>
                 <p className='text-base font-semibold text-[#7f7e7e]'>Password</p>
-                {isPassEditing ? (
-                  <>
+                {
+                  isPassEditing ?
                     <UpdataPassword
                       errors={passErrors}
                       passwords={passwords}
                       handleChange={handlePasswordChange}
                     />
-                  </>
-                ) : (
-                  <p className='font-semibold text-[1.2rem]'>********</p>
-                )}
+                    :
+                    <p className='font-semibold text-[1.2rem]'>********</p>
+                }
               </li>
 
               <li className='flex gap-4'>
-                {isPassEditing ? (
-
-                  <div className='flex justify-between items-center gap-4'>
-                    <button
-                      className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
-                      onClick={onPasswordSave}
-                    >
-                      Save
-                    </button>
-                    <button
-                      className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
-                      onClick={onPassCancel}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-
-                ) : (
-                  <button className='border border-gray-400 rounded-3xl px-4 py-2 flex gap-2'
-                    onClick={onPassEdit}>
-                    Change Password
-                    <img className='w-5' src={edit} alt="" />
-                  </button>
-                )}
+                {
+                  isPassEditing ?
+                    <div className='flex justify-between items-center gap-4'>
+                      <SaveButton onClick={onPasswordSave} />
+                      <CancelButton onClick={onPassCancel} />
+                    </div>
+                    :
+                    <EditButton onClick={onPassEdit} text={"Change Password"} />
+                }
               </li>
             </ul>
           </div>

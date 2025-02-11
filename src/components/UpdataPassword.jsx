@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const UpdataPassword = ({ handleChange, passwords, errors }) => {
+export default function UpdataPassword({ handleChange, passwords, errors }) {
 
   return (
     <div className='flex flex-col gap-2 overflow-y-visible'>

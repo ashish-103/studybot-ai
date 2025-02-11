@@ -16,11 +16,9 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import { ErrorMessage } from "./ResubaleComponents/ErrorMessage";
 
 const SignUpModal = ({ openModal, closeModal, activeModal }) => {
-  // const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  // const [message, setMessage] = useState("");
 
 
   const [errors, setErrors] = useState({});
@@ -67,13 +65,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
       tempErrors.username =
         "Username must start with letters and can optionally include numbers after.";
     }
-    // if (!formData.checkbox1) {
-    //   tempErrors.checkbox1 = "Please check this box if you want to proceed"
-    // }
-    // if (!formData.checkbox2) {
-    //   tempErrors.checkbox2 = "Please check this box if you want to proceed"
-    // }
-
+   
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
@@ -168,13 +160,6 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-  const togglePasswordVisibility2 = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
   return (
     <>
       <Transition show={activeModal === 'signup'}>
@@ -230,12 +215,6 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                               <div className="row">
                                 <div className="col-sm-6 col-md-12">
                                   <div className="mb-4">
-                                    {/* <label
-                                      class="block required uppercase  font-bold  tracking-wide text-gray-700 mb-2"
-                                      htmlFor="grid-first-name"
-                                    >
-                                      Username
-                                    </label> */}
                                     <input
                                       type="username"
                                       className="flex-1 w-full border rounded-lg  p-2 bg-transparent focus:outline-none "
@@ -249,12 +228,6 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                     {errors.username && <ErrorMessage message={errors.username} />}
                                   </div>
                                   <div className="mb-4">
-                                    {/* <label
-                                      class="block required uppercase  font-bold  tracking-wide text-gray-700 mb-2"
-                                      htmlFor="grid-first-name"
-                                    >
-                                      Email
-                                    </label> */}
                                     <input
                                       type="email"
                                       className="flex-1 w-full border rounded-lg  p-2 bg-transparent focus:outline-none "
@@ -269,12 +242,6 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                   <div className="col-sm-6 col-md-12 mb-2">
                                     <div className="mb-4">
                                       <div className="input-group relative">
-                                        {/* <label
-                                          class="block required uppercase  font-bold  tracking-wide text-gray-700 mb-2"
-                                          htmlFor="grid-first-name"
-                                        >
-                                          Password
-                                        </label> */}
                                         <input
                                           type={
                                             showPassword ? "text" : "password"
@@ -289,14 +256,17 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
 
                                         <button
                                           type="button"
-                                          onClick={togglePasswordVisibility}
-                                          className="absolute right-2 bottom-0 transform -translate-y-1/2 text-gray-500"
+                                          onClick={()=>{ setShowPassword(!showPassword);}}
+                                          className="absolute  top-5 right-1 transform -translate-y-1/2 text-gray-500"
                                         >
-                                          {showPassword ? (
-                                            <FaRegEye size={20} />
-                                          ) : (
-                                            <FaRegEyeSlash size={20} />
-                                          )}
+                                          <div className="hover:bg-gray-100 p-2 rounded-full">
+                                            {
+                                              showPassword ?
+                                                <FaRegEye size={20} />
+                                                :
+                                                <FaRegEyeSlash size={20} />
+                                            }
+                                          </div>
                                         </button>
                                       </div>
                                       {errors.password && <ErrorMessage message={errors.password} />}
@@ -305,12 +275,6 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                   <div className="col-sm-6 col-md-12 mb-2">
                                     <div className="mb-4">
                                       <div className="input-group relative">
-                                        {/* <label
-                                          class="block required uppercase  font-bold  tracking-wide text-gray-700 mb-2"
-                                          htmlFor="grid-first-name"
-                                        >
-                                          Confirm Password
-                                        </label> */}
                                         <input
                                           type={
                                             showConfirmPassword
@@ -326,14 +290,17 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                         />
                                         <button
                                           type="button"
-                                          onClick={togglePasswordVisibility2}
-                                          className="absolute right-2 bottom-0 transform -translate-y-1/2 text-gray-500"
+                                          onClick={()=>{setShowConfirmPassword(!showConfirmPassword)}}
+                                          className="absolute  top-5 right-1 transform -translate-y-1/2 text-gray-500"
                                         >
-                                          {showConfirmPassword ? (
-                                            <FaRegEye size={20} />
-                                          ) : (
-                                            <FaRegEyeSlash size={20} />
-                                          )}
+                                          <div className="hover:bg-gray-100 p-2 rounded-full">
+                                            {
+                                              showConfirmPassword ?
+                                                <FaRegEye size={20} />
+                                                :
+                                                <FaRegEyeSlash size={20} />
+                                            }
+                                          </div>
                                         </button>
                                       </div>
                                       {errors.re_password && <ErrorMessage message={errors.re_password} />}

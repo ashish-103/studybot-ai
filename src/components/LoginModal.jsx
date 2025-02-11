@@ -175,12 +175,6 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
                             <div className="">
                               <div className="">
                                 <div className="mb-4">
-                                  {/* <label
-                                    className="block required uppercase  font-bold  tracking-wide text-gray-700 mb-2"
-                                    htmlFor="grid-first-name"
-                                  >
-                                    Email
-                                  </label> */}
                                   <input
                                     type="email"
                                     className="flex-1 w-full border rounded-lg  p-2 bg-transparent focus:outline-none "
@@ -196,12 +190,6 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
                                 <div className="col-sm-6 col-md-12 mb-2">
                                   <div className="mb-4">
                                     <div className="input-group relative">
-                                      {/* <label
-                                        className="block required uppercase  font-bold  tracking-wide text-gray-700 mb-2"
-                                        htmlFor="grid-first-name"
-                                      >
-                                        Password
-                                      </label> */}
                                       <input
                                         type={
                                           showPassword ? "text" : "password"
@@ -216,13 +204,16 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
                                       <button
                                         type="button"
                                         onClick={togglePasswordVisibility}
-                                        className="absolute right-2 bottom-0 transform -translate-y-1/2 text-gray-500"
+                                        className="absolute top-5 right-1 transform -translate-y-1/2 text-gray-500"
                                       >
-                                        {showPassword ? (
-                                          <FaRegEye size={20} />
-                                        ) : (
-                                          <FaRegEyeSlash size={20} />
-                                        )}
+                                        <div className="hover:bg-gray-100 p-2 rounded-full">
+                                          {
+                                            showPassword ?
+                                              <FaRegEye size={20} />
+                                              :
+                                              <FaRegEyeSlash size={20} />
+                                          }
+                                        </div>
                                       </button>
                                     </div>
                                     {errors.password && <ErrorMessage message={errors.password} />}
