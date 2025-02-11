@@ -6,14 +6,12 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import loginImage from "../images/login2.png";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { apiCall } from "../api/login";
 import { toast } from 'react-toastify';
 import { ErrorMessage } from './ResubaleComponents/ErrorMessage';
 
 export default function ForgotPasswordModal({ activeModal, closeModal }) {
-  const [open, setOpen] = useState(true);
-  const [isOpen, setIsOpen] = useState(true)
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate()
@@ -40,21 +38,30 @@ export default function ForgotPasswordModal({ activeModal, closeModal }) {
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0;
   }
-  // const closeModal = () => {
-  //   setOpen(false);
-  //   setIsOpen(false);
-  // };
-
-  const handleClick = (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (validateEmail()) {
-      console.log('pass');
-    } else {
-      console.log("Errors :", errors);
+      try {
+        setIsLoading(true);
+        const data = new FormData();
+        data.append("email", formData.email);
+        const response = await apiCall.post("forgot_password", data);
+        if (response.data.message === `Password reset link has been sent to your email.`) {
+          setIsLoading(false)
+          toast.success(response.data.message);
+          navigate('/')
+        }
+      } catch (error) {
+        const errorMsg = error.response?.data?.message || "Failed to send reset link.";
+        console.error("Request failed:", errorMsg);
+        console.log(error)
+        toast.error(errorMsg);
+      }
     }
   }
   return (
-    <Transition show={open}>
+    <Transition show={activeModal === 'forgot_password'}>
       <Dialog className="relative " onClose={closeModal}>
         <TransitionChild
           enter="ease-out duration-300"
@@ -147,7 +154,7 @@ export default function ForgotPasswordModal({ activeModal, closeModal }) {
                                     background: "#f4812d",
                                     border: 0,
                                   }}
-                                  onClick={handleClick}
+                                  onClick={handleSubmit}
                                 >
                                   Forgot Password
                                 </button>
