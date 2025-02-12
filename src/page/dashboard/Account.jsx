@@ -49,11 +49,11 @@ export default function Account() {
 
   // update intial formdata from useFetchProfile hoook.
   useEffect(() => {
-    if (first_name || last_name || email) { // Check if data is available
+    if (profile) { // Check if data is available
       setFormData({
         userId: userid || "",
-        firstName: first_name || "",
-        lastName: last_name || "",
+        first_name: first_name || "",
+        last_name: last_name || "",
         email: email || "",
         phone: phone || "",
         bio: bio || "",
@@ -62,7 +62,7 @@ export default function Account() {
         postal_code: postal_code || "",
       });
     }
-  }, [first_name, last_name, email, phone, bio, country, city, postal_code, profileImage]);
+  }, [profile, profileImage]);
 
   // scrollIntoView  password fields.
   useEffect(() => {
@@ -75,11 +75,11 @@ export default function Account() {
   const validateForm = () => {
     const newErrors = {};
     // First Name and Last Name validation
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = "First name is required.";
+    if (!formData.first_name.trim()) {
+      newErrors.first_name = "First name is required.";
     }
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = "Last name is required.";
+    if (!formData.last_name.trim()) {
+      newErrors.last_name = "Last name is required.";
     }
 
     // Email validation
@@ -295,7 +295,7 @@ export default function Account() {
           </form>
           <div className='font-semibold'>
             {/* data should be dynamic */}
-            <h2 className=' text-2xl'>{`${formData?.firstName} ${formData?.lastName}`}</h2>
+            <h2 className=' text-2xl'>{`${formData?.first_name} ${formData?.last_name}`}</h2>
             <p className='text-gray-500  text-xl'>{formData?.bio}</p>
             <p className='text-gray-400 text-base '>{`${formData?.city}, ${formData?.country}`}</p>
           </div>
@@ -340,13 +340,13 @@ export default function Account() {
                   <>
                     <input
                       type="text"
-                      name="firstName"
-                      value={formData.firstName}
+                      name="first_name"
+                      value={formData.first_name}
                       onChange={handleInputChange}
                     />
-                    {errors.firstName && (
+                    {errors.first_name && (
                       <div className="error-message text-red-500">
-                        {errors.firstName}
+                        {errors.first_name}
                       </div>
                     )}
                   </>
@@ -360,13 +360,13 @@ export default function Account() {
                   <>
                     <input
                       type="text"
-                      name="lastName"
-                      value={formData.lastName}
+                      name="last_name"
+                      value={formData.last_name}
                       onChange={handleInputChange}
                     />
-                    {errors.lastName && (
+                    {errors.last_name && (
                       <div className="error-message text-red-500">
-                        {errors.lastName}
+                        {errors.last_name}
                       </div>
                     )}
                   </>
