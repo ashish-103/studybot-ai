@@ -2,25 +2,32 @@
 import React, { useContext, useEffect, useState } from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { PulseLoader } from "react-spinners";
-import { UserContext } from "../../context/userContext";
 import { useLocation, useNavigate } from "react-router-dom";
-import Timer from "../../components/ui/Timer";
-import { apiCall } from "../../api/login";
 import { toast } from "react-toastify";
-import { ExitModel } from "../../components/exitModel/ExitModel";
+
+import { apiCall } from "../../api/login";
+
+import { usePerformanceData } from "../../context/performanceContext";
+import { UserContext } from "../../context/userContext";
+
+import Timer from "../../components/ui/Timer";
 import Guidelines from "./Guidelines";
 import Modal from "../../components/Gmodal";
+
 import ReadingQuestions from "../../components/ReadingQuestions";
 import ListeningQuestions from "../../components/ListeningQuestions";
 import WritingQuestions from "../../components/WritingQuestions";
-import { usePerformanceData } from "../../context/performanceContext";
-import { UploadFile } from "../../components/UploadFile";
-import { WordCounter } from "../../components/WordCounter";
-import { TextArea } from "../../components/TextArea";
-import { NextButton } from "../../components/ResubaleComponents/NextButton";
-import { PrevButton } from "../../components/ResubaleComponents/PrevButton";
-import { BackButton } from "../../components/ResubaleComponents/BackButton";
-import { useFetchServerTime } from "../../hooks/useFetchServerTime";
+
+import ExitModel  from "../../components/exitModel/ExitModel";
+import UploadFile from "../../components/UploadFile";
+import WordCounter from "../../components/WordCounter";
+import TextArea from "../../components/TextArea";
+import SubmitButton from "../../components/SubmitButton";
+import BackButton from "../../components/ResubaleComponents/BackButton"
+import PrevButton from "../../components/ResubaleComponents/PrevButton"
+import NextButton from "../../components/ResubaleComponents/NextButton"
+import useFetchServerTime from "../../hooks/useFetchServerTime";
+import useFetchQuestions from "../../hooks/useFetchQuestions";
 
 export default function Practice() {
   const navigate = useNavigate();
@@ -30,21 +37,24 @@ export default function Practice() {
   const { user } = useContext(UserContext);
   const { setPerformanceData } = usePerformanceData();
   const { startTime, endTime } = useFetchServerTime();
+  const {
+    isOpen,
+    setIsOpen,
+    currentQuestion,
+    examType,
+    exam_id,
+    loading,
+    questionsList,
+    setLoading,
+    setQuestionsList,
+    setCurrentQuestion,
+  } = useFetchQuestions(state);
 
 
-  const [examType, setExamType] = useState(null);
-  const [allQuestions, setAllQuestions] = useState([]);
-  const [questionsList, setQuestionsList] = useState([]);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
   // const [type, setType] = useState("hard");
-  const [exam_id, setExam_id] = useState("");
   const [barProgress, setBarProgress] = useState(0);
-  const [loading, setLoading] = useState({
-    status: false,
-    text: "",
-  });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(true)
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
@@ -66,48 +76,6 @@ export default function Practice() {
   const closeModal = () => {
     setIsOpen(false)
   }
-  const getQuestions = async () => {
-    try {
-      setLoading({
-        status: true,
-        text: "Fetching Questions ...",
-      });
-      setExam_id(state.exam_id);
-      if (state.set_name.includes('exam_set')) {
-        // console.log(examType)
-        setExamType(state.set_name)
-        // console.log(state.set_name)
-        const response = (await apiCall.get(`get_questions11/${state.set_name}`)).data;
-        console.log('api response', response.writing.data.task1)
-        // console.log('writing', response.writing)
-        const sections = [response.reading, response.listening, response.writing.data.task1, response.writing.data.task2]
-        // console.log("sections", sections);
-        setQuestionsList(sections)
-        setCurrentQuestion(0)
-        console.log('question', questionsList)
-      } else {
-
-        const response = (await apiCall.get(`get_questions?exam_id=${state.exam_id}&exam_name=${state.task_type}`)).data;
-        setQuestionsList(response.questionData);
-      }
-      setLoading({
-        status: false,
-        text: "",
-      });
-    } catch (error) {
-      console.log("error fetching question: ", error);
-    }
-  };
-
-  useEffect(() => {
-    if (!isOpen) {
-      if (state) {
-        getQuestions();
-      } else {
-        navigate("/dashboard/tests");
-      }
-    }
-  }, [isOpen, navigate]);
 
   useEffect(() => {
     if (questionsList && !isOpen) {
@@ -190,10 +158,6 @@ export default function Practice() {
   // };
 
   const handleInputChange = (question, answer) => {
-    // setAllAnswers
-    // const answers = Array.from(allQuestions);
-    // answers[currentQuestion].answer = event.target.value;
-    // setAllQuestions(answers);
     setAnswers((prev) => ({
       ...prev,
       writing: {
@@ -205,13 +169,13 @@ export default function Practice() {
 
   const lastQuestion = questionsList.length - 1;
 
-  const handleNextQuestion = () => {
+  const nextQuestion = () => {
     if (currentQuestion < lastQuestion) {
       setCurrentQuestion(currentQuestion + 1);
     }
   };
 
-  const handlePrevQuestion = () => {
+  const prevQuestion = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
     }
@@ -266,7 +230,7 @@ export default function Practice() {
           }));
         }
         const evaluateBody = {
-          questions_answers: answers.writing,
+          questions_answers: data,
           task_type: state.task_type,
           timer: total_time,
           exam_id: state.exam_id,
@@ -331,7 +295,6 @@ export default function Practice() {
               {`${questionsList.length}`}
             </div>
 
-
             <div className="px-4 py-3  md:py-6 md:px-10 overflow-y-auto">
               {/* Progressbar */}
               {questionsList && (
@@ -373,7 +336,7 @@ export default function Practice() {
                   />}
               </> :
                 <div>
-                  {questionsList.slice(currentQuestion, currentQuestion + 1).map((q, index) => (
+                {questionsList.slice(currentQuestion, currentQuestion + 1).map((q, index) => (
                     <>
                       <div className="flex justify-between py-5 items-center">
                         <h2>Question: {currentQuestion + 1}</h2>
@@ -402,19 +365,17 @@ export default function Practice() {
 
               {/* Next and Prev Buttons starts*/}
               <div className="flex justify-between items-center">
+
                 <div className="relative">
-                  <PrevButton currentQuestion={currentQuestion} handleClick={handlePrevQuestion} handleDisabled={currentQuestion === 0} />
+                  <PrevButton currentQuestion={currentQuestion} handleClick={prevQuestion} handleDisabled={currentQuestion === 0} />
                 </div>
-                {currentQuestion === lastQuestion ? (
-                  <button
-                    className="bg-[#0AA6D7] text-white px-4 py-1 rounded-lg"
-                    onClick={handleSubmit}
-                  >
-                    Submit
-                  </button>
-                ) : (
-                  <NextButton handleClick={handleNextQuestion} handleDisabled={currentQuestion === lastQuestion} />
-                )}
+
+                {
+                  currentQuestion === lastQuestion ?
+                    <SubmitButton handleSubmit={handleSubmit} />
+                    :
+                    <NextButton handleClick={nextQuestion} handleDisabled={currentQuestion === lastQuestion} />
+                }
               </div>
               {/* Next and Prev Buttons ends*/}
             </div>
@@ -436,7 +397,7 @@ export default function Practice() {
             paragraph="Are you sure you want to exit"
             isModalOpen={isModalOpen}
             handleCloseModal={handleCloseModal}
-            handlePrevQuestion={handlePrevQuestion}
+            handlePrevQuestion={prevQuestion}
           />
         ))}
       {

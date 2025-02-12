@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export const BackButton = ({ handleClick }) => {
+const BackButton = ({ handleClick }) => {
   return (
     <Link
       to="/dashboard/practice"
@@ -26,3 +26,5 @@ export const BackButton = ({ handleClick }) => {
     </Link>
   )
 }
+
+export default BackButton;

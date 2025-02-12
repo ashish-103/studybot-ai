@@ -84,16 +84,16 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
       loginData.append("email", formData.email);
       loginData.append("password", formData.password);
       try {
-        const response = await apiCall.post("login", loginData);
+        const { data } = await apiCall.post("login", loginData);
         setIsLoading(false); // Stop loading
-        if (response.data.message === "Logged in successfully.") {
+        if (data.message === "Logged in successfully.") {
           const result = {
-            email: response.data.email,
-            token: response.data.token,
-            name: response.data.username,
-            userid: response.data.userid,
-            plan_name: response.data.plan_name,
-            plan_amount: response.data.plan_amount,
+            email: data.email,
+            token: data.token,
+            name: data.username,
+            userid: data.userid,
+            plan_name: data.plan_name,
+            plan_amount: data.plan_amount,
           };
           localStorage.setItem("user", JSON.stringify(result));
           clearFormData();
@@ -101,14 +101,14 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
             window.location.href = "dashboard/tests";
           }, 300);
           toast.success("Logged in successfully!");
-        } else if (response.data.message === "Email already exists") {
-          toast.error(response.data.message);
+        } else if (data.message === "Email already exists") {
+          toast.error(data.message);
         } else {
           toast.error("An error occurred while creating account.");
         }
       } catch (error) {
-        console.error("Request failed", error.response.data.message);
-        toast.error(error.response.data.message);
+        console.error("Request failed", error.data.message);
+        toast.error(error.data.message);
         setIsLoading(false); // Stop loading
       }
     }
@@ -175,12 +175,6 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
                             <div className="">
                               <div className="">
                                 <div className="mb-4">
-                                  {/* <label
-                                    className="block required uppercase  font-bold  tracking-wide text-gray-700 mb-2"
-                                    htmlFor="grid-first-name"
-                                  >
-                                    Email
-                                  </label> */}
                                   <input
                                     type="email"
                                     className="flex-1 w-full border rounded-lg  p-2 bg-transparent focus:outline-none "
@@ -196,12 +190,6 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
                                 <div className="col-sm-6 col-md-12 mb-2">
                                   <div className="mb-4">
                                     <div className="input-group relative">
-                                      {/* <label
-                                        className="block required uppercase  font-bold  tracking-wide text-gray-700 mb-2"
-                                        htmlFor="grid-first-name"
-                                      >
-                                        Password
-                                      </label> */}
                                       <input
                                         type={
                                           showPassword ? "text" : "password"
@@ -216,13 +204,16 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
                                       <button
                                         type="button"
                                         onClick={togglePasswordVisibility}
-                                        className="absolute right-2 bottom-0 transform -translate-y-1/2 text-gray-500"
+                                        className="absolute top-5 right-1 transform -translate-y-1/2 text-gray-500"
                                       >
-                                        {showPassword ? (
-                                          <FaRegEye size={20} />
-                                        ) : (
-                                          <FaRegEyeSlash size={20} />
-                                        )}
+                                        <div className="hover:bg-gray-100 p-2 rounded-full">
+                                          {
+                                            showPassword ?
+                                              <FaRegEye size={20} />
+                                              :
+                                              <FaRegEyeSlash size={20} />
+                                          }
+                                        </div>
                                       </button>
                                     </div>
                                     {errors.password && <ErrorMessage message={errors.password} />}

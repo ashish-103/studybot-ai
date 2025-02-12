@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const UploadFile = ({ display, file }) => {
+export default function UploadFile({ display, file }) {
   return (
     <div className={display}>
       <svg

@@ -2,7 +2,6 @@ import React from "react";
 import { writingSections } from "../../components/Guidelines/writingGuidelines";
 
 const Guidelines = ({ setName }) => {
-  console.log('setName', setName)
   let sections = [
     {
       title: "1. Overview of the IELTS Exam",

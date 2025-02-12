@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { apiCall } from "../api/login";
 import { useLocation } from "react-router-dom";
 
-export function useFetchServerTime() {
+export default function useFetchServerTime() {
   const location = useLocation();
 
   const { state } = location;

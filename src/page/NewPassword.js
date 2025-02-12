@@ -54,7 +54,7 @@ export default function NewPassword() {
         data.append("password", formData.password);
         data.append("re_password", formData.re_password);
         const response = await apiCall.post(`reset_password/${token}`, data)
-        if (response.status === 200) {
+        if (response.ok) {
           navigate('/')
         }
       }

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-// import { apiCall } from '../../api/login';
 
 const Timer = ({ exam_id, start_time, end_time, handleSubmit }) => {
     const [timeLeft, setTimeLeft] = useState(null);

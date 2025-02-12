@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
-export const ExitModel = ({
+export default function ExitModel({
   isModalOpen,
   handleCloseModal,
   heading,
   paragraph,
   handlePrevQuestion,
-}) => {
+}) {
   const navigate = useNavigate();
 
   return (
