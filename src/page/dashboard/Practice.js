@@ -22,11 +22,10 @@ import ExitModel  from "../../components/exitModel/ExitModel";
 import UploadFile from "../../components/UploadFile";
 import WordCounter from "../../components/WordCounter";
 import TextArea from "../../components/TextArea";
-import NextButton from "../../components/ResubaleComponents/NextButton";
-import PrevButton from "../../components/ResubaleComponents/PrevButton";
-import BackButton from "../../components/ResubaleComponents/BackButton";
 import SubmitButton from "../../components/SubmitButton";
-
+import BackButton from "../../components/ResubaleComponents/BackButton"
+import PrevButton from "../../components/ResubaleComponents/PrevButton"
+import NextButton from "../../components/ResubaleComponents/NextButton"
 import useFetchServerTime from "../../hooks/useFetchServerTime";
 import useFetchQuestions from "../../hooks/useFetchQuestions";
 
@@ -231,7 +230,7 @@ export default function Practice() {
           }));
         }
         const evaluateBody = {
-          questions_answers: answers.writing,
+          questions_answers: data,
           task_type: state.task_type,
           timer: total_time,
           exam_id: state.exam_id,

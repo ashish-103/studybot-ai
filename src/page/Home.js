@@ -19,11 +19,11 @@ function Home() {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (user) {
-  //     navigate("/dashboard/tests"); // Redirect logged-in users to the dashboard
-  //   }
-  // }, [user, navigate]);
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard/tests"); // Redirect logged-in users to the dashboard
+    }
+  }, [user, navigate]);
 
   return (
     <div className="App">
