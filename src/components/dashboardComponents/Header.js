@@ -2,22 +2,35 @@ import logo from "../../images/logo.svg";
 import search from "../../assets/images/search.png";
 import arrowDown from "../../assets/images/arrow_down.png";
 import bell from "../../assets/images/bell.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
+import { apiCall } from "../../api/login";
 
 const Header = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation()
+  const [userImage, setUserImage] = useState("");
   const { set_name, task_type, time, exam_id, user_id, status } = location.state || {};
   const { user } = useSelector((state) => state.auth);
-  const src =
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
+  // const src =
+  //   "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
   const [menuOpen, setMenuOpen] = useState(false);
   const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (user) {
+      const getUserImage = async () => {
+        const { data } = await apiCall.get(`get-profile?userId=${user.userid}`);
+        setUserImage(data.profile_photo_url);
+
+      }
+      getUserImage();
+    }
+  }, [user, userImage]);
 
   const handleLogout = () => {
     toast.success("You have been logged out successfully.");
@@ -111,7 +124,7 @@ const Header = (props) => {
                 </div> */}
                 <img
                   className="inline-block w-8 h-8 rounded-full"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src={userImage}
                   alt=""
                 />
                 <div className="text-left">
@@ -127,7 +140,7 @@ const Header = (props) => {
                   <div className="flex flex-row items-center gap-5 border-b-[1px] pb-4 border-b-[#ececec]">
                     <img
                       className="inline-block w-10 h-10 rounded-full"
-                      src={src}
+                      src={userImage}
                       alt=""
                     />
                     <div className="text-left">
