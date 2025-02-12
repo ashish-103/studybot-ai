@@ -214,7 +214,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                             <div className="mb-4">
                               <div className="row">
                                 <div className="col-sm-6 col-md-12">
-                                  <div className="mb-4">
+                                  <div className="mb-6 relative">
                                     <input
                                       type="username"
                                       className="flex-1 w-full border rounded-lg  p-2 bg-transparent focus:outline-none "
@@ -225,9 +225,9 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                       placeholder="Username"
                                     />
 
-                                    {errors.username && <ErrorMessage message={errors.username} />}
+                                    {errors.username && <ErrorMessage message={errors.username} top="top-11" left="left-1" />}
                                   </div>
-                                  <div className="mb-4">
+                                  <div className="mb-6 relative">
                                     <input
                                       type="email"
                                       className="flex-1 w-full border rounded-lg  p-2 bg-transparent focus:outline-none "
@@ -237,10 +237,10 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                       onChange={handleChange}
                                       placeholder="Email"
                                     />
-                                    {errors.email && <ErrorMessage message={errors.email} />}
+                                    {errors.email && <ErrorMessage message={errors.email} top="top-11" left="left-1" />}
                                   </div>
                                   <div className="col-sm-6 col-md-12 mb-2">
-                                    <div className="mb-4">
+                                    <div className="mb-6 relative">
                                       <div className="input-group relative">
                                         <input
                                           type={
@@ -257,7 +257,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                         <button
                                           type="button"
                                           onClick={()=>{ setShowPassword(!showPassword);}}
-                                          className="absolute  top-5 right-1 transform -translate-y-1/2 text-gray-500"
+                                          className="absolute  top-5 right-1 transform -translate-y-1/2 text-gray-500 rounded-full outline-gray-200 focus:bg-gray-100"
                                         >
                                           <div className="hover:bg-gray-100 p-2 rounded-full">
                                             {
@@ -269,11 +269,11 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                           </div>
                                         </button>
                                       </div>
-                                      {errors.password && <ErrorMessage message={errors.password} />}
+                                      {errors.password && <ErrorMessage message={errors.password} top="top-11" left="left-1" />}
                                     </div>
                                   </div>
                                   <div className="col-sm-6 col-md-12 mb-2">
-                                    <div className="mb-4">
+                                    <div className="mb-6 relative">
                                       <div className="input-group relative">
                                         <input
                                           type={
@@ -291,7 +291,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                         <button
                                           type="button"
                                           onClick={()=>{setShowConfirmPassword(!showConfirmPassword)}}
-                                          className="absolute  top-5 right-1 transform -translate-y-1/2 text-gray-500"
+                                          className="absolute  top-5 right-1 transform -translate-y-1/2 text-gray-500 rounded-full outline-gray-200 focus:bg-gray-100"
                                         >
                                           <div className="hover:bg-gray-100 p-2 rounded-full">
                                             {
@@ -303,7 +303,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                           </div>
                                         </button>
                                       </div>
-                                      {errors.re_password && <ErrorMessage message={errors.re_password} />}
+                                      {errors.re_password && <ErrorMessage message={errors.re_password} top="top-11" left="left-1"  />}
                                     </div>
                                   </div>
 
@@ -317,7 +317,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                       }}
                                       disabled
                                     >
-                                      OTP Verification
+                                      Sign Up
                                       <div
                                         className="spinner-border spinner-border-sm ms-2"
                                         role="status"
@@ -337,11 +337,11 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                       }}
                                       onClick={handleOtp}
                                     >
-                                      OTP Verification
+                                      Sign Up
                                     </button>
                                   )}
                                   <div className="text-center my-4">
-                                    <p>Already have an Account
+                                    <p>Already have an Account?
                                       <button
                                         type="button"
                                         onClick={() => { openModal("login") }}
@@ -399,7 +399,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                 }}
                                 onClick={handleClick}
                               >
-                                Create your account
+                                Verify OTP
                               </button>
                             </div>
                           </form>

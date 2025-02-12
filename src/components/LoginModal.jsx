@@ -174,7 +174,7 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
                           <div className="mb-4">
                             <div className="">
                               <div className="">
-                                <div className="mb-4">
+                                <div className="mb-8 relative">
                                   <input
                                     type="email"
                                     className="flex-1 w-full border rounded-lg  p-2 bg-transparent focus:outline-none "
@@ -184,11 +184,10 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
                                     onChange={handleChange}
                                     placeholder="Email"
                                   />
-
-                                  {errors.email && <ErrorMessage message={errors.email} />}
+                                  {errors.email && <ErrorMessage message={errors.email} top={"top-12"} left={"left-1"} />}
                                 </div>
                                 <div className="col-sm-6 col-md-12 mb-2">
-                                  <div className="mb-4">
+                                  <div className="mb-7 relative">
                                     <div className="input-group relative">
                                       <input
                                         type={
@@ -204,7 +203,7 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
                                       <button
                                         type="button"
                                         onClick={togglePasswordVisibility}
-                                        className="absolute top-5 right-1 transform -translate-y-1/2 text-gray-500"
+                                        className="absolute top-5 right-1 transform -translate-y-1/2 text-gray-500 rounded-full outline-gray-200 focus:bg-gray-100"
                                       >
                                         <div className="hover:bg-gray-100 p-2 rounded-full">
                                           {
@@ -216,7 +215,7 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
                                         </div>
                                       </button>
                                     </div>
-                                    {errors.password && <ErrorMessage message={errors.password} />}
+                                    {errors.password && <ErrorMessage message={errors.password} top={"top-12"} left={"left-1"} />}
                                   </div>
                                 </div>
                                 <div className="text-end">
