@@ -10,7 +10,14 @@ export default function WritingQuestions({ writingData, onAnswerChange, answers,
   // const { task1 = [], task2 = [] } = writingData.data; // Ensure both task1 & task2 exist
 
   const handleAnswerChange = (question, value, attachments) => {
-    onAnswerChange({ ...answers, [question]: { "answer": value, "image_url": attachments } });
+    onAnswerChange({
+      ...answers,
+      [question]: {
+        question: question,
+        answer: value,
+        attachments: attachments || ""
+      }  
+    })
   };
 
   return (

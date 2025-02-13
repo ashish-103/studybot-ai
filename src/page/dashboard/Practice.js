@@ -18,7 +18,7 @@ import ReadingQuestions from "../../components/ReadingQuestions";
 import ListeningQuestions from "../../components/ListeningQuestions";
 import WritingQuestions from "../../components/WritingQuestions";
 
-import ExitModel  from "../../components/exitModel/ExitModel";
+import ExitModel from "../../components/exitModel/ExitModel";
 import UploadFile from "../../components/UploadFile";
 import WordCounter from "../../components/WordCounter";
 import TextArea from "../../components/TextArea";
@@ -67,11 +67,16 @@ export default function Practice() {
     },
     writing: {
       // Writing answers
+      question: "",
+      answer: "",
+      attachments: ""
     },
     listening: {
       // Listening answers
     },
   });
+  const [inputValues, setInputValues] = useState({});  // Stores real-time textarea input
+  const [storedAnswers, setStoredAnswers] = useState([]);  // Stores finalized answers
 
   const closeModal = () => {
     setIsOpen(false)
@@ -156,16 +161,44 @@ export default function Practice() {
   //     console.log("error fetching question: ", error);
   //   }
   // };
+  const handleInputChange = (questionIndex) => (e) => {
+    const { value } = e.target;
 
-  const handleInputChange = (question, answer) => {
-    setAnswers((prev) => ({
+    setInputValues((prev) => ({
       ...prev,
-      writing: {
-        ...prev.writing,
-        [question]: answer, // Save answer under question ID
-      },
+      [questionIndex]: value,
     }));
-  }
+  };
+
+  const saveAnswer = (questionIndex, section, questionText, attachments) => {
+    setStoredAnswers((prev) => {
+      // Check if answer already exists
+      const existingAnswerIndex = prev.findIndex((a) => a.questionIndex === questionIndex);
+
+      if (existingAnswerIndex !== -1) {
+        // Update existing answer
+        return prev.map((item, index) =>
+          index === existingAnswerIndex ? { ...item, answer: inputValues[questionIndex] || "" } : item
+        );
+      } else {
+        // Add a new answer entry
+        return [
+          ...prev,
+          {
+            questionIndex,
+            section,
+            question: questionText,
+            answer: inputValues[questionIndex] || "",
+            attachments: attachments || [],
+          },
+        ];
+      }
+    });
+  };
+
+
+
+
 
   const lastQuestion = questionsList.length - 1;
 
@@ -216,37 +249,37 @@ export default function Practice() {
 
       } else {
 
-        let data;
-        if (state.task_type === "task1") {
-          data = questionsList.map(({ question, answer, attachments }) => ({
-            question,
-            answer,
-            image_url: attachments[0],
-          }));
-        } else {
-          data = questionsList.map(({ question, answer }) => ({
-            question,
-            answer,
-          }));
-        }
+        // let data;
+        // // console.log("answers writing", storedAnswers);
+        // if (state.task_type === "task1") {
+        //   data = answers.map(({ question, answer, attachments }) => ({
+        //     question,
+        //     answer,
+        //     image_url: attachments[0],
+        //   }));
+        //   console.log('data', data);
+        // } else {
+        //   data = answers.map(({ question, answer }) => ({
+        //     question,
+        //     answer,
+        //   }));
+        // }
         const evaluateBody = {
-          questions_answers: data,
+          questions_answers: storedAnswers,
           task_type: state.task_type,
           timer: total_time,
           exam_id: state.exam_id,
           user_id: user.userid,
         };
-        console.log(evaluateBody)
         console.log("evaluate body: ", evaluateBody);
         const response = (
           await apiCall.post("evaluate", JSON.stringify(evaluateBody))
         ).data;
+        console.log('evaluate response', response);
         const redirectedRoute = response.evaluation_id
           ? `/dashboard/performanceAnalytics?evaluationid=${response.evaluation_id}`
           : "/dashboard/tests/";
         navigate(redirectedRoute);
-        console.log(response, "response");
-
       }
     } catch (error) {
       toast.error(error?.response?.data?.error);
@@ -262,8 +295,6 @@ export default function Practice() {
       [section]: sectionAnswers,
     }));
   }
-
-
   return (
     <div>
       {currentQuestion !== 1 && <BackButton handleClick={handleOpenModal} />}
@@ -336,32 +367,48 @@ export default function Practice() {
                   />}
               </> :
                 <div>
-                {questionsList.slice(currentQuestion, currentQuestion + 1).map((q, index) => (
-                    <>
-                      <div className="flex justify-between py-5 items-center">
-                        <h2>Question: {currentQuestion + 1}</h2>
-                      </div>
-                      <div>
-                        <p>{q.question}</p>
-                        <div className="flex flex-wrap">
-                          {q.attachments && q.attachments.map((x, i) =>
-                          (<img
-                            src={`${x}`}
-                            alt={`attachment${i}`}
-                            className={`${q.attachments.length > 1 ? "lg:w-1/2" : "w-2/3"} pt-5 mx-auto`}
-                          />)
-                          )}
-                          <div className="flex flex-wrap nter items-center sm:justify-start gap-5">
-                            <TextArea value={answers.writing[q.question]} plan={user.plan_name} q={q.question} onChange={handleInputChange} />
-                            <UploadFile display={'hidden'} file={uploadFile} />
-                            <WordCounter text={answers.writing[q.question]} />
+                  {questionsList.slice(currentQuestion, currentQuestion + 1).map
+                    ((q, index) => (
+                      <>
+                        <div className="flex justify-between py-5 items-center">
+                          <h2>Question: {currentQuestion + 1}</h2>
+                        </div>
+                        <div>
+                          <p>{q.question}</p>
+                          <div className="flex flex-wrap">
+                            {q.attachments && q.attachments.map((x, i) =>
+                            (<img
+                              src={`${x}`}
+                              alt={`attachment${i}`}
+                              className={`${q.attachments.length > 1 ? "lg:w-1/2" : "w-2/3"} pt-5 mx-auto`}
+                            />)
+                            )}
+                            <div className="flex flex-wrap nter items-center sm:justify-start gap-5">
+                              <textarea
+                                className="w-[900px] my-10 appearance-none lg:h-[170px] text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
+                                type="search"
+                                name="q"
+                                placeholder="Answer :"
+                                value={
+                                  inputValues[currentQuestion] !== undefined
+                                    ? inputValues[currentQuestion]  // Use live input if available
+                                    : storedAnswers.find((a) => a.questionIndex === currentQuestion)?.answer || "" // Fallback to stored answer
+                                }
+                                onChange={handleInputChange(currentQuestion)}
+                                onBlur={() => saveAnswer(currentQuestion, "writing", q.question, q.attachments)} // Save on blur
+                              />
+                              <UploadFile display={'hidden'} file={uploadFile} />
+                              <WordCounter text={answers.writing.answer} />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </>))}
-                  {/* Questions Sections ends */}
+                      </>
+                    ))}
+                  {/* <WritingQuestions answer={answers.writing} onAnswerChange={handleAnswerupdate} writingData={questionsList.slice(currentQuestion, currentQuestion + 1)} q={currentQuestion} /> */}
                 </div >
               }
+
+              {/* Questions Sections ends */}
 
               {/* Next and Prev Buttons starts*/}
               <div className="flex justify-between items-center">

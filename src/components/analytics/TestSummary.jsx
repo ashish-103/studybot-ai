@@ -26,7 +26,7 @@ export default function TestSummary({ ratings }) {
         (item) => item.exam_id === miscData.exam_id
       );
       // console.log(newdummysetname);
-      setSetName(newdummysetname.set_name);
+      setSetName(newdummysetname?.set_name);
       //   console.log(dummyArr,"dummyArrdummyArr")
 
       // console.log("reponse: ", response);

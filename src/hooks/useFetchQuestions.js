@@ -28,6 +28,7 @@ export default function useFetchQuestions() {
 
         setExamType(state.set_name)
         const { data } = await apiCall.get(`get_questions11/${state.set_name}`)
+        console.log('data',data);
         const { reading, listening, writing } = data;
         const sections = [reading, listening, writing.data.task1, writing.data.task2]
         setQuestionsList(sections)
@@ -35,8 +36,20 @@ export default function useFetchQuestions() {
 
       } else {
 
-        const { data } = await apiCall.get(`get_questions?exam_id=${state.exam_id}&exam_name=${state.task_type}`);
-        setQuestionsList(data.questionData);
+        const response = (
+          await apiCall.get(
+            `get_questions?exam_id=${state.exam_id}&exam_name=${state.task_type}`
+          )
+        ).data;
+        console.log('questions',response);
+        const questionsList = Array.from(response.questionData);
+        for (let i = 0; i < questionsList.length; i++) {
+          questionsList[i] = {
+            ...questionsList[i],
+            answer: "",
+          };
+        }
+        setQuestionsList(questionsList);
       }
       setLoading({
         status: false,
