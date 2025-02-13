@@ -43,7 +43,7 @@ export default function Header() {
       <header className="fixed top-0 left-0 z-[100] w-full shadow-lg text-white bg-primary-blue px-2 md:px-5 py-3 flex flex-row justify-between items-center">
         <div className="w-1/2 md:w-auto">
           <Link to="/">
-            <img src={logo} alt="Logo" className="w-48 h-auto" />
+            <img src={logo} alt="Logo" className="w-52 h-auto" />
           </Link>
         </div>
 
@@ -107,6 +107,20 @@ export default function Header() {
                 className="menu-link hover:text-primary-orange"
               >
                 Testimonials
+              </RouteLink>
+            </li>
+            <li>
+              <RouteLink
+                to="section5"
+                smooth={true}
+                duration={500}
+                spy={true}
+                delay={50}
+                offset={-20}
+                style={{ cursor: "pointer" }}
+                className="menu-link hover:text-primary-orange"
+              >
+                FAQs
               </RouteLink>
             </li>
             {/* <li>

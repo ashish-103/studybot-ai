@@ -70,7 +70,9 @@ export default function WhyStudyBot() {
         <div className="flex flex-col md:flex-row md:justify-center md:items-center">
           <div className="my-5 md:m-5 md:w-1/2 md:p-7">
             <div className="text-3xl font-bold pb-3">AI Powered Feedback</div>
-            Real time analysis and instant suggestions to improve your answers
+            Automated scoring tailored to your performance.
+            Immediate suggestions to improve your answers.
+            Feedback focused on accuracy, clarity, and relevance.
           </div>
           <div className="md:w-1/2 md:p-7">
             {/* <img src={course} alt="about1" className='w-full' /> */}
@@ -82,14 +84,20 @@ export default function WhyStudyBot() {
             <Lottie options={defaultOptions2} height={400} width={400} />
           </div>
           <div className=" my-5 md:m-5 md:w-1/2 md:p-7">
-            <div className="text-3xl font-bold pb-3">Adaptive learning</div>
-            Custom quizzes and practice tools tailored to your learning pace
+            <div className="text-3xl font-bold pb-3">A Study Plan Built Just for You
+            </div>
+            Recommendations based on your strengths and weaknesses.
+            Real-time adjustments to match your learning pace.
+            Access to updated examples and targeted exercises.
           </div>
         </div>
         <div className="flex md:hidden flex-col md:flex-row md:justify-center md:items-center">
           <div className="my-5 md:m-5 md:w-1/2 md:p-7">
-            <div className="text-3xl font-bold pb-3">Adaptive learning</div>
-            Custom quizzes and practice tools tailored to your learning pace
+            <div className="text-3xl font-bold pb-3">A Study Plan Built Just for You
+            </div>
+            Recommendations based on your strengths and weaknesses.
+            Real-time adjustments to match your learning pace.
+            Access to updated examples and targeted exercises.
           </div>
           <div className=" sha dow-lg md:w-1/2 md:p-7">
             <Lottie options={defaultOptions3} height={400} width={400} />
@@ -98,8 +106,9 @@ export default function WhyStudyBot() {
         <div className="flex flex-col md:flex-row md:justify-center md:items-center">
           <div className="my-5 md:m-5 md:w-1/2 md:p-7">
             <div className="text-3xl font-bold pb-3">Performance tracking</div>
-            Detailed reports of your strengths, weaknesses and improvement
-            areas.
+            Detailed performance analytics with easy-to-read graphs.
+            Weekly progress reports to keep you motivated.
+            Insights into trends for continuous growth.
           </div>
           <div className="bg-white rounded-md sha dow-lg md:w-1/2 md:p-7">
             <Lottie options={defaultOptions3} height={400} width={400} />

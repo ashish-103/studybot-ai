@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ArrowUpIcon } from "@heroicons/react/16/solid";
+import { Element } from "react-scroll";
 
 export default function Faqs() {
   const [currentFaq, setCurrentFaq] = useState(0);
@@ -38,6 +39,7 @@ export default function Faqs() {
     },
   ];
   return (
+    <Element  name="section5" >
     <section className="container mx-auto p-web ">
       <div className="w-4/5 mx-auto text-center">
         <div className="text-5xl md:text-6xl font-semibold pb-5">FAQS</div>
@@ -85,6 +87,7 @@ export default function Faqs() {
           })}
         </ul>
       </div>
-    </section>
+      </section>
+      </Element>
   );
 }

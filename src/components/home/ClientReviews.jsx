@@ -22,6 +22,7 @@ import test19 from "../../assets/images/Sandra_Q.webp";
 import test20 from "../../assets/images/Tim_Kägy.webp";
 
 import "./testimonials.css";
+import "../../styles/clientreview.css";
 import { Element } from "react-scroll";
 
 export default function Testimonials() {
@@ -224,101 +225,157 @@ export default function Testimonials() {
       arr4.push(arr[i]);
     }
   }
+  // return (
+  //   <Element name="section4">
+  //     <section className="container mx-auto">
+  //       <div className="bg-white py-[40px] p-web relative overflow-hidden">
+  //         <div className="bg-white rounded-3xl lg:py-web">
+  //           <div className="flex flex-col justify-center items-center pb-10 lg:w-[75%] mx-auto">
+  //             <div className="text-5xl md:text-6xl font-semibold pb-5 mb-5 border-b-[10px] border-primary-orange">
+  //               WHAT PEOPLE SAY ABOUT US
+  //             </div>
+  //             {/* <p className="">
+  //               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+  //               eiusmod tempor incididunt ut labore et dolore magna aliqua.sed
+  //               do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  //             </p> */}
+  //           </div>
+  //           <div className="w-full gap-4 mx-auto hidden md:flex">
+  //             <div className="w-1/4 h-full flex flex-col gap-4">
+  //               {arr1.map((item) => (
+  //                 <div className="">
+  //                   <TestimonialCard
+  //                     key={`${item}testimonial1`}
+  //                     clientImage={item.clientImage}
+  //                     clientName={item.clientName}
+  //                     clientRole={item.clientRole}
+  //                     rating={item.rating}
+  //                     content={item.content}
+  //                     date={item.date}
+  //                   />
+  //                 </div>
+  //               ))}
+  //             </div>
+  //             <div className="w-1/4 h-full flex flex-col gap-4">
+  //               {arr2.map((item) => (
+  //                 <div className="">
+  //                   <TestimonialCard
+  //                     key={`${item}testimonial1`}
+  //                     clientImage={item.clientImage}
+  //                     clientName={item.clientName}
+  //                     clientRole={item.clientRole}
+  //                     rating={item.rating}
+  //                     content={item.content}
+  //                     date={item.date}
+  //                   />
+  //                 </div>
+  //               ))}
+  //             </div>
+  //             <div className="w-1/4 h-full flex flex-col gap-4">
+  //               {arr3.map((item) => (
+  //                 <div className="">
+  //                   <TestimonialCard
+  //                     key={`${item}testimonial1`}
+  //                     clientImage={item.clientImage}
+  //                     clientName={item.clientName}
+  //                     clientRole={item.clientRole}
+  //                     rating={item.rating}
+  //                     content={item.content}
+  //                     date={item.date}
+  //                   />
+  //                 </div>
+  //               ))}
+  //             </div>
+  //             <div className="w-1/4 h-full flex flex-col gap-4">
+  //               {arr4.map((item) => (
+  //                 <div className="">
+  //                   <TestimonialCard
+  //                     key={`${item}testimonial1`}
+  //                     clientImage={item.clientImage}
+  //                     clientName={item.clientName}
+  //                     clientRole={item.clientRole}
+  //                     rating={item.rating}
+  //                     content={item.content}
+  //                     date={item.date}
+  //                   />
+  //                 </div>
+  //               ))}
+  //             </div>
+  //           </div>
+  //           <div className="md:hidden h-full flex flex-col gap-4">
+  //             {arr1.map((item) => (
+  //               <div className="">
+  //                 <TestimonialCard
+  //                   key={`${item}testimonial1`}
+  //                   clientImage={item.clientImage}
+  //                   clientName={item.clientName}
+  //                   clientRole={item.clientRole}
+  //                   rating={item.rating}
+  //                   content={item.content}
+  //                   date={item.date}
+  //                 />
+  //               </div>
+  //             ))}
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </section>
+  //   </Element>
+  // );
   return (
     <Element name="section4">
       <section className="container mx-auto">
         <div className="bg-white py-[40px] p-web relative overflow-hidden">
-          <div className="bg-white rounded-3xl lg:py-web">
+          <div className="bg-white rounded-3xl lg:py-web flex flex-col justify-center items-center">
             <div className="flex flex-col justify-center items-center pb-10 lg:w-[75%] mx-auto">
               <div className="text-5xl md:text-6xl font-semibold pb-5 mb-5 border-b-[10px] border-primary-orange">
                 WHAT PEOPLE SAY ABOUT US
               </div>
-              {/* <p className="">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.sed
-                do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p> */}
             </div>
-            <div className="w-full gap-4 mx-auto hidden md:flex">
-              <div className="w-1/4 h-full flex flex-col gap-4">
-                {arr1.map((item) => (
-                  <div className="">
-                    <TestimonialCard
-                      key={`${item}testimonial1`}
-                      clientImage={item.clientImage}
-                      clientName={item.clientName}
-                      clientRole={item.clientRole}
-                      rating={item.rating}
-                      content={item.content}
-                      date={item.date}
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="w-1/4 h-full flex flex-col gap-4">
-                {arr2.map((item) => (
-                  <div className="">
-                    <TestimonialCard
-                      key={`${item}testimonial1`}
-                      clientImage={item.clientImage}
-                      clientName={item.clientName}
-                      clientRole={item.clientRole}
-                      rating={item.rating}
-                      content={item.content}
-                      date={item.date}
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="w-1/4 h-full flex flex-col gap-4">
-                {arr3.map((item) => (
-                  <div className="">
-                    <TestimonialCard
-                      key={`${item}testimonial1`}
-                      clientImage={item.clientImage}
-                      clientName={item.clientName}
-                      clientRole={item.clientRole}
-                      rating={item.rating}
-                      content={item.content}
-                      date={item.date}
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="w-1/4 h-full flex flex-col gap-4">
-                {arr4.map((item) => (
-                  <div className="">
-                    <TestimonialCard
-                      key={`${item}testimonial1`}
-                      clientImage={item.clientImage}
-                      clientName={item.clientName}
-                      clientRole={item.clientRole}
-                      rating={item.rating}
-                      content={item.content}
-                      date={item.date}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="md:hidden h-full flex flex-col gap-4">
-              {arr1.map((item) => (
-                <div className="">
-                  <TestimonialCard
-                    key={`${item}testimonial1`}
-                    clientImage={item.clientImage}
-                    clientName={item.clientName}
-                    clientRole={item.clientRole}
-                    rating={item.rating}
-                    content={item.content}
-                    date={item.date}
-                  />
+
+            {/* Horizontal Scroll Container */}
+            <div className="relative w-full overflow-hidden rounded-xl shadow-xl p-8 flex flex-col gap-6">
+              {/* Row 1 - Left to Right */}
+              <div className="w-full overflow-hidden">
+                <div className="flex w-max animate-scroll-right gap-4">
+                  {[...arr1, ...arr1].map((item, index) => (
+                    <div key={index} className="w-[300px] flex gap-4">
+                      <TestimonialCard {...item} />
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+
+              {/* Row 2 - Right to Left */}
+              <div className="w-full overflow-hidden">
+                <div className="flex w-max animate-scroll-left gap-4">
+                  {[...arr2, ...arr2].map((item, index) => (
+                    <div key={index} className="w-[300px] flex gap-4">
+                      <TestimonialCard {...item} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Row 3 - Left to Right */}
+              <div className="w-full overflow-hidden">
+                <div className="flex w-max animate-scroll-right gap-4">
+                  {[...arr3, ...arr3].map((item, index) => (
+                    <div key={index} className="w-[300px] flex gap-4">
+                      <TestimonialCard {...item} />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
+
+
+
+
           </div>
         </div>
       </section>
     </Element>
-  );
+
+  )
 }

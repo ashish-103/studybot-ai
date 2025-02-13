@@ -15,11 +15,9 @@ export default function HeroSection() {
         <div className="bg-primary-blue">
           <div className="container mx-auto p-web lg:py-[60px] flex-col flex md:flex-row gap-5">
             <div className="w-full text-white text-center font-bold text-4xl md:leading-snug lg:text-[3.75rem]">
-              Unlock the Power of AI for Smarter Learning and Exam Preparation
-              <br />
+              Revolutionize Exam Prep with Studybot AI<br />
               <p className="text-lg pt-4 font-medium">
-                Transform the way you learn with AI-driven insights, feedback,
-                and personalized support for your competitive and academic exams
+                Unlock smarter ways to prepare with AI-driven feedback, personalized learning, and performance tracking.
               </p>
               <div className="flex justify-center items-center gap-4 pt-10">
                 {!user && (
@@ -35,8 +33,8 @@ export default function HeroSection() {
                 )}
                 <Button
                   variant={"orange"}
-                  text="How it works"
-                  onClick={() => scrollToSection("features")}
+                  text="Watch a Demo"
+                  onClick={() => scrollToSection("counter")}
                 />
               </div>
             </div>
