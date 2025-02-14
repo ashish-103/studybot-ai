@@ -6,7 +6,6 @@ import { Element } from "react-scroll";
 import scrollToSection from "../reusableFunctions/scrollToSection";
 
 export const AboutContext = createContext();
-
 export default function Features() {
   return (
     <Element name="section2">

@@ -4,6 +4,11 @@ import Slider from "react-slick";
 import CourseCard, { StarRating } from "../ui/CourseCard";
 import course from "../../assets/images/ielts.jpg";
 import person from "../../images/person.jpg";
+import priya from "../../assets/images/priya.png"
+import anjali from "../../assets/images/anjali.png"
+import vikram from "../../assets/images/vikram.png"
+import amit from "../../assets/images/amit.png"
+import rajesh from "../../assets/images/rajesh.png"
 import "./courses.css";
 import { apiCall } from "../../api/login";
 import { UserContext } from "../../context/userContext";
@@ -41,23 +46,23 @@ export default function Courses() {
   const teachers = [
     {
       name: "Amit Sharma",
-      image: "https://randomuser.me/api/portraits/men/50.jpg",
+      image: amit
     },
     {
       name: "Priya Singh",
-      image: "https://randomuser.me/api/portraits/women/45.jpg",
+      image: priya
     },
     {
       name: "Rajesh Kumar",
-      image: "https://randomuser.me/api/portraits/men/30.jpg",
+      image: rajesh
     },
     {
       name: "Anjali Patel",
-      image: "https://randomuser.me/api/portraits/women/27.jpg",
+      image: anjali
     },
     {
       name: "Vikram Reddy",
-      image: "https://randomuser.me/api/portraits/men/10.jpg",
+      image: vikram
     },
   ];
 
@@ -143,7 +148,7 @@ export default function Courses() {
           }
           return 10;
         }
-      } catch (error) {}
+      } catch (error) { }
     },
     beforeChange: (current, next) => setCurrentSlide(next),
     appendDots: (dots) => {
@@ -211,7 +216,7 @@ export default function Courses() {
                           <img
                             src={item.authorImage}
                             alt="profile"
-                            className="rounded-full h-12 w-12 border-[2px] border-primary-orange"
+                            className="rounded-full h-12 w-12 border-[2px] border-primary-orange object-cover"
                           />
                           <div className="text-xs">
                             <div className="font-semibold">

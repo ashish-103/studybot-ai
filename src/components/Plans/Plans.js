@@ -10,7 +10,6 @@ export const SubscriptionPlans = () => {
   const { openModal } = useModal();
   const { user } = useContext(UserContext);
   const navigate = useNavigate()
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -30,11 +29,13 @@ export const SubscriptionPlans = () => {
                 <div
                   key={`subscriptionid-${index}`}
                   onClick={() => {
-                    if (!user) {
-                      openModal('login');
-                    } else {
-                      navigate('/dashboard/subscription')
-                    }
+
+                    openModal('signup');
+                    // if (user === null) {
+                    //   openModal('signup');
+                    // } else {
+                    //   navigate('/dashboard/subscription')
+                    // }
                   }}
                   className={`${plan?.plan_name === user?.plan_name ? "" : "bg-white"}  h-full shadow-xl rounded-lg overflow-hidden transform  hover:scale-105 transition duration-300 border border-gray-150
                   }`}
