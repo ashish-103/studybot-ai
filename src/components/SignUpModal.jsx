@@ -14,6 +14,7 @@ import OtpInput from "react-otp-input";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { ErrorMessage } from "./ResubaleComponents/ErrorMessage";
+import CountDownTimer from "./ResubaleComponents/CountDownTimer";
 
 const SignUpModal = ({ openModal, closeModal, activeModal }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -65,7 +66,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
       tempErrors.username =
         "Username must start with letters and can optionally include numbers after.";
     }
-   
+
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
@@ -256,7 +257,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
 
                                         <button
                                           type="button"
-                                          onClick={()=>{ setShowPassword(!showPassword);}}
+                                          onClick={() => { setShowPassword(!showPassword); }}
                                           className="absolute  top-5 right-1 transform -translate-y-1/2 text-gray-500 rounded-full outline-gray-200 focus:bg-gray-100"
                                         >
                                           <div className="hover:bg-gray-100 p-2 rounded-full">
@@ -290,7 +291,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                         />
                                         <button
                                           type="button"
-                                          onClick={()=>{setShowConfirmPassword(!showConfirmPassword)}}
+                                          onClick={() => { setShowConfirmPassword(!showConfirmPassword) }}
                                           className="absolute  top-5 right-1 transform -translate-y-1/2 text-gray-500 rounded-full outline-gray-200 focus:bg-gray-100"
                                         >
                                           <div className="hover:bg-gray-100 p-2 rounded-full">
@@ -303,7 +304,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                           </div>
                                         </button>
                                       </div>
-                                      {errors.re_password && <ErrorMessage message={errors.re_password} top="top-11" left="left-1"  />}
+                                      {errors.re_password && <ErrorMessage message={errors.re_password} top="top-11" left="left-1" />}
                                     </div>
                                   </div>
 
@@ -389,6 +390,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                   )}
                                 />
                               </div>
+                              <CountDownTimer handleOtp={handleOtp} />
                               <button
                                 type="submit"
                                 className="btn btn-primary w-full fw-semibold py-2 mt-2"
