@@ -11,13 +11,14 @@ import PaymentHistoryData from "./PaymentHistory";
 import ContactUsModal from "../../components/ContactUsModal";
 import UpgradePlan from "../../components/UpgradePlan/UpgradePlan";
 import Plans from "../../data/plansData";
+import { useModal } from "../../context/ModalProvider";
 
 const Subscription = () => {
   const user_id = localStorage.getItem("user");
   const userID = JSON.parse(user_id);
 
-  const [isModalOpenContact, setIsModalOpenContact] = useState(false);
-  const [isModalOpenUpgrade, setIsModalOpenUpgrade] = useState(false);
+  // const [isModalOpenContact, setIsModalOpenContact] = useState(false);
+  // const [isModalOpenUpgrade, setIsModalOpenUpgrade] = useState(false);
 
   const [upgradeIndex, setUpgradeIndex] = useState("");
   const [activeTab, setActiveTab] = useState("monthly");
@@ -29,10 +30,11 @@ const Subscription = () => {
   const [valueSend, setvalueSend] = useState(userID.plan_name);
   const [data, setData] = useState([]);
 
-  const openModal = () => setIsModalOpenContact(true);
-  const closeModal = () => setIsModalOpenContact(false);
-  const openModalUpgrade = () => setIsModalOpenUpgrade(true);
-  const closeModalUpgrade = () => setIsModalOpenUpgrade(false);
+  // const openModal = () => setIsModalOpenContact(true);
+  // const closeModal = () => setIsModalOpenContact(false);
+  // const openModalUpgrade = () => setIsModalOpenUpgrade(true);
+  // const closeModalUpgrade = () => setIsModalOpenUpgrade(false);
+  const { activeModal, openModal, closeModal } = useModal();
 
   const handleSelectPlan = (amount, name, index) => {
     const numericAmount = parseFloat(amount.replace(/[^\d.]/g, ""));
@@ -167,7 +169,8 @@ const Subscription = () => {
     if (selectedCard) {
       setUpgradeIndex(selectedCard);
       setSelectedOpgrade(selectedPlan);
-      closeModalUpgrade();
+      // closeModalUpgrade();
+      closeModal();
     }
   };
   return (
@@ -262,7 +265,8 @@ const Subscription = () => {
                         if (
                           valueSend !== "Elite Plan" && plan.plan_name !== userID.plan_name
                         ) {
-                          openModalUpgrade();
+                          // openModalUpgrade();
+                          openModal('upgradeplan');
                           setSelectedCard(index);
                           handleSelectPlan(plan.price, plan.plan_name, index);
                         }
@@ -518,7 +522,7 @@ const Subscription = () => {
               <div className="flex justify-between mb-3">
                 <p className="font-semibold text-xl">Enterprise</p>
                 <h2
-                  onClick={openModal}
+                  onClick={() => openModal("contactus")}
                   className="flex items-center gap-3 cursor-pointer font-extrabold text-[#0061EB]"
                 >
                   <span>
@@ -536,7 +540,7 @@ const Subscription = () => {
         </>
       )
       }
-      {
+      {/* {
         isModalOpenContact && (
           <ContactUsModal
             isOpen={isModalOpenContact}
@@ -544,11 +548,15 @@ const Subscription = () => {
             valueSend={valueSend}
           />
         )
-      }
+      } */}
+      {activeModal === 'contactus' && (
+        <ContactUsModal activeModal={activeModal} closeModal={closeModal} />
+      )}
       {
-        isModalOpenUpgrade && (
+        activeModal === 'upgradeplan' && (
           <UpgradePlan
-            closeModalUpgrade={closeModalUpgrade}
+            closeModal={closeModal}
+            // closeModalUpgrade={closeModalUpgrade}
             SureUpgradePlan={SureUpgradePlan}
             selectedCard={selectedCard}
           />

@@ -15,7 +15,8 @@ const UpgradePlan = ({
           <div className="flex justify-end p-2">
             <button
               type="button"
-              onClick={closeModal || closeModalUpgrade}
+              // onClick={closeModal || closeModalUpgrade}
+              onClick={closeModal}
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
             >
               <svg
@@ -61,7 +62,8 @@ const UpgradePlan = ({
               onClick={() => {
                 if (selectedCard) {
                   SureUpgradePlan();
-                  closeModalUpgrade();
+                  // closeModalUpgrade();
+                  closeModal();
                 } else {
                   navigate(`/dashboard/subscription`);
                 }
@@ -71,7 +73,8 @@ const UpgradePlan = ({
               Yes, I'm sure
             </button>
             <button
-              onClick={closeModal || closeModalUpgrade}
+              // onClick={closeModal || closeModalUpgrade}
+              onClick={closeModal}
               className="text-gray-900 bg-white hover:bg-primary-blue border hover:text-white border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center"
             >
               No, cancel

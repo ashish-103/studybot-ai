@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
-import UpgradePlan from "../UpgradePlan/UpgradePlan";
+// import UpgradePlan from "../UpgradePlan/UpgradePlan";
+// import { useModal } from "../../context/ModalProvider";
 
 const Star = ({ filled }) => (
   <span
@@ -58,10 +59,8 @@ export default function CourseCard({
   status,
 }) {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
 
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  // const { activeModal, openModal, closeModal } = useModal();
 
   const enterFullScreen = () => {
     const doc = document.documentElement;
@@ -176,7 +175,9 @@ export default function CourseCard({
           <Button
             variant={"blueOutlineCourse"}
             text="Upgrade Now"
-            onClick={openModal}
+            onClick={() =>
+              navigate('/dashboard/subscription')
+            }
           />
         ) : (
           <Button
@@ -199,7 +200,7 @@ export default function CourseCard({
           />
         )}
 
-        {isOpen && <UpgradePlan closeModal={closeModal} />}
+        {/* {activeModal === 'upgradeplan' && <UpgradePlan closeModal={closeModal} />} */}
       </div>
     </div>
   );
