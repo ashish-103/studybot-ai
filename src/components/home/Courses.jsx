@@ -12,6 +12,7 @@ import rajesh from "../../assets/images/rajesh.png"
 import "./courses.css";
 import { apiCall } from "../../api/login";
 import { UserContext } from "../../context/userContext";
+import { useModal } from "../../context/ModalProvider";
 const Blob = ({ rotate, scale, position }) => {
   return (
     <div
@@ -43,6 +44,9 @@ export default function Courses() {
   const { user } = useContext(UserContext);
   const slider = useRef(null);
   const [data, setData] = useState([]);
+
+  const { openModal } = useModal()
+
   const teachers = [
     {
       name: "Amit Sharma",
@@ -196,11 +200,10 @@ export default function Courses() {
               ref={slider}
               className="bg-white z-20 rounded-2xl px-6 pb-10 shadow-courses h-full"
             >
-              {data.slice(0, 5).map((item, index) => (
-                <div>
+              {data.slice(0, 5).map((item, index) =>
+                <div key={index} className="cursor-pointer" onClick={() => openModal('signup')}>
                   <div
                     className={`rounded-xl shadow-courses m-2 h-full my-6`}
-                    key={index}
                   >
                     <div className="p-3">
                       <img
@@ -210,7 +213,7 @@ export default function Courses() {
                       />
                     </div>
                     <div className="border-b-[1px] border-gray-300 w-full" />
-                    <div className="p-3 h-full">
+                    <div className="p-3 h-full ">
                       <div className="pb-5 flex justify-between items-center">
                         <div className="flex gap-2 items-center justify-start">
                           <img
@@ -263,7 +266,7 @@ export default function Courses() {
                     </div>
                   </div>
                 </div>
-              ))}
+              )}
             </Slider>
           )}
         </div>

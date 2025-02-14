@@ -67,7 +67,7 @@ export const SubscriptionPlans = () => {
                       {plan.price !== "Free" ? (
                         <p className="text-5xl font-semibold align-middle ">
                           {`₹ ${plan.price.replace("INR", "").trim()}`}
-                          <span className="text-lg pt-2 px-2 text-gray-600"> per Year</span>
+                          {/* <span className="text-lg pt-2 px-2 text-gray-600"> per Year</span> */}
                         </p>
                       ) : (<p className="text-5xl font-semibold ">Free</p>)}
 
@@ -92,7 +92,7 @@ export const SubscriptionPlans = () => {
                             <li key={i} className="flex items-start gap-2">
                               <span>
                                 {/* Apply bold and larger font if the title is not numeric */}
-                                <span className={title === "1" ? "text-base " : "text-lg font-semibold"}>
+                                <span className={title === "1" ? "text-base " : "font-semibold"}>
                                   {title} :
                                 </span>
                                 <span className="text-base"> {content}</span>

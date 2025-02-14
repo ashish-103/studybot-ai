@@ -70,8 +70,8 @@ export default function WhyStudyBot() {
         <div className="flex flex-col md:flex-row md:justify-center md:items-center">
           <div className="my-5 md:m-5 md:w-1/2 md:p-7">
             <div className="text-3xl font-bold pb-3">AI Powered Feedback</div>
-            Automated scoring tailored to your performance.
-            Immediate suggestions to improve your answers.
+            Automated scoring tailored to your performance. <br />
+            Immediate suggestions to improve your answers. <br />
             Feedback focused on accuracy, clarity, and relevance.
           </div>
           <div className="md:w-1/2 md:p-7">
@@ -86,8 +86,8 @@ export default function WhyStudyBot() {
           <div className=" my-5 md:m-5 md:w-1/2 md:p-7">
             <div className="text-3xl font-bold pb-3">A Study Plan Built Just for You
             </div>
-            Recommendations based on your strengths and weaknesses.
-            Real-time adjustments to match your learning pace.
+            Recommendations based on your strengths and weaknesses. <br />
+            Real-time adjustments to match your learning pace. <br />
             Access to updated examples and targeted exercises.
           </div>
         </div>
@@ -95,8 +95,8 @@ export default function WhyStudyBot() {
           <div className="my-5 md:m-5 md:w-1/2 md:p-7">
             <div className="text-3xl font-bold pb-3">A Study Plan Built Just for You
             </div>
-            Recommendations based on your strengths and weaknesses.
-            Real-time adjustments to match your learning pace.
+            Recommendations based on your strengths and weaknesses. <br />
+            Real-time adjustments to match your learning pace. <br />
             Access to updated examples and targeted exercises.
           </div>
           <div className=" sha dow-lg md:w-1/2 md:p-7">
@@ -106,8 +106,8 @@ export default function WhyStudyBot() {
         <div className="flex flex-col md:flex-row md:justify-center md:items-center">
           <div className="my-5 md:m-5 md:w-1/2 md:p-7">
             <div className="text-3xl font-bold pb-3">Performance tracking</div>
-            Detailed performance analytics with easy-to-read graphs.
-            Weekly progress reports to keep you motivated.
+            Detailed performance analytics with easy-to-read graphs. <br />
+            Weekly progress reports to keep you motivated. <br />
             Insights into trends for continuous growth.
           </div>
           <div className="bg-white rounded-md sha dow-lg md:w-1/2 md:p-7">
