@@ -21,7 +21,7 @@ export default function PerformanceSummary() {
         let total_band_score = 0;
         let attempted_questions = 0;
         const total_questions = analyticsData.length;
-
+        console.log("analyticsData", analyticsData);
         for (let i = 0; i < total_questions; i++) {
             const band_score = analyticsData[i]["gpt_evaluation"]["Average_Band_Score"] === "N/A" ? 0 : analyticsData[i]["gpt_evaluation"]["Average_Band_Score"][0];
             // console.log("Band score: ", band_score);

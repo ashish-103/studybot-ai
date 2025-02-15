@@ -398,7 +398,7 @@ export default function Practice() {
                                 onBlur={() => saveAnswer(currentQuestion, "writing", q.question, q.attachments)} // Save on blur
                               />
                               <UploadFile display={'hidden'} file={uploadFile} />
-                              <WordCounter text={answers.writing.answer} />
+                              <WordCounter text={inputValues[currentQuestion]} />
                             </div>
                           </div>
                         </div>
