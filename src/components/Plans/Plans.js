@@ -5,6 +5,9 @@ import { UserContext } from "../../context/userContext";
 import { useModal } from "../../context/ModalProvider";
 import Plans from "../../data/plansData";
 import { useNavigate } from "react-router-dom";
+import coding from "../../assets/coding.png"
+import creative from "../../assets/creative.png"
+import startup from "../../assets/startup.png"
 
 export const SubscriptionPlans = () => {
   const { openModal } = useModal();
@@ -63,7 +66,15 @@ export const SubscriptionPlans = () => {
                     {/* <p className="">{plan.description}</p> */}
                   </div>
                   <div className="">
-                    <div className="mb-8 text-center p-12 bg-gray-100">
+                    <div className="mb-8 text-center p-12 bg-gray-100 flex flex-col justify-center items-center">
+                      {plan.plan_name === "Free"
+                        ? <img className="w-40" src={creative} alt="" />
+                        : plan.plan_name === "Pro"
+                          ? <img className="w-40" src={startup} alt="" />
+                          : <img className="w-40" src={coding} alt="" />
+                      }
+                      {/* {plan.price === "Pro" && }
+                      {plan.price === "Elite" && <img src={coding} alt="" />} */}
                       {plan.price !== "Free" ? (
                         <p className="text-5xl font-semibold align-middle ">
                           {`₹ ${plan.price.replace("INR", "").trim()}`}

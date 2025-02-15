@@ -1,6 +1,7 @@
 import React from "react";
 import counterImage from "../../images/counter.png";
 import CountUp from "react-countup";
+import tutorial from "../../assets/StudybotTutorial.mp4"
 
 export default function Counter() {
   return (
@@ -14,9 +15,13 @@ export default function Counter() {
         <div className="bg-white container mx-auto md:bg-primary-blue md:p-[80px] p-web md:px-[120px] md:flex md:items-center md:justify-center">
           <div className="bg-white md:rounded-3xl md:p-web flex flex-col md:flex-row justify-center md:h-[100vh] gap-2 md:gap-5">
             <div className="md:w-1/2 flex flex-col justify-center items-center">
-              <div className="text-5xl md:text-6xl font-semibold pb-5">
-                Demo:
-              </div>
+              <video
+                className="w-full h-[20rem]  rounded-lg shadow-lg mb-8"
+                controls
+              >
+                <source src={tutorial} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
               <p className="text-base">
                 Studybot AI is an AI-powered subjective answer analysis tool
                 that can help students to improve their subjective answers and

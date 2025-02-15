@@ -39,9 +39,10 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
 
     // Phone validation: 10 digits + country code
     const phoneRegex = /^\+\d{2}\s\d{10}$/;;
-
-    if (formData.phone_number.trim() && !phoneRegex.test(formData.phone_number)) {
-      newErrors.phone_number = "Invalid phone number format. Use +1 XXX XXXX XXX.";
+    if (!formData.phone_number.trim()) {
+      newErrors.phone_number = "Phone number is required.";
+    } else if (formData.phone_number.trim() && !phoneRegex.test(formData.phone_number)) {
+      newErrors.phone_number = "Invalid phone number format. Use XXX XXXX XXX.";
     }
 
     // Country validation
@@ -212,7 +213,7 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                           <strong className="text-base">Need Help Fast?</strong><br />
                           Fill out the form below, and our team will get back to you as soon as possible.
                         </p>
-                        <div className="mb-4">
+                        <div className="mb-5 relative">
                           <label
                             className="block required  font-bold tracking-wide"
                             htmlFor="name"
@@ -222,14 +223,14 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                             type="text"
                             placeholder="Enter your first and last Name"
                             id="name"
-                            className="flex-1 w-full border border-gray-500 rounded-lg p-2 bg-transparent focus:outline-none"
+                            className="flex-1 w-full border border-gray-500 rounded-lg p-2 bg-transparent focus:outline-none top"
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                          />{errors.name && <ErrorMessage message={errors.name} />}
+                          />{errors.name && <ErrorMessage message={errors.name} top={"top-[4.2rem]"} left={"left-1"} />}
                         </div>
 
-                        <div className="mb-4">
+                        <div className="mb-5 relative">
                           <label
                             className="block required  font-bold tracking-wide"
                             htmlFor="email"
@@ -242,9 +243,9 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                             className="email flex-1 w-full border border-gray-500 rounded-lg p-2 bg-transparent focus:outline-none"
                             value={formData.email}
                             onChange={handleInputChange}
-                          />{errors.email && <ErrorMessage message={errors.email} />}
+                          />{errors.email && <ErrorMessage message={errors.email} top={"top-[4.2rem]"} left={"left-1"} />}
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-5 relative">
                           {/* <label
                             className="block required  font-bold tracking-wide"
                             htmlFor="country"
@@ -264,9 +265,9 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                             ))}
                           </select> */}
                           <CountryDropdown value={formData.country} handleChange={handleInputChange} />
-                          {errors.country && <ErrorMessage message={errors.country} />}
+                          {errors.country && <ErrorMessage message={errors.country} top={"top-[4rem]"} left={"left-1"} />}
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-5 relative">
                           <label
                             className="block required  font-bold tracking-wide"
                             htmlFor="phone_number"
@@ -279,9 +280,9 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                             className="flex-1 w-full border border-gray-500 rounded-lg p-2 bg-transparent focus:outline-none"
                             value={formData.phone_number}
                             onChange={handleInputChange}
-                          />{errors.phone_number && <ErrorMessage message={errors.phone_number} />}
+                          />{errors.phone_number && <ErrorMessage message={errors.phone_number} top={"top-[4.2rem]"} left={"left-1"} />}
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-5 relative">
                           <label
                             className="block required  font-bold tracking-wide"
                             htmlFor="reason"
@@ -324,7 +325,7 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                               Others (Please Specify)
                             </option>
                           </select>
-                          {errors.reason && <ErrorMessage message={errors.reason} />}
+                          {errors.reason && <ErrorMessage message={errors.reason} top={"top-[4.2rem]"} left={"left-1"} />}
                         </div>
                         {formData.reason === 'Others' && (
                           <textarea

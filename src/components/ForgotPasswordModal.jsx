@@ -38,7 +38,7 @@ export default function ForgotPasswordModal({ activeModal, closeModal }) {
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0;
   }
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (validateEmail()) {
@@ -111,7 +111,7 @@ export default function ForgotPasswordModal({ activeModal, closeModal }) {
                         <div className="mb-4">
                           <div className="">
                             <div className="">
-                              <div className="mb-4">
+                              <div className="mb-4 relative">
                                 <label
                                   className="block required uppercase  font-bold  tracking-wide text-gray-700 mb-2"
                                   htmlFor="grid-first-name"
@@ -128,7 +128,7 @@ export default function ForgotPasswordModal({ activeModal, closeModal }) {
                                   placeholder="Email"
                                 />
 
-                                {errors.email && <ErrorMessage message={errors.email} />}
+                                {errors.email && <ErrorMessage message={errors.email} top={"top-[4.6rem]"} left={"left-1"} />}
                               </div>
                               {isLoading ? (
                                 <button
