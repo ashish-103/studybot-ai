@@ -38,10 +38,15 @@ export default function AreasToImprove() {
   }, [currentQuestion, analyticsData]);
 
   function addRedBackgroundToBraces(text) {
-    return text[0].replace(
+    if (!text) return "";
+
+    if (Array.isArray(text)) {
+      text = text[0] || ""; // Get the first element or empty string if array is empty
+    }
+    return text.replace(
       /(\b\w+)\s*\{(.*?)\}/g,
       (match, beforeWord, insideBraces) => {
-        return `<span style="background-color: #FFCCCB; color: #000;text-transform: lowercase;">${beforeWord}</span>
+        return `<span style="background-color: #FFCCCB; color: #000;">${beforeWord}</span>
          <span style="background-color: #90EE90; color: #000;">${insideBraces}</span>`;
       }
     );
@@ -86,18 +91,16 @@ export default function AreasToImprove() {
                 <div className="font-semibold text-2xl pb-3 text-primary-blue">
                   {areas[currentSlide].heading}
                 </div>
-                <p> {areas[currentSlide]?.description}</p>
-                {/* {
-                  areas[currentSlide].heading === "AI - sample answer" ? (<p> {areas[currentSlide]?.description}</p>) : (<p
+                {/* <p> {areas[currentSlide]?.description}</p> */}
+                {
+                  areas[currentSlide].heading === "AI - sample answer" || areas[currentSlide].heading === "Ask AI for suggestions" ? (<p> {areas[currentSlide]?.description}</p>) : (<p
                     dangerouslySetInnerHTML={{
                       __html: addRedBackgroundToBraces(
                         areas[currentSlide]?.description
                       ),
                     }}
                   ></p>)
-                } */}
-
-
+                }
               </div>
             )}
           </div>
