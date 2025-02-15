@@ -385,7 +385,7 @@ export default function Practice() {
                             )}
                             <div className="flex flex-wrap nter items-center sm:justify-start gap-5">
                               <textarea
-                                className="w-[900px] my-10 appearance-none lg:h-[170px] text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
+                                className="w-[800px] my-10 appearance-none lg:h-[170px] text-md py-1 px-2 focus:outline-none border-2 rounded-lg border-[#E4F9FF] focus:ring-blue-600 focus:border-[#0AA6D7] text-black placeholder-blue-300 dark:placeholder-gray-600   "
                                 type="search"
                                 name="q"
                                 placeholder="Answer :"

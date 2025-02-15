@@ -14,9 +14,17 @@ export default function PerformanceSummary() {
         accuracy: 0,
         band_score: 0,
     })
-    // const roundIELTS = (score) => {
-    //     return Math.round(score * 2) / 2;
-    // }
+    function roundIeltsScore(score) {
+        let decimal = score % 1; // Get the decimal part
+
+        if (decimal < 0.25) {
+            return Math.floor(score); // Round down to the nearest whole number
+        } else if (decimal < 0.75) {
+            return Math.floor(score) + 0.5; // Round to the nearest 0.5
+        } else {
+            return Math.ceil(score); // Round up to the next whole number
+        }
+    }
     const calculateValues = () => {
         let total_band_score = 0;
         let attempted_questions = 0;
@@ -38,8 +46,8 @@ export default function PerformanceSummary() {
         total_band_score /= total_questions;
         console.log('total_questions', total_questions)
         console.log("total_band_score after dividing", total_band_score)
-        total_band_score = Math.round(total_band_score);
-        console.log("total_band_score after rounded", total_band_score)
+        total_band_score = roundIeltsScore(total_band_score);
+        console.log("total_band_score after floor", total_band_score)
         setValues({
             all_questions: total_questions,
             questions: attempted_questions,
