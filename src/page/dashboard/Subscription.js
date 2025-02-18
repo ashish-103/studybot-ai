@@ -445,7 +445,7 @@ const Subscription = () => {
                             onChange={handleInputChange}
                             className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                           />
-                          {errors.billingName && <ErrorMessage messsage={errors.billingName} />}
+                          {errors.billingName && <div className="text-red-500 text-sm">{errors.billingName }</div>}
                         </p>
                       </div>
                       <div className="flex justify-between items-center w-full pb-2">
@@ -460,7 +460,7 @@ const Subscription = () => {
                             onChange={handleInputChange}
                             className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                           />
-                          {errors.billingAddress && <ErrorMessage message={errors.billingAddress} />}
+                          {errors.billingAddress && <div className="text-red-500 text-sm">{errors.billingAddress }</div>}
                         </p>
                       </div>
                       <div className="flex justify-between items-center w-full">
@@ -476,7 +476,7 @@ const Subscription = () => {
                             maxLength="10"
                             className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                           />
-                          {errors.billingPhone && <ErrorMessage message={errors.billingPhone} />}
+                            {errors.billingPhone && <div className="text-red-500 text-sm">{errors.billingPhone }</div> }
                         </p>
                       </div>
                       <div className="flex justify-between items-center w-full">
