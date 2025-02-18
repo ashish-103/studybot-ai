@@ -11,7 +11,8 @@ const Plans = [
     included_tests: 3,
     plan_name: "Basic",
     plan_validity: "1 year",
-    price: "Free"
+    price: "Free",
+    description: "Limited access, perfect for trying the platform."
   },
   {
     details: {
@@ -25,9 +26,10 @@ const Plans = [
       validity_period: "Valid for 1 year"
     },
     included_tests: 10,
-    plan_name: "Pro",
+    plan_name: "Standard",
     plan_validity: "1 year",
-    price: "299 INR"
+    price: "299 INR",
+    description: " Full features, detailed analytics."
   },
   {
     details: {
@@ -43,9 +45,10 @@ const Plans = [
       validity_period: "Lifetime"
     },
     included_tests: "Unlimited",
-    plan_name: "Elite",
+    plan_name: "Premium",
     plan_validity: "Lifetime",
-    price: "599 INR"
+    price: "599 INR",
+    description: "Personalized coaching and advanced insights."
   },
 
 ];

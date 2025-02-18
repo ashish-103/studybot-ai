@@ -184,7 +184,7 @@ export default function Courses() {
 
   return (
     <section className="container mx-auto md:px-[100px]">
-      <div className="rounded-2xl p-web md:shadow-2xl relative overflow-hidden text-center md:text-left">
+      <div className="rounded-2xl p-[50px] md:shadow-2xl relative overflow-hidden text-center md:text-left">
         <div className=" text-5xl md:text-6xl z-20 font-semibold pb-5">
           FEATURED EXAMS
         </div>

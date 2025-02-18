@@ -36,12 +36,12 @@ const PerformanceAnalytics = () => {
         status: true,
         text: "Fetching Results ...",
       });
-      // https://studybot.zapto.org/get-evaluation/67936e82c471f51d5b407f26
+      // https://studybot.zapto.org/get-evaluation/67936e82c471f51d5b407f26duce length
 
       const response = (await apiCall.get(`get-evaluation/${evaluationid}`))
         .data;
 
-      // console.log("API Response:", response); // Log response to check its structure
+      console.log("API Response:", response); // Log response to check its structure
 
       setAnalyticsData(response[0]["questions_answers"]);
       setMiscData(response[0]);

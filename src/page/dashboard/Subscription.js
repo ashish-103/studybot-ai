@@ -12,6 +12,9 @@ import ContactUsModal from "../../components/ContactUsModal";
 import UpgradePlan from "../../components/UpgradePlan/UpgradePlan";
 import Plans from "../../data/plansData";
 import { useModal } from "../../context/ModalProvider";
+import basic from "../../assets/Studybot-AI-Basic.png"
+import pro from "../../assets/Studybot-AI-Pro.png"
+import elite from "../../assets/Studybot-AI-ELite.png"
 
 const Subscription = () => {
   const user_id = localStorage.getItem("user");
@@ -335,7 +338,13 @@ const Subscription = () => {
                         {/* <p className="">{plan.description}</p> */}
                       </div>
                       <div className="">
-                        <div className="mb-8 text-center p-12 bg-gray-100">
+                        <div className="mb-8 text-center p-12 bg-gray-100 flex flex-col justify-center items-center">
+                          {plan.plan_name === "Basic"
+                            ? <img className="w-40" src={basic} alt="" />
+                            : plan.plan_name === "Standard"
+                              ? <img className="w-40" src={pro} alt="" />
+                              : <img className="w-40" src={elite} alt="" />
+                          }
                           {plan.price !== "Free" ? (
                             <p className="text-5xl font-semibold align-middle ">
                               {`₹ ${plan.price.replace("INR", "").trim()}`}

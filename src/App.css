@@ -1251,3 +1251,30 @@ h2~p {
   color: green;
   font-weight: bold;
 }
+
+.custom-list {
+  list-style: none;
+  /* Remove default bullet points */
+  /* padding-left: 20px; */
+  /* Ensure spacing */
+}
+
+.custom-list li::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  /* Adjust the size */
+  height: 16px;
+  /* Adjust the size */
+  background-image: url('./assets/check-mark.png');
+  background-size: contain;
+  /* Scale properly */
+  background-repeat: no-repeat;
+  margin-right: 8px;
+  /* Adjust spacing */
+  vertical-align: middle;
+}
+
+/* div {
+  outline: 1px solid blue;
+} */

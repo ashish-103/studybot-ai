@@ -50,11 +50,11 @@ export default function TestimonialCard({
     <div className="bg-white w-full rounded-xl shadow-courses h-auto p-3">
       <div className="p-3 border-[2px] rounded-xl border-primary-orange">
         <div className="pt-0 flex items-center justify-start gap-2">
-          <img
+          {/* <img
             src={clientImage}
             alt="profile"
             className="rounded-full h-12 w-12 border-[2px] border-primary-orange"
-          />
+          /> */}
           <div className="text-xs">
             <div className="font-semibold">{clientName}</div>
             <div className="text-xs ">{clientRole}</div>

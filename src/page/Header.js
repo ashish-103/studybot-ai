@@ -40,10 +40,10 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 z-[100] w-full shadow-lg text-white bg-primary-blue px-2 md:px-5 py-3 flex flex-row justify-between items-center">
+      <header className="fixed top-0 left-0 z-[100] w-full shadow-lg text-white bg-primary-blue px-2 md:px-5 py-3 flex flex-row justify-between items-center h-[5.5rem]">
         <div className="w-1/2 md:w-auto">
           <Link to="/">
-            <img src={logo} alt="Logo" className="w-52 h-auto" />
+            <img src={logo} alt="Logo" className="w-[18rem] h-auto" />
           </Link>
         </div>
 
@@ -198,13 +198,14 @@ export default function Header() {
           ) : (
             <>
               <Button
-                variant={"orange"}
+                variant={"auth"}
                 text="Login"
                 onClick={() => { openModal('login') }}
                 style={{ marginRight: "10px", padding: " 3px 15px" }}
               />
+
               <Button
-                variant={"orange"}
+                variant={"auth"}
                 text="SignUp"
                 onClick={() => { openModal('signup') }}
                 style={{ padding: " 3px 15px" }}

@@ -62,55 +62,81 @@ export default function WhyStudyBot() {
   return (
     <section id="all_features" className="container mx-auto p-web text-center">
       <div className="w-4/5 mx-auto">
-        <div className="text-5xl md:text-6xl font-semibold py-5 pt-10">
-          Why Study Bot AI?
+        <div className="text-5xl md:text-6xl font-semibold">
+          Why Studybot AI makes the best choice
         </div>
       </div>
       <div className="flex flex-col mx-auto">
         <div className="flex flex-col md:flex-row md:justify-center md:items-center">
-          <div className="my-5 md:m-5 md:w-1/2 md:p-7">
-            <div className="text-3xl font-bold pb-3">AI Powered Feedback</div>
-            Automated scoring tailored to your performance. <br />
-            Immediate suggestions to improve your answers. <br />
-            Feedback focused on accuracy, clarity, and relevance.
+          <div className="md:w-1/2 flex flex-col justify-center items-start text-left">
+            <div className="text-4xl font-bold pb-3">Actionable Feedback in Real-Time</div>
+            <p className="font-medium text-lg">
+              Our AI provides instant, detailed feedback tailored to your answers helping you identify and fix mistakes quickly.
+            </p>
+            <ul className="custom-list pt-4 text-lg">
+              <li className="">Automated scoring tailored to your performance.</li>
+              <li className="">Immediate suggestions to improve your answers.</li>
+              <li className="">Feedback focused on accuracy, clarity, and relevance.</li>
+            </ul>
+            <Button
+              variant="orange"
+              text='Learn More'
+              style={{ marginTop: "1rem" }}
+            />
+
           </div>
-          <div className="md:w-1/2 md:p-7">
+          <div className="md:w-1/2">
             {/* <img src={course} alt="about1" className='w-full' /> */}
             <Lottie options={defaultOptions} height={400} width={400} />
           </div>
         </div>
         <div className="hidden md:flex flex-col md:flex-row md:justify-center md:items-center">
-          <div className=" sha dow-lg md:w-1/2 md:p-7">
+          <div className=" sha dow-lg md:w-1/2">
             <Lottie options={defaultOptions2} height={400} width={400} />
           </div>
-          <div className=" my-5 md:m-5 md:w-1/2 md:p-7">
-            <div className="text-3xl font-bold pb-3">A Study Plan Built Just for You
-            </div>
-            Recommendations based on your strengths and weaknesses. <br />
-            Real-time adjustments to match your learning pace. <br />
-            Access to updated examples and targeted exercises.
+          <div className="md:w-1/2 flex flex-col justify-center items-start text-left">
+            <div className="text-4xl font-bold pb-3">Study Smarter, Not Harder</div>
+            <p className="font-medium text-lg">Get a study plan that adapts to your strengths and weaknesses, ensuring maximum efficiency in your preparation.</p>
+            <ul className="custom-list text-left pt-4 text-lg">
+              <li>Customized learning paths.</li>
+              <li>Dynamic adjustments to fit your pace.</li>
+              <li>Targeted exercises to boost weak areas.</li>
+            </ul>
+            <Button
+              variant="orange"
+              text='Learn More'
+              style={{ marginTop: "1rem" }}
+            />
+
           </div>
         </div>
         <div className="flex md:hidden flex-col md:flex-row md:justify-center md:items-center">
-          <div className="my-5 md:m-5 md:w-1/2 md:p-7">
-            <div className="text-3xl font-bold pb-3">A Study Plan Built Just for You
-            </div>
+          <div className="md:w-1/2">
+            <div className="text-4xl font-bold pb-3">A Study Plan Built Just for You</div>
             Recommendations based on your strengths and weaknesses. <br />
             Real-time adjustments to match your learning pace. <br />
             Access to updated examples and targeted exercises.
           </div>
-          <div className=" sha dow-lg md:w-1/2 md:p-7">
+          <div className=" sha dow-lg md:w-1/2">
             <Lottie options={defaultOptions3} height={400} width={400} />
           </div>
         </div>
         <div className="flex flex-col md:flex-row md:justify-center md:items-center">
-          <div className="my-5 md:m-5 md:w-1/2 md:p-7">
-            <div className="text-3xl font-bold pb-3">Performance tracking</div>
-            Detailed performance analytics with easy-to-read graphs. <br />
-            Weekly progress reports to keep you motivated. <br />
-            Insights into trends for continuous growth.
+          <div className="md:w-1/2 flex flex-col justify-center items-start text-left">
+            <div className="text-4xl font-bold pb-3">Track Your Progress Like Never Before</div>
+            <p className="font-medium text-lg">Visualize your growth with detailed analytics, weekly reports, and actionable insights to stay on top of your preparation.</p>
+            <ul className="custom-list text-left pt-4 text-lg">
+              <li>Detailed performance analytics with easy-to-read graphs.</li>
+              <li>Per exam progress reports to keep you motivated.</li>
+              <li>Thousands of exams to choose from</li>
+            </ul>
+            <Button
+              variant="orange"
+              text='Start Now'
+              style={{ marginTop: "1rem" }}
+            />
           </div>
-          <div className="bg-white rounded-md sha dow-lg md:w-1/2 md:p-7">
+          <div className="bg-white rounded-md sha dow-lg md:w-1/2">
             <Lottie options={defaultOptions3} height={400} width={400} />
           </div>
         </div>
