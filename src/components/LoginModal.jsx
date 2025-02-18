@@ -174,7 +174,7 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
                           <div className="mb-4">
                             <div className="">
                               <div className="">
-                                <div className="mb-8 relative">
+                                <div className="mb-4">
                                   <input
                                     type="email"
                                     className="flex-1 w-full border rounded-lg  p-2 bg-transparent focus:outline-none "
@@ -184,10 +184,10 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
                                     onChange={handleChange}
                                     placeholder="Email"
                                   />
-                                  {errors.email && <ErrorMessage message={errors.email} top={"top-12"} left={"left-1"} />}
+                                  {errors.email && <ErrorMessage message={errors.email} />}
                                 </div>
                                 <div className="col-sm-6 col-md-12 mb-2">
-                                  <div className="mb-7 relative">
+                                  <div className="mb-4">
                                     <div className="input-group relative">
                                       <input
                                         type={
@@ -215,7 +215,7 @@ export default function LoginModal({ openModal, closeModal, activeModal }) {
                                         </div>
                                       </button>
                                     </div>
-                                    {errors.password && <ErrorMessage message={errors.password} top={"top-12"} left={"left-1"} />}
+                                    {errors.password && <ErrorMessage message={errors.password} />}
                                   </div>
                                 </div>
                                 <div className="text-end">

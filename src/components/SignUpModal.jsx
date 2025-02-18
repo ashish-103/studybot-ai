@@ -215,7 +215,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                             <div className="mb-4">
                               <div className="row">
                                 <div className="col-sm-6 col-md-12">
-                                  <div className="mb-6 relative">
+                                  <div className="mb-4">
                                     <input
                                       type="username"
                                       className="flex-1 w-full border rounded-lg  p-2 bg-transparent focus:outline-none "
@@ -228,7 +228,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
 
                                     {errors.username && <ErrorMessage message={errors.username} top="top-11" left="left-1" />}
                                   </div>
-                                  <div className="mb-6 relative">
+                                  <div className="mb-4">
                                     <input
                                       type="email"
                                       className="flex-1 w-full border rounded-lg  p-2 bg-transparent focus:outline-none "
@@ -241,7 +241,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                     {errors.email && <ErrorMessage message={errors.email} top="top-11" left="left-1" />}
                                   </div>
                                   <div className="col-sm-6 col-md-12 mb-2">
-                                    <div className="mb-6 relative">
+                                    <div className="mb-4">
                                       <div className="input-group relative">
                                         <input
                                           type={
@@ -274,7 +274,7 @@ const SignUpModal = ({ openModal, closeModal, activeModal }) => {
                                     </div>
                                   </div>
                                   <div className="col-sm-6 col-md-12 mb-2">
-                                    <div className="mb-6 relative">
+                                    <div className="mb-4">
                                       <div className="input-group relative">
                                         <input
                                           type={

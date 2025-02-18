@@ -213,7 +213,7 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                           <strong className="text-base">Need Help Fast?</strong><br />
                           Fill out the form below, and our team will get back to you as soon as possible.
                         </p>
-                        <div className="mb-5 relative">
+                        <div className="mb-2">
                           <label
                             className="block required  font-bold tracking-wide"
                             htmlFor="name"
@@ -227,10 +227,10 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                          />{errors.name && <ErrorMessage message={errors.name} top={"top-[4.2rem]"} left={"left-1"} />}
+                          />{errors.name && <ErrorMessage message={errors.name}/>}
                         </div>
 
-                        <div className="mb-5 relative">
+                        <div className="mb-2">
                           <label
                             className="block required  font-bold tracking-wide"
                             htmlFor="email"
@@ -243,9 +243,9 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                             className="email flex-1 w-full border border-gray-500 rounded-lg p-2 bg-transparent focus:outline-none"
                             value={formData.email}
                             onChange={handleInputChange}
-                          />{errors.email && <ErrorMessage message={errors.email} top={"top-[4.2rem]"} left={"left-1"} />}
+                          />{errors.email && <ErrorMessage message={errors.email}/>}
                         </div>
-                        <div className="mb-5 relative">
+                        <div className="mb-2">
                           {/* <label
                             className="block required  font-bold tracking-wide"
                             htmlFor="country"
@@ -265,9 +265,9 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                             ))}
                           </select> */}
                           <CountryDropdown value={formData.country} handleChange={handleInputChange} />
-                          {errors.country && <ErrorMessage message={errors.country} top={"top-[4rem]"} left={"left-1"} />}
+                          {errors.country && <ErrorMessage message={errors.country} />}
                         </div>
-                        <div className="mb-5 relative">
+                        <div className="mb-2">
                           <label
                             className="block required  font-bold tracking-wide"
                             htmlFor="phone_number"
@@ -280,9 +280,9 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                             className="flex-1 w-full border border-gray-500 rounded-lg p-2 bg-transparent focus:outline-none"
                             value={formData.phone_number}
                             onChange={handleInputChange}
-                          />{errors.phone_number && <ErrorMessage message={errors.phone_number} top={"top-[4.2rem]"} left={"left-1"} />}
+                          />{errors.phone_number && <ErrorMessage message={errors.phone_number} />}
                         </div>
-                        <div className="mb-5 relative">
+                        <div className="mb-2">
                           <label
                             className="block required  font-bold tracking-wide"
                             htmlFor="reason"
@@ -325,7 +325,7 @@ export default function ContactUsModal({ activeModal, closeModal, valueSend }) {
                               Others (Please Specify)
                             </option>
                           </select>
-                          {errors.reason && <ErrorMessage message={errors.reason} top={"top-[4.2rem]"} left={"left-1"} />}
+                          {errors.reason && <ErrorMessage message={errors.reason}/>}
                         </div>
                         {formData.reason === 'Others' && (
                           <textarea
