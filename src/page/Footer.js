@@ -29,7 +29,7 @@ function Footer() {
               <span className="font-bold text-4xl">Studybot AI</span>
             </a> */}
             <Link to="/">
-              <img src={logo} alt="Logo" className="w-[30rem] h-32" />
+              <img src={logo} alt="Logo" className="w-[25rem] h-[7rem]" />
             </Link>
 
           </div>
@@ -37,7 +37,7 @@ function Footer() {
 
           <div className="text-white">
             <h3 className="pb-1 text-lg md:text-base lg:text-2xl font-semibold">Quick Links</h3>
-            <ul className="flex flex-col md:text-[16px]">
+            <ul className="flex flex-col md:text-[14px]">
               <li>
                 <RouteLink
                   to="section1"
@@ -133,7 +133,7 @@ function Footer() {
 
           <div className="text-white">
             <h3 className="pb-1 text-lg md:text-base lg:text-2xl font-semibold">Terms and Services</h3>
-            <ul className="flex flex-col md:text-[16px]">
+            <ul className="flex flex-col md:text-[14px]">
               <li>
                 <Link
                   to="/terms-conditions"
@@ -196,7 +196,7 @@ function Footer() {
         </div>
       </div>
 
-      <div className="text-xl bg-primary-orange w-screen h-[3rem] flex justify-between items-center gap-4 pl-[13.5rem] pr-[12.5rem]">
+      <div className="text-xl bg-primary-orange w-screen h-[3rem] flex justify-between items-center gap-4 pl-[10rem] pr-[11rem]">
         <p>Get updates and tips delivered straight to your inbox.</p>
         <Button variant='blue' text="Subscribe" style={{ padding: "1px 10px" }} />
       </div>

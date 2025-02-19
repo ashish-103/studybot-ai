@@ -10,7 +10,7 @@ export default function Counter() {
         src={counterImage}
         alt="counterImage"
         className="hidden md:block w-full scale-y-[-1] translate-y-[1px]"
-        
+
       />
       <div className="md:bg-primary-blue" >
         {/* <div className="bg-white container mx-auto md:bg-primary-blue md:p-[80px] p-web md:px-[120px] md:flex md:items-center md:justify-center"> */}
