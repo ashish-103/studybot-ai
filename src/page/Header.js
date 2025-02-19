@@ -40,10 +40,10 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 z-[100] w-full shadow-lg text-white bg-primary-blue px-2 md:px-5 py-3 flex flex-row justify-between items-center h-[5.5rem]">
+      <header className="fixed top-0 left-0 z-[100] w-full shadow-lg text-white bg-primary-blue px-2 lg:px-5 py-3 flex flex-row justify-between items-center h-[5.5rem]">
         <div className="w-1/2 md:w-auto">
           <Link to="/">
-            <img src={logo} alt="Logo" className="w-[18rem] h-auto" />
+            <img src={logo} alt="Logo" className="w-48 lg:w-[18rem] h-auto" />
           </Link>
         </div>
 
@@ -52,7 +52,14 @@ export default function Header() {
         {/* mobile view */}
         {/* Desktop View */}
         <div className="hidden md:block">
-          <ul className="text-white flex gap-1 md:gap-5 border-0">
+          <ul className="
+            flex justify-between items-center gap-1
+          text-white
+            md:gap-2
+            lg:gap-5
+            border-0
+            md:text-[14px] lg:text-[16px]
+          ">
             <li>
               <RouteLink
                 to="section1"
@@ -142,7 +149,7 @@ export default function Header() {
           </ul>
         </div>
 
-        <div className="relative hidden md:block">
+        <div className="relative hidden md:flex">
           {profileName?.name || user ? (
             <>
               <span

@@ -19,6 +19,8 @@ export default function Counter() {
             <video
               className="rounded-lg shadow-lg h-full w-full object-cover"
               controls
+              autoPlay
+              muted
             >
               <source src={tutorial} type="video/mp4" />
               Your browser does not support the video tag.

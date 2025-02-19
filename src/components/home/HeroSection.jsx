@@ -45,7 +45,7 @@ export default function HeroSection() {
           </div>
         </div>
 
-        <div className="md:w-1/2 pt-20 md:pt-0 flex flex-col justify-center items-center absolute top-[31rem] left-[72rem]">
+        <div className="md:w-1/2 pt-20 md:pt-0 flex flex-col justify-center items-center absolute lg:top-[31rem] lg:left-[72rem]">
           <div className="w-[220px] h-[220px] md:w-[22rem] md:h-[22rem] mx-auto bg-primary-orange rounded-full relative text-center">
             <div className="text-white flex items-center justify-center mx-auto w-1/2 h-full text-2xl md:text-3xl font-bold text-center">
               10000 + Happy Students
