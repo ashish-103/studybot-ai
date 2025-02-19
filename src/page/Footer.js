@@ -196,9 +196,9 @@ function Footer() {
         </div>
       </div>
 
-      <div className="text-xl bg-primary-orange w-screen h-[5.5rem] flex justify-between items-center gap-4 pl-[13.5rem] pr-[12.5rem]">
+      <div className="text-xl bg-primary-orange w-screen h-[3rem] flex justify-between items-center gap-4 pl-[13.5rem] pr-[12.5rem]">
         <p>Get updates and tips delivered straight to your inbox.</p>
-        <Button variant='blue' text="Subscribe" />
+        <Button variant='blue' text="Subscribe" style={{ padding: "1px 10px" }} />
       </div>
 
       <div className="copyright">
