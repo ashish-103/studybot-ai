@@ -52,6 +52,7 @@ export default function PerformanceSummary() {
             if (isAttempted > 0) {
                 attempted_questions += 1;
             }
+            console.log(`answer ${i + 1} band score`, band_score);
 
             total_band_score += band_score;
         }

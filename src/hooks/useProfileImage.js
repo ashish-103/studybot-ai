@@ -60,7 +60,6 @@ const useProfileImage = () => {
 
   // Show menu when clicking the image
   const handleImageClick = () => {
-    https://placehold.co/150?text=Profile Photo"
     setShowMenu(!showMenu);
   };
 
