@@ -40,7 +40,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 z-[100] w-full shadow-lg text-white bg-primary-blue px-2 lg:px-5 py-3 flex flex-row justify-between items-center h-[5.5rem]">
+      <header className="fixed top-0 left-0 z-[100] w-screen h-[5.5rem] shadow-lg text-white bg-primary-blue px-2 lg:px-5 py-3 flex flex-row justify-between items-center ">
         <div className="w-1/2 md:w-auto">
           <Link to="/">
             <img src={logo} alt="Logo" className="w-48 lg:w-[18rem] h-auto" />

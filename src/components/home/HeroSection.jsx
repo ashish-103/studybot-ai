@@ -12,13 +12,12 @@ export default function HeroSection() {
   const { openModal } = useModal();
   return (
     <Element name="section1">
-      <section id="hero__section" className="mt-[55px] relative">
+      <section id="hero__section" className="relative mt-[55px]">
         <div className="bg-primary-blue">
-          <div className="container mx-auto p-web flex-col flex md:flex-row items-center gap-10 ">
-
-            <div className="w-full text-white text-center font-bold text-4xl md:leading-snug lg:text-[3.75rem]">
-              <div className="text-7xl pt-20 pb-10">Revolutionize Exam Prep <br /> with <br /> Studybot AI</div>
-              <p className="text-2xl  font-medium"> Experience smarter preparation with personalized feedback,<br /> adaptive learning, and performance tracking <br />your ultimate exam companion</p>
+          <div className="flex md:flex-row flex-col items-center gap-10 mx-auto p-web container">
+            <div className="w-full font-bold text-white lg:text-[3.75rem] text-4xl text-center md:leading-snug">
+              <div className="md:pt-10 lg:pt-20 pb-10 md:text-[3.5rem] lg:text-7xl">Revolutionize Exam Prep <br /> with <br /> Studybot AI</div>
+              <p className="font-medium md:text-xl lg:text-2xl"> Experience smarter preparation with personalized feedback,<br /> adaptive learning, and performance tracking <br />your ultimate exam companion</p>
 
               <div className="flex justify-center items-center gap-4 pt-10">
                 {!user && (
@@ -41,39 +40,48 @@ export default function HeroSection() {
 
             </div>
 
-
           </div>
         </div>
 
-        <div className="md:w-1/2 pt-20 md:pt-0 flex flex-col justify-center items-center absolute lg:top-[31rem] lg:left-[72rem]">
-          <div className="w-[220px] h-[220px] md:w-[22rem] md:h-[22rem] mx-auto bg-primary-orange rounded-full relative text-center">
-            <div className="text-white flex items-center justify-center mx-auto w-1/2 h-full text-2xl md:text-3xl font-bold text-center">
+
+
+        <div className="top-[75%] lg:top-[70%] xl:top-[66%] left-[71%] lg:left-[72%] xl:left-[73%] absolute flex flex-col justify-center items-center pt-20 md:pt-0">
+
+          <div className="relative bg-primary-orange mx-auto rounded-full w-[220px] md:w-56 lg:w-72 xl:w-[22rem] h-[220px] md:h-56 lg:h-72 xl:h-[22rem] text-center">
+            <div className="flex justify-center items-center mx-auto w-1/2 h-full font-bold text-white md:text-xl lg:text-3xl text-center">
               10000 + Happy Students
             </div>
 
-            <div className="bg-white shadow-counter rounded-full p-5 h-[80px] w-[80px] md:h-[8rem] md:w-[8rem] absolute -top-10 left-1/2 flex flex-col items-center justify-center text-sm">
-              <div className="font-bold text-xl text-primary-blue">
+            {/* Partner Experts */}
+            <div className="-top-10 lg:-top-4 left-1/2 lg:left-44 absolute flex flex-col justify-center items-center bg-white shadow-counter p-5 rounded-full w-[80px] lg:w-[5.5rem] xl:w-32 h-[80px] lg:h-[5.5rem] xl:h-32 text-sm">
+              <div className="font-bold text-primary-blue text-xl">
                 <CountUp start={0} end={300} duration={3} />+
               </div>
               Partner Experts
             </div>
-            <div className="bg-white shadow-counter rounded-full p-5 h-[90px] w-[90px] md:h-[8rem] md:w-[8rem] absolute bottom-10 -left-10 flex flex-col items-center justify-center text-sm">
-              <div className="font-bold text-xl text-primary-blue">
+
+            {/* Accuracy in AI-Analysis */}
+            <div className="lg:top-28 bottom-10 -left-10 absolute flex flex-col justify-center items-center bg-white shadow-counter p-5 rounded-full w-[90px] lg:w-[6.5rem] xl:w-32 h-[90px] lg:h-[6.5rem] xl:h-32 text-sm">
+              <div className="font-bold text-primary-blue text-xl">
                 <CountUp start={0} end={98} duration={5} />%
               </div>
               Accuracy in AI-Analysis
             </div>
-            <div className="bg-white shadow-counter rounded-full p-5 h-[100px] w-[100px] md:h-[8rem] md:w-[8rem] absolute top-2/3 right-0 flex flex-col items-center justify-center text-sm">
-              <div className="font-bold text-xl text-primary-blue">
+
+            {/* Answers Reviewed */}
+            <div className="top-2/3 md:top-40 lg:top-[12.5rem] xl:top-[68%] right-0 md:left-32 lg:left-[12rem] xl:left-[60%] absolute flex flex-col justify-center items-center bg-white shadow-counter p-5 rounded-full w-[100px] xl:w-32 h-[100px] xl:h-32 text-sm">
+              <div className="font-bold text-primary-blue text-xl">
                 <CountUp start={0} end={50000} duration={2} />+
               </div>
               Answers Reviewed
             </div>
-            <div className="absolute bg-primary-blue h-[30px] w-[30px] rounded-full top-0 left-0" />
-            <div className="absolute bg-primary-blue h-[30px] w-[30px] rounded-full -bottom-10 left-1/3 hidden" />
-            <div className="absolute bg-primary-blue h-[30px] w-[30px] rounded-full top-1/2 -right-10" />
+            <div className="hidden top-0 left-0 absolute bg-primary-blue rounded-full w-[30px] h-[30px]" />
+            <div className="hidden -bottom-10 left-1/3 absolute bg-primary-blue rounded-full w-[30px] h-[30px]" />
+            <div className="hidden top-1/2 -right-10 absolute bg-primary-blue rounded-full w-[30px] h-[30px]" />
           </div>
         </div>
+
+
         <img src={heroBg} alt="hero-bg" className="w-full" />
       </section>
     </Element>

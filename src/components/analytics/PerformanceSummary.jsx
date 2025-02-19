@@ -14,6 +14,7 @@ export default function PerformanceSummary() {
         accuracy: 0,
         band_score: 0,
     })
+
     function roundIeltsScore(score) {
         let decimal = score % 1; // Get the decimal part
 
@@ -25,30 +26,44 @@ export default function PerformanceSummary() {
             return Math.ceil(score); // Round up to the next whole number
         }
     }
+
     const calculateValues = () => {
         let total_band_score = 0;
         let attempted_questions = 0;
         const total_questions = analyticsData.length;
-        console.log("analyticsData", analyticsData[0]["gpt_evaluation"]["Average_Band_Score"]);
+
         for (let i = 0; i < total_questions; i++) {
-            const band_score = analyticsData[i]["gpt_evaluation"]["Average_Band_Score"] === "N/A" ? 0 : analyticsData[i]["gpt_evaluation"]["Average_Band_Score"];
-            // console.log("Band score: ", band_score);
+            const evaluation = analyticsData[i]["gpt_evaluation"];
+
+            // Handle errors in the response
+            if (!evaluation || evaluation.error) {
+                console.error("Error in gpt_evaluation:", evaluation?.error || "Unknown error");
+                continue; // Skip this iteration and move to the next question
+            }
+
+            const band_score_raw = evaluation["Average_Band_Score"];
+            const band_score = band_score_raw === "N/A"
+                ? 0
+                : Array.isArray(band_score_raw)
+                    ? band_score_raw[0]
+                    : band_score_raw;
+
             const isAttempted = analyticsData[i]["gpt_evaluation"]["Word_Count"];
             if (isAttempted > 0) {
                 attempted_questions += 1;
             }
-            console.log("band_score", band_score)
-            console.log("typeof band_score", typeof band_score)
+
             total_band_score += band_score;
-            // console.log("total_band_score", total_band_score)
         }
 
-        console.log('total_band_score', total_band_score)
+        console.log('Total band Score', total_band_score)
+        console.log('Total question', total_questions)
+
         total_band_score /= total_questions;
-        console.log('total_questions', total_questions)
-        console.log("total_band_score after dividing", total_band_score)
         total_band_score = roundIeltsScore(total_band_score);
-        console.log("total_band_score after floor", total_band_score)
+
+        console.log("Average band score", total_band_score)
+
         setValues({
             all_questions: total_questions,
             questions: attempted_questions,
@@ -109,8 +124,8 @@ export default function PerformanceSummary() {
                     ))}
                 </div>
                 <div className='grid grid-cols-2 md:hidden'>
-                    {performanceSummaryData.map((item) => (
-                        <div className={`flex flex-col items-center justify-between p-3 text-center gap-2 md:w-1/4`} key={`$ps-2{item.title}`}>
+                    {performanceSummaryData.map((item, index) => (
+                        <div className={`flex flex-col items-center justify-between p-3 text-center gap-2 md:w-1/4`} key={index}>
                             <CircularProgressbar value={item.score} text={item.value} className='h-24 w-auto' />
                             <div className='font-semibold text-sm'>{item.title}</div>
                             <p className='text-xs'>{item.desc}</p>

@@ -87,7 +87,7 @@ export default function WhyStudyBot() {
           </div>
           <div className="md:w-1/2">
             {/* <img src={course} alt="about1" className='w-full' /> */}
-            <Lottie options={defaultOptions} height={400} width={400} />
+            <Lottie options={defaultOptions} height={400} width={380} />
           </div>
         </div>
         <div className="hidden md:flex flex-col md:flex-row md:justify-center md:items-center">
@@ -118,7 +118,7 @@ export default function WhyStudyBot() {
             Access to updated examples and targeted exercises.
           </div>
           <div className=" sha dow-lg md:w-1/2">
-            <Lottie options={defaultOptions3} height={400} width={400} />
+            <Lottie options={defaultOptions3} height={400} width={380} />
           </div>
         </div>
         <div className="flex flex-col md:flex-row md:justify-center md:items-center">
@@ -137,7 +137,7 @@ export default function WhyStudyBot() {
             />
           </div>
           <div className="bg-white rounded-md sha dow-lg md:w-1/2">
-            <Lottie options={defaultOptions3} height={400} width={400} />
+            <Lottie options={defaultOptions3} height={400} width={380} />
           </div>
         </div>
       </div>

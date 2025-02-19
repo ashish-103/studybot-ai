@@ -81,9 +81,9 @@ export default function TestSummary({ ratings }) {
     // console.log(evalId, "evaluationId");
     setEvaluationId(evalId);
 
-    if (evalId) {
-      fetchExistingRating(evalId); // Fetch rating when evaluationId is available
-    }
+    // if (evalId) {
+    //   fetchExistingRating(evalId); // Fetch rating when evaluationId is available
+    // }
   }, [location]);
 
   return (

@@ -68,12 +68,19 @@ const PerformanceAnalytics = () => {
   // };
 
   const calculateBandValues = (object, i, name) => {
-    const band_score =
-      analyticsData[i] &&
-        analyticsData[i]["gpt_evaluation"] &&
-        analyticsData[i]["gpt_evaluation"][name] !== "N/A"
-        ? analyticsData[i]["gpt_evaluation"][name][0]
-        : 0;
+    if (!analyticsData[i] || !analyticsData[i]["gpt_evaluation"]) {
+      console.error(`Missing gpt_evaluation data for index ${i}`);
+      return object;
+    }
+
+    let band_score_raw = analyticsData[i]["gpt_evaluation"][name];
+
+    let band_score = (band_score_raw === "N/A")
+      ? 0
+      : Array.isArray(band_score_raw)
+        ? band_score_raw[0]
+        : band_score_raw;
+
     object.score += band_score;
     return object;
   };
