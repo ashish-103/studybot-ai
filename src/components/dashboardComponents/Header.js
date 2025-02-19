@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
 import { apiCall } from "../../api/login";
+import profile_picture from "../../assets/default_profile_picture.png";
 
 const Header = (props) => {
   const navigate = useNavigate();
@@ -25,7 +26,12 @@ const Header = (props) => {
     if (user) {
       const getUserImage = async () => {
         const { data } = await apiCall.get(`get-profile?userId=${user.userid}`);
-        setUserImage(data.profile_photo_url);
+        console.log("user image", data.profile_photo_url);
+        if (data.profile_photo_url) {
+          setUserImage(data.profile_photo_url)
+        } else {
+          setUserImage(profile_picture)
+        }
 
       }
       getUserImage();

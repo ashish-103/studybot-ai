@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import uploadingImage from "../assets/uploading.gif"
+import profile_picture from "../assets/default_profile_picture.png"
 
 const useProfileImage = () => {
   const [profileImage, setProfileImage] = useState("https://placehold.co/150?text=Profile Photo");
@@ -15,7 +16,7 @@ const useProfileImage = () => {
         const response = await fetch(`https://studybot.zapto.org/get-profile?userId=${userid}`);
         if (response.ok) {
           const data = await response.json();
-          setProfileImage(data?.profile_photo_url || "https://placehold.co/150?text=Profile Photo");
+          setProfileImage(data?.profile_photo_url || profile_picture);
         }
       } catch (error) {
         console.error("Error fetching profile image:", error);
@@ -47,7 +48,7 @@ const useProfileImage = () => {
       setShowMenu(false)
     } catch (error) {
       console.error(error);
-      setProfileImage("https://placehold.co/150?text=Profile Photo");
+      setProfileImage(profile_picture);
     }
   };
 
@@ -59,6 +60,7 @@ const useProfileImage = () => {
 
   // Show menu when clicking the image
   const handleImageClick = () => {
+    https://placehold.co/150?text=Profile Photo"
     setShowMenu(!showMenu);
   };
 
