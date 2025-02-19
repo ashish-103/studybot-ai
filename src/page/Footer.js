@@ -22,9 +22,9 @@ function Footer() {
       />
       <div className="bg-primary-blue">
         {/* <h3 className="text-white text-center text-3xl pr-14">Stay Connected</h3> */}
-      
-        <div className="flex-col flex md:flex-row items-start justify-around p-web">
-          <div className="text-white pb-5">
+
+        <div className="flex-col flex md:flex-row items-start justify-around pb-[10px]">
+          <div className="text-white pb-5 self-center">
             {/* <a href="index.html">
               <span className="font-bold text-4xl">Studybot AI</span>
             </a> */}
@@ -36,8 +36,8 @@ function Footer() {
           {/* <div className="gap-[30px] md:gap-0 md:w-[55%] flex items-start justify-around"> */}
 
           <div className="text-white">
-            <h3 className="pb-4 text-lg md:text-2xl font-semibold">Quick Links</h3>
-            <ul className="flex flex-col gap-2 md:text-lg">
+            <h3 className="pb-1 text-lg md:text-base lg:text-2xl font-semibold">Quick Links</h3>
+            <ul className="flex flex-col md:text-[16px]">
               <li>
                 <RouteLink
                   to="section1"
@@ -132,8 +132,8 @@ function Footer() {
           </div>
 
           <div className="text-white">
-            <h3 className="pb-4 text-lg md:text-2xl font-semibold">Terms and Services</h3>
-            <ul className="flex flex-col gap-2 md:text-lg">
+            <h3 className="pb-1 text-lg md:text-base lg:text-2xl font-semibold">Terms and Services</h3>
+            <ul className="flex flex-col md:text-[16px]">
               <li>
                 <Link
                   to="/terms-conditions"
@@ -162,8 +162,8 @@ function Footer() {
           </div>
 
           <div className="text-white ">
-            <h3 className="pb-4 text-lg md:text-2xl font-semibold">Social media</h3>
-            <ul className="flex flex-col gap-4 justify-center items-start">
+            <h3 className="pb-4 text-lg md:text-base lg:text-2xl font-semibold">Social media</h3>
+            <ul className="flex flex-col gap-2 justify-center items-start">
               <li className=" cursor-pointer">
                 <Link to="#">
                   <img src={facebook} alt="fb" />
@@ -198,7 +198,7 @@ function Footer() {
 
       <div className="text-xl bg-primary-orange w-screen h-[5.5rem] flex justify-between items-center gap-4 pl-[13.5rem] pr-[12.5rem]">
         <p>Get updates and tips delivered straight to your inbox.</p>
-        <Button variant='blue' text="Subscribe"  />
+        <Button variant='blue' text="Subscribe" />
       </div>
 
       <div className="copyright">
