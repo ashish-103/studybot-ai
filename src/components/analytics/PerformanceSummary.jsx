@@ -29,15 +29,16 @@ export default function PerformanceSummary() {
         let total_band_score = 0;
         let attempted_questions = 0;
         const total_questions = analyticsData.length;
-        console.log("analyticsData", analyticsData);
+        console.log("analyticsData", analyticsData[0]["gpt_evaluation"]["Average_Band_Score"]);
         for (let i = 0; i < total_questions; i++) {
-            const band_score = analyticsData[i]["gpt_evaluation"]["Average_Band_Score"] === "N/A" ? 0 : analyticsData[i]["gpt_evaluation"]["Average_Band_Score"][0];
+            const band_score = analyticsData[i]["gpt_evaluation"]["Average_Band_Score"] === "N/A" ? 0 : analyticsData[i]["gpt_evaluation"]["Average_Band_Score"];
             // console.log("Band score: ", band_score);
             const isAttempted = analyticsData[i]["gpt_evaluation"]["Word_Count"];
             if (isAttempted > 0) {
                 attempted_questions += 1;
             }
-            // console.log("band_score", band_score)
+            console.log("band_score", band_score)
+            console.log("typeof band_score", typeof band_score)
             total_band_score += band_score;
             // console.log("total_band_score", total_band_score)
         }
