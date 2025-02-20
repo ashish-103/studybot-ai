@@ -5,7 +5,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import { AnalyticsContext } from '../../context/analyticsContext';
 
 export default function PerformanceSummary() {
-    const { analyticsData } = useContext(AnalyticsContext);
+    const { analyticsData, miscData } = useContext(AnalyticsContext);
     // console.log("Analytics data: ", analyticsData)
     const [values, setValues] = useState({
         score: 0,
@@ -33,36 +33,36 @@ export default function PerformanceSummary() {
         const total_questions = analyticsData.length;
 
         for (let i = 0; i < total_questions; i++) {
-            const evaluation = analyticsData[i]["gpt_evaluation"];
+            // const evaluation = analyticsData[i]["gpt_evaluation"];
 
-            // Handle errors in the response
-            if (!evaluation || evaluation.error) {
-                console.error("Error in gpt_evaluation:", evaluation?.error || "Unknown error");
-                continue; // Skip this iteration and move to the next question
-            }
+            // // Handle errors in the response
+            // if (!evaluation || evaluation.error) {
+            //     console.error("Error in gpt_evaluation:", evaluation?.error || "Unknown error");
+            //     continue; // Skip this iteration and move to the next question
+            // }
 
-            const band_score_raw = evaluation["Average_Band_Score"];
-            const band_score = band_score_raw === "N/A"
-                ? 0
-                : Array.isArray(band_score_raw)
-                    ? band_score_raw[0]
-                    : band_score_raw;
+            // const band_score_raw = evaluation["Average_Band_Score"];
+            // const band_score = band_score_raw === "N/A"
+            //     ? 0
+            //     : Array.isArray(band_score_raw)
+            //         ? band_score_raw[0]
+            //         : band_score_raw;
 
             const isAttempted = analyticsData[i]["gpt_evaluation"]["Word_Count"];
             if (isAttempted > 0) {
                 attempted_questions += 1;
             }
-            console.log(`answer ${i + 1} band score`, band_score);
+            // console.log(`answer ${i + 1} band score`, band_score);
 
-            total_band_score += band_score;
+            // total_band_score += band_score;
         }
 
-        console.log('Total band Score', total_band_score)
-        console.log('Total question', total_questions)
+        // console.log('Total band Score', total_band_score)
+        // console.log('Total question', total_questions)
 
-        total_band_score /= total_questions;
-        total_band_score = roundIeltsScore(total_band_score);
-
+        // total_band_score /= total_questions;
+        // total_band_score = roundIeltsScore(total_band_score);
+        total_band_score = miscData.overall_average;
         console.log("Average band score", total_band_score)
 
         setValues({

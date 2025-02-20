@@ -65,7 +65,7 @@ const useProfileImage = () => {
 
   // Remove Image
   const handleRemoveImage = () => {
-    setShowMenu(false);
+    setProfileImage(profile_picture);
   };
 
   return {

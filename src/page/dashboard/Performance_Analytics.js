@@ -85,6 +85,18 @@ const PerformanceAnalytics = () => {
     return object;
   };
 
+  function roundIeltsScore(score) {
+    let decimal = score % 1; // Get the decimal part
+
+    if (decimal < 0.25) {
+      return Math.floor(score); // Round down to the nearest whole number
+    } else if (decimal < 0.75) {
+      return Math.floor(score) + 0.5; // Round to the nearest 0.5
+    } else {
+      return Math.ceil(score); // Round up to the next whole number
+    }
+  }
+
   const calculateSummaryDetails = () => {
     const total_questions = analyticsData.length;
     const timeTaken = miscData["time"];
@@ -143,7 +155,12 @@ const PerformanceAnalytics = () => {
     coherence_band.score /= total_questions;
     lexical_band.score /= total_questions;
     grammar_band.score /= total_questions;
-    console.log('task_response_band', task_response_band)
+    // to get .5 scores
+    task_response_band.score = roundIeltsScore(task_response_band.score)
+    coherence_band.score = roundIeltsScore(coherence_band.score)
+    lexical_band.score = roundIeltsScore(lexical_band.score)
+    grammar_band.score = roundIeltsScore(grammar_band.score)
+
     task_response_band.accuracy = (
       task_response_band.score *
       (100 / 9)
@@ -220,6 +237,7 @@ const PerformanceAnalytics = () => {
     ];
     setSummaryData(SummaryTableData);
   };
+  console.log("summaryData", summaryData);
 
   useEffect(() => {
     if (evaluationid) {
