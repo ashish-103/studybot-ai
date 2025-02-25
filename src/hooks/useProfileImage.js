@@ -64,8 +64,28 @@ const useProfileImage = () => {
   };
 
   // Remove Image
-  const handleRemoveImage = () => {
+  const handleRemoveImage = async () => {
     setProfileImage(profile_picture);
+    const userId = JSON.stringify({ userId: userid });
+
+    try {
+      const response = await fetch('https://studybot.zapto.org/delete_profile_image', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: userId
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Response:", data.message);
+      } else {
+        console.error("Failed to delete image:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error removing image:", error);
+    }
   };
 
   return {
