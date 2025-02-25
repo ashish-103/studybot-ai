@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import uploadingImage from "../assets/uploading.gif"
 import profile_picture from "../assets/default_profile_picture.png"
+import { useModal } from "../context/ModalProvider";
 
 const useProfileImage = () => {
+  const { closeModal } = useModal();
   const [profileImage, setProfileImage] = useState("https://placehold.co/150?text=Profile Photo");
-  const [showMenu, setShowMenu] = useState(false);
-  // const [imageUpdated, setImageUpdated] = useState(false)
+
   const fileInputRef = useRef(null);
   const user = localStorage.getItem('user');
   const { userid } = JSON.parse(user)
@@ -44,8 +45,9 @@ const useProfileImage = () => {
         console.log('data', data);
         setProfileImage(data?.profile_photo_url);
         // setImageUpdated(!imageUpdated)
+        fileInputRef.current.value = "";
+        closeModal();
       }
-      setShowMenu(false)
     } catch (error) {
       console.error(error);
       setProfileImage(profile_picture);
@@ -56,11 +58,6 @@ const useProfileImage = () => {
   const openFilePicker = (e) => {
     e.preventDefault();
     fileInputRef.current.click();
-  };
-
-  // Show menu when clicking the image
-  const handleImageClick = () => {
-    setShowMenu(!showMenu);
   };
 
   // Remove Image
@@ -80,6 +77,7 @@ const useProfileImage = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Response:", data.message);
+        closeModal()
       } else {
         console.error("Failed to delete image:", response.statusText);
       }
@@ -90,10 +88,8 @@ const useProfileImage = () => {
 
   return {
     profileImage,
-    showMenu,
     fileInputRef,
     uploadProfileImage,
-    handleImageClick,
     handleRemoveImage,
     openFilePicker,
   };

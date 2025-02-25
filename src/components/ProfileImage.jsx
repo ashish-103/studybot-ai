@@ -1,8 +1,9 @@
-import { useState } from "react";
 import useProfileImage from "../hooks/useProfileImage";
 import ImageUploadModal from "./ImageUploadModal";
+import { useModal } from "../context/ModalProvider";
 
 function ProfileImage() {
+  const { activeModal, openModal } = useModal();
   const {
     profileImage,
     fileInputRef,
@@ -11,7 +12,6 @@ function ProfileImage() {
     openFilePicker,
   } = useProfileImage();
 
-  const [isModalOpen, setModalOpen] = useState(false);
 
   return (
     <div className="relative">
@@ -20,7 +20,7 @@ function ProfileImage() {
           src={profileImage} // Default Placeholder
           alt="Profile"
           className="rounded-full object-cover border cursor-pointer"
-          onClick={() => setModalOpen(true)}
+          onClick={() => openModal('uploadProfileImage')}
         />
         {/* hidden input */}
         <input
@@ -31,13 +31,14 @@ function ProfileImage() {
           className="hidden"
         />
       </form>
-      <ImageUploadModal
-        isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
-        onUpload={openFilePicker}
-        onRemove={handleRemoveImage}
-        image={profileImage}
-      />
+      {activeModal === 'uploadProfileImage' &&
+        <ImageUploadModal
+          // isOpen={activeModal}
+          // onClose={() => setModalOpen(false)}
+          onUpload={openFilePicker}
+          onRemove={handleRemoveImage}
+          image={profileImage}
+        />}
 
     </div>
   );

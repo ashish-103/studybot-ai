@@ -1,8 +1,8 @@
 import profile_picture from "../assets/default_profile_picture.png"
+import { useModal } from "../context/ModalProvider";
 
-export default function ImageUploadModal({ isOpen, onClose, onUpload, onRemove, image }) {
-  if (!isOpen) return null;
-
+export default function ImageUploadModal({ onUpload, onRemove, image }) {
+  const { closeModal } = useModal();
   return (
     <div className="absolute">
       <div className="bg-white p-[2px] rounded-md shadow-lg">
@@ -23,7 +23,7 @@ export default function ImageUploadModal({ isOpen, onClose, onUpload, onRemove, 
           )}
           <button
             className="w-full p-2 text-sm text-gray-700 hover:bg-gray-200 rounded-md"
-            onClick={onClose}
+            onClick={closeModal}
           >
             Close
           </button>
