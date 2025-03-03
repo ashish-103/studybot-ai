@@ -1,42 +1,54 @@
 import logo from "../../images/logo.svg";
-import search from "../../assets/images/search.png";
+// import search from "../../assets/images/search.png";
 import arrowDown from "../../assets/images/arrow_down.png";
-import bell from "../../assets/images/bell.png";
+// import bell from "../../assets/images/bell.png";
 import { useEffect, useState } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
-import { apiCall } from "../../api/login";
-import profile_picture from "../../assets/default_profile_picture.png";
+// import { apiCall } from "../../api/login";
+import default_profile_picture from "../../assets/default_profile_picture.png";
+import useProfileImage from "../../hooks/useProfileImage";
 
 const Header = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation()
-  const [userImage, setUserImage] = useState("");
+  const [userImage, setUserImage] = useState(default_profile_picture);
   const { set_name, task_type, time, exam_id, user_id, status } = location.state || {};
   const { user } = useSelector((state) => state.auth);
-  // const src =
-  //   "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
   const [menuOpen, setMenuOpen] = useState(false);
   const { pathname } = useLocation();
+  const { profileImage } = useProfileImage();
+
 
   useEffect(() => {
-    if (user) {
-      const getUserImage = async () => {
-        const { data } = await apiCall.get(`get-profile?userId=${user.userid}`);
-        console.log("user image", data.profile_photo_url);
-        if (data.profile_photo_url) {
-          setUserImage(data.profile_photo_url)
-        } else {
-          setUserImage(profile_picture)
-        }
+    setUserImage(profileImage);
+  }, [profileImage]);
 
-      }
-      getUserImage();
-    }
-  }, [user, userImage]);
+
+
+
+  // useEffect(() => {
+  //   console.log('User Image:', userImage);
+  // }, [userImage]);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     const getUserImage = async () => {
+  //       const { data } = await apiCall.get(`get-profile?userId=${user.userid}`);
+  //       console.log("user image", data.profile_photo_url);
+  //       if (data.profile_photo_url) {
+  //         setUserImage(data.profile_photo_url)
+  //       } else {
+  //         setUserImage(default_profile_picture)
+  //       }
+
+  //     }
+  //     getUserImage();
+  //   }
+  // }, [user, userImage]);
 
   const handleLogout = () => {
     toast.success("You have been logged out successfully.");

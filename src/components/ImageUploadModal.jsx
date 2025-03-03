@@ -4,7 +4,7 @@ import { useModal } from "../context/ModalProvider";
 export default function ImageUploadModal({ onUpload, onRemove, image }) {
   const { closeModal } = useModal();
   return (
-    <div className="absolute">
+    <div className="absolute -left-[6%]">
       <div className="bg-white p-[2px] rounded-md shadow-lg">
         <div className="flex gap-2">
           <button

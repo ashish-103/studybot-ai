@@ -1,15 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import uploadingImage from "../assets/uploading.gif"
-import profile_picture from "../assets/default_profile_picture.png"
+import default_profile_picture from "../assets/default_profile_picture.png"
 import { useModal } from "../context/ModalProvider";
 
 const useProfileImage = () => {
   const { closeModal } = useModal();
-  const [profileImage, setProfileImage] = useState("https://placehold.co/150?text=Profile Photo");
+  const [profileImage, setProfileImage] = useState(default_profile_picture);
 
   const fileInputRef = useRef(null);
   const user = localStorage.getItem('user');
   const { userid } = JSON.parse(user)
+
 
   useEffect(() => {
     const fetchProfileImage = async () => {
@@ -17,7 +18,7 @@ const useProfileImage = () => {
         const response = await fetch(`https://studybot.zapto.org/get-profile?userId=${userid}`);
         if (response.ok) {
           const data = await response.json();
-          setProfileImage(data?.profile_photo_url || profile_picture);
+          setProfileImage(data?.profile_photo_url || default_profile_picture);
         }
       } catch (error) {
         console.error("Error fetching profile image:", error);
@@ -50,7 +51,7 @@ const useProfileImage = () => {
       }
     } catch (error) {
       console.error(error);
-      setProfileImage(profile_picture);
+      setProfileImage(default_profile_picture);
     }
   };
 
@@ -62,7 +63,7 @@ const useProfileImage = () => {
 
   // Remove Image
   const handleRemoveImage = async () => {
-    setProfileImage(profile_picture);
+    setProfileImage(default_profile_picture);
     const userId = JSON.stringify({ userId: userid });
 
     try {

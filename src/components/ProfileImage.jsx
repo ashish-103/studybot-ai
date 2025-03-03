@@ -19,7 +19,7 @@ function ProfileImage() {
         <img
           src={profileImage} // Default Placeholder
           alt="Profile"
-          className="rounded-full object-cover border cursor-pointer"
+          className="rounded-full object-cover border cursor-pointer w-full h-full"
           onClick={() => openModal('uploadProfileImage')}
         />
         {/* hidden input */}
