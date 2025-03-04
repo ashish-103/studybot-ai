@@ -31,72 +31,75 @@ import { UserProvider } from "./context/userContext";
 import { ModalProvider } from "./context/ModalProvider";
 import { PerformanceDataProvider } from "./context/performanceContext";
 import { ExamResultsProvider } from "./context/analyticsContext";
+import { ProfileImageProvider } from './context/ProfileImageContext';
 
 const clientId =
   "483619648597-giknf43p085748h88hjebe5f7vm3be42.apps.googleusercontent.com";
 
 export default function App() {
   return (
-    <GoogleOAuthProvider clientId={clientId}>
-      <UserProvider>
-        <ModalProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="home" element={<Home />} />
-              <Route path="privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="terms-conditions" element={<TermsAndConditions />} />
-              <Route path="user-policy" element={<UserPolicy />} />
-              {/* <Route path="login" element={<Login />} /> */}
-              <Route path="reset_password" element={<NewPassword />} />
-              <Route path="exam/:id" element={<Examdetail />} />
+    <ProfileImageProvider>
+      <GoogleOAuthProvider clientId={clientId}>
+        <UserProvider>
+          <ModalProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="home" element={<Home />} />
+                <Route path="privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="terms-conditions" element={<TermsAndConditions />} />
+                <Route path="user-policy" element={<UserPolicy />} />
+                {/* <Route path="login" element={<Login />} /> */}
+                <Route path="reset_password" element={<NewPassword />} />
+                <Route path="exam/:id" element={<Examdetail />} />
 
-              {/* <Route path="dashboard" element={<Dashboard />} ></Route> */}
-              <Route
-                path="dashboard"
-                element={
-                  <ProtectedRoute>
-                    <DashboardLayout />
-                  </ProtectedRoute>
-                }
-              >
-                <Route path="home" index element={<DashboardHome />} />
-                <Route path="tests" element={<ExploreTests />} />
-                <Route path="practice" element={
-                  <PerformanceDataProvider>
-                    <Practice />
-                  </PerformanceDataProvider>
-                } />
-                <Route path="guidelines" element={<Guidelines />} />
-                <Route path="reports" element={<Reports />} />
-                <Route path="attempted-tests" element={<AttemptedTests />} />
+                {/* <Route path="dashboard" element={<Dashboard />} ></Route> */}
                 <Route
-                  path="performanceAnalytics"
+                  path="dashboard"
                   element={
-                    <ExamResultsProvider>
-                      <PerformanceAnalytics />
-                    </ExamResultsProvider>
+                    <ProtectedRoute>
+                      <DashboardLayout />
+                    </ProtectedRoute>
                   }
-                />
-                <Route
-                  path="performanceAnalytics2"
-                  element={
+                >
+                  <Route path="home" index element={<DashboardHome />} />
+                  <Route path="tests" element={<ExploreTests />} />
+                  <Route path="practice" element={
                     <PerformanceDataProvider>
-                      <PerformanceAnalytics2 />
+                      <Practice />
                     </PerformanceDataProvider>
-                  }
-                />
-                <Route path="settings" element={<Settings />} />
-                <Route path="account" element={<Account />} />
-                {/* <Route path="account/update-profile" element={<UpdateProfile />} /> */}
-                <Route path="subscription" element={<Subscription />} />
-                <Route path="help" element={<Help />} />
-                <Route path="*" element={<Home />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </ModalProvider>
-      </UserProvider>
-    </GoogleOAuthProvider>
+                  } />
+                  <Route path="guidelines" element={<Guidelines />} />
+                  <Route path="reports" element={<Reports />} />
+                  <Route path="attempted-tests" element={<AttemptedTests />} />
+                  <Route
+                    path="performanceAnalytics"
+                    element={
+                      <ExamResultsProvider>
+                        <PerformanceAnalytics />
+                      </ExamResultsProvider>
+                    }
+                  />
+                  <Route
+                    path="performanceAnalytics2"
+                    element={
+                      <PerformanceDataProvider>
+                        <PerformanceAnalytics2 />
+                      </PerformanceDataProvider>
+                    }
+                  />
+                  <Route path="settings" element={<Settings />} />
+                  <Route path="account" element={<Account />} />
+                  {/* <Route path="account/update-profile" element={<UpdateProfile />} /> */}
+                  <Route path="subscription" element={<Subscription />} />
+                  <Route path="help" element={<Help />} />
+                  <Route path="*" element={<Home />} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </ModalProvider>
+        </UserProvider>
+      </GoogleOAuthProvider>
+    </ProfileImageProvider>
   );
 }

@@ -253,8 +253,8 @@ export default function Account() {
           <div className='md:w-4/5'>
             <h2 className='text-xl font-bold mb-4'>Personal Information</h2>
             <ul className='profile_ul flex-col sm:flex-row  sm:gap-4'>
-              {PersonalInfoFields.map(([key, value]) => (
-                <li className='relative'>
+              {PersonalInfoFields.map(([key, value], index) => (
+                <li className='relative' key={index}>
                   <p>{formatKey(key)}</p>
                   {
                     isEditing ?
@@ -275,8 +275,8 @@ export default function Account() {
           <div className='md:w-4/5'>
             <h2 className='text-xl font-bold mb-4'>Address</h2>
             <ul className='profile_ul flex-col sm:flex-row '>
-              {addressFields.map(([key, value]) => (
-                <li className='relative'>
+              {addressFields.map(([key, value], index) => (
+                <li className='relative' key={index}>
                   <p>{formatKey(key)}</p>
                   {
                     isEditing ?

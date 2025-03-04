@@ -7,48 +7,21 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
-// import { apiCall } from "../../api/login";
+import { apiCall } from "../../api/login";
 import default_profile_picture from "../../assets/default_profile_picture.png";
-import useProfileImage from "../../hooks/useProfileImage";
+import { useProfileImageContext } from "../../context/ProfileImageContext";
+
+console.log("Header component rendered");
 
 const Header = (props) => {
+  const { profileImage } = useProfileImageContext();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation()
-  const [userImage, setUserImage] = useState(default_profile_picture);
   const { set_name, task_type, time, exam_id, user_id, status } = location.state || {};
   const { user } = useSelector((state) => state.auth);
   const [menuOpen, setMenuOpen] = useState(false);
   const { pathname } = useLocation();
-  const { profileImage } = useProfileImage();
-
-
-  useEffect(() => {
-    setUserImage(profileImage);
-  }, [profileImage]);
-
-
-
-
-  // useEffect(() => {
-  //   console.log('User Image:', userImage);
-  // }, [userImage]);
-
-  // useEffect(() => {
-  //   if (user) {
-  //     const getUserImage = async () => {
-  //       const { data } = await apiCall.get(`get-profile?userId=${user.userid}`);
-  //       console.log("user image", data.profile_photo_url);
-  //       if (data.profile_photo_url) {
-  //         setUserImage(data.profile_photo_url)
-  //       } else {
-  //         setUserImage(default_profile_picture)
-  //       }
-
-  //     }
-  //     getUserImage();
-  //   }
-  // }, [user, userImage]);
 
   const handleLogout = () => {
     toast.success("You have been logged out successfully.");
@@ -142,7 +115,7 @@ const Header = (props) => {
                 </div> */}
                 <img
                   className="inline-block w-8 h-8 rounded-full"
-                  src={userImage}
+                  src={profileImage}
                   alt=""
                 />
                 <div className="text-left">
@@ -158,7 +131,7 @@ const Header = (props) => {
                   <div className="flex flex-row items-center gap-5 border-b-[1px] pb-4 border-b-[#ececec]">
                     <img
                       className="inline-block w-10 h-10 rounded-full"
-                      src={userImage}
+                      src={profileImage}
                       alt=""
                     />
                     <div className="text-left">
