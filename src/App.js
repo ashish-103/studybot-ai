@@ -38,9 +38,9 @@ const clientId =
 
 export default function App() {
   return (
-    <ProfileImageProvider>
-      <GoogleOAuthProvider clientId={clientId}>
-        <UserProvider>
+    <UserProvider>
+      <ProfileImageProvider>
+        <GoogleOAuthProvider clientId={clientId}>
           <ModalProvider>
             <BrowserRouter>
               <Routes>
@@ -98,8 +98,8 @@ export default function App() {
               </Routes>
             </BrowserRouter>
           </ModalProvider>
-        </UserProvider>
-      </GoogleOAuthProvider>
-    </ProfileImageProvider>
+        </GoogleOAuthProvider>
+      </ProfileImageProvider>
+    </UserProvider>
   );
 }
